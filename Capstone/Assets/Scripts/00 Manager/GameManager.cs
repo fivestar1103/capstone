@@ -1,0 +1,34 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.InputSystem;
+
+public class GameManager : MonoBehaviour
+{
+    private static GameManager Inst;
+
+    // 입력
+    private InputManager inputManager;
+    public static InputManager InputManager { get { return Inst.inputManager; } }
+    public static PlayerInput.PlayerActions PlayerInputs { get { return InputManager.PlayerInputs; } }                                      // 플레이어 Input
+    public static PlayerInput.UIControlActions UIControlInputs { get { return InputManager.UIControlInputs; } }                             // UI조작 Input
+    public static EControlMode ControlMode { get { return InputManager.CurControlMode; } }                                                  // 조작 모드
+    public static float MouseSensitive { get { return InputManager.MouseSensitive; } }                                                      // 마우스 민감도
+    public static void SetControlMode(EControlMode _mode) { InputManager.SetControlMode(_mode); }                                           // 조작 모드 변경
+    public static void SetMouseSensitive(float _sensitive) { InputManager.SetMouseSensitive(_sensitive); }                                  // 마우스 민감도 설정
+
+    private void SetSubManagers()
+    {
+        inputManager = GetComponent<InputManager>();    
+    }
+
+    private void Awake()
+    {
+        if (Inst != null) { Destroy(gameObject); return; }
+
+        Inst = this;
+        DontDestroyOnLoad(gameObject);
+
+        SetSubManagers();
+    }
+}
