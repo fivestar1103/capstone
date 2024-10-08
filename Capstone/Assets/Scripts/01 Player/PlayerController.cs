@@ -1,3 +1,4 @@
+using Cinemachine;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -10,10 +11,16 @@ public class PlayerController : MonoBehaviour
     private float moveSpeed = 5f;         // 움직임 속도
     [SerializeField]
     private float jumpForce = 10f;        // 점프 세기
+    [SerializeField]
+    private float mouseSensitivity = 100; // 마우스 감도
 
     private Vector3 moveInput;   // wasd 입력
     private Vector2 mouseDelta;  // 마우스 회전값
+
     private Rigidbody rb;        // 2D Rigidbody 사용 (3D라면 Rigidbody 사용)
+
+    private float xRotation = 0f; // X축 회전
+    private CinemachineVirtualCamera playerCam;
 
     [SerializeField]
     private float playerHP = 100;
@@ -51,13 +58,29 @@ public class PlayerController : MonoBehaviour
         rb.velocity = new Vector3(moveVelocity.x, rb.velocity.y, moveVelocity.z);
     }
 
-    private void FixedUpdate()
+    private void PlayerRotate()
+    {
+        float mouseX = mouseDelta.x * mouseSensitivity * Time.deltaTime;
+        float mouseY = mouseDelta.y * mouseSensitivity * Time.deltaTime;
+
+        transform.Rotate(Vector3.up * mouseX);
+
+        xRotation -= mouseY;
+        xRotation = Mathf.Clamp(xRotation, -90f, 90f); // 카메라 상하 회전 각도 제한
+
+        // 카메라의 로컬 회전 설정
+        playerCam.transform.localRotation = Quaternion.Euler(xRotation, 0f, 0f);
+    }
+
+    private void Update()
     {
         PlayerMove();
+        PlayerRotate();
     }
 
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
+        playerCam = GetComponentInChildren<CinemachineVirtualCamera>();
     }
 }
