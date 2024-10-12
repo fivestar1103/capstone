@@ -19,7 +19,7 @@ public partial class PlayerController
     private float xRotation = 0f; // X축 회전
     private CinemachineVirtualCamera playerCam;
 
-    public bool JumpPressing { get; private set; }
+    private bool IsGrounded = true;
 
     // PlayerInput 컴포넌트에서 Move 액션에 대한 입력을 처리
     public void OnMove(InputAction.CallbackContext context)
@@ -30,8 +30,9 @@ public partial class PlayerController
     public void OnJump(InputAction.CallbackContext context)
     {
         // 점프 입력을 받음; 일단은 무한 점프인데 수정 예정
-        if (context.performed)
+        if (context.performed && IsGrounded)
         {
+            IsGrounded = false;
             rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse); // 위로 점프
         }
     }
