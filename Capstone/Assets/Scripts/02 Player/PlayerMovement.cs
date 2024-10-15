@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using static UnityEditor.Timeline.TimelinePlaybackControls;
 
 public partial class PlayerController
 {
@@ -13,18 +14,15 @@ public partial class PlayerController
     [SerializeField]
     private float mouseSensitivity = 100; // 마우스 감도
 
-    private Vector3 moveInput;   // wasd 입력
-    private Vector2 mouseDelta;  // 마우스 회전값
-
-    private float xRotation = 0f; // X축 회전
-    private CinemachineVirtualCamera playerCam;
+    public Vector3 MoveInput { get; private set; }     // wasd 입력
+    public Vector2 MouseDelta { get; private set; }    // 마우스 좌표
 
     private bool IsGrounded = true;
 
     // PlayerInput 컴포넌트에서 Move 액션에 대한 입력을 처리
     public void OnMove(InputAction.CallbackContext context)
     {
-        moveInput = context.ReadValue<Vector2>();
+        MoveInput = context.ReadValue<Vector2>();
     }
 
     public void OnJump(InputAction.CallbackContext context)
@@ -39,28 +37,14 @@ public partial class PlayerController
 
     public void OnLook(InputAction.CallbackContext context)
     {
-        mouseDelta = context.ReadValue<Vector2>();
+        MouseDelta = context.ReadValue<Vector2>();
     }
 
     private void PlayerMove()
     {
-        Vector3 moveDirection = transform.forward * moveInput.y + transform.right * moveInput.x;
+        Vector3 moveDirection = transform.forward * MoveInput.y + transform.right * MoveInput.x;
         Vector3 moveVelocity = moveDirection * moveSpeed;
 
         rb.velocity = new Vector3(moveVelocity.x, rb.velocity.y, moveVelocity.z);
-    }
-
-    private void PlayerRotate()
-    {
-        float mouseX = mouseDelta.x * mouseSensitivity * Time.deltaTime;
-        float mouseY = mouseDelta.y * mouseSensitivity * Time.deltaTime;
-
-        transform.Rotate(Vector3.up * mouseX);
-
-        xRotation -= mouseY;
-        xRotation = Mathf.Clamp(xRotation, -90f, 90f); // 카메라 상하 회전 각도 제한
-
-        // 카메라의 로컬 회전 설정
-        playerCam.transform.localRotation = Quaternion.Euler(xRotation, 0f, 0f);
     }
 }

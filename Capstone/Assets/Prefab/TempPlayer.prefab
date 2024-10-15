@@ -29,6 +29,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 3082997814569356960}
   - {fileID: 593617899713571376}
   m_Father: {fileID: 7968295490422481177}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -278,7 +279,6 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 5443266045868882456}
-  - {fileID: 3082997814569356960}
   - {fileID: 1658240598222413810}
   - {fileID: 8240201588669436166}
   m_Father: {fileID: 0}
@@ -369,6 +369,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerHP: 100
+  interactableObject: {fileID: 0}
   moveSpeed: 5
   jumpForce: 5
   mouseSensitivity: 100
@@ -449,6 +450,10 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: 75f9e3fa-71e1-40e0-93b7-e497432f4249
     m_ActionName: UIControl/New action
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 30a8d391-9501-409e-9a0a-48d05ea87cd0
+    m_ActionName: Player/Interact[/Keyboard/g]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player
@@ -491,7 +496,6 @@ GameObject:
   m_Component:
   - component: {fileID: 3082997814569356960}
   - component: {fileID: 8746080796654589724}
-  - component: {fileID: 3984823608172180722}
   m_Layer: 0
   m_Name: PlayerCamera
   m_TagString: Untagged
@@ -508,12 +512,12 @@ Transform:
   m_GameObject: {fileID: 7138986328741058597}
   serializedVersion: 2
   m_LocalRotation: {x: -0.0000000074138704, y: -0.000000002473644, z: 0.0000000036587962, w: 1}
-  m_LocalPosition: {x: 0, y: 0.23600006, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 5040090279204689359}
-  m_Father: {fileID: 7968295490422481177}
+  m_Father: {fileID: 5443266045868882456}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &8746080796654589724
 MonoBehaviour:
@@ -554,20 +558,6 @@ MonoBehaviour:
         m_Calls: []
   m_LegacyBlendHint: 0
   m_ComponentOwner: {fileID: 5040090279204689359}
---- !u!114 &3984823608172180722
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7138986328741058597}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1e64015640910b54e8ed9a64665cc410, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  mouseSensitivity: 10
-  player: {fileID: 7968295490422481177}
 --- !u!1 &8231435093790591351
 GameObject:
   m_ObjectHideFlags: 0

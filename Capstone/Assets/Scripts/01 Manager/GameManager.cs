@@ -25,10 +25,11 @@ public class GameManager : MonoBehaviour
     private void Awake()
     {
         if (Inst != null) { Destroy(gameObject); return; }
-
         Inst = this;
         DontDestroyOnLoad(gameObject);
-
         SetSubManagers();
+
+        Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;
     }
 }
