@@ -12,7 +12,7 @@ public partial class PlayerController : MonoBehaviour
     public float PlayerHP { get { return playerHP; } }
 
     private PlayerCamera playerCam;     // 플레이어 카메라
-    private Rigidbody rb;               // 2D Rigidbody 사용 (3D라면 Rigidbody 사용)
+    private Rigidbody playerRB;               
 
     // 입력 관련 관련
     private PlayerInput.PlayerActions PlayerInput { get { return GameManager.PlayerInputs; } }  // Input System Player 입력                                                          
@@ -25,7 +25,7 @@ public partial class PlayerController : MonoBehaviour
 
     private void Awake()
     {
-        rb = GetComponent<Rigidbody>();
+        playerRB = GetComponent<Rigidbody>();
         playerCam = GetComponentInChildren<PlayerCamera>();
     }
 }

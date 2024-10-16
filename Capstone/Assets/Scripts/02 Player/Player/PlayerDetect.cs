@@ -14,7 +14,7 @@ public partial class PlayerController
         if (Interacting) { return; }
 
         Ray ray = Camera.main.ScreenPointToRay(Mouse.current.position.ReadValue());
-        RaycastHit[] hits = Physics.RaycastAll(ray, 10, ValueDefine.INTERACT_LAYER);
+        RaycastHit[] hits = Physics.RaycastAll(ray, 10, ValueDefinition.INTERACT_LAYER);
 
         InteractScript interact = null;         // 상호작용 대상 탐색
         for (int i = 0; i < hits.Length; i++)   // 근처 대상 확인

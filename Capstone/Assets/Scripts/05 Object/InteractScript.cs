@@ -56,7 +56,7 @@ public class InteractScript : MonoBehaviour
 
     private void Awake()
     {
-        m_interactable = GetComponent<IInteractable>();
-        m_interactable.SetInteractScript(this);
+        // m_interactable = GetComponent<IInteractable>();
+        // m_interactable.SetInteractScript(this);
     }
 }

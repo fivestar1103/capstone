@@ -48,4 +48,9 @@ public class InputManager : MonoBehaviour
 
         // if (PlayManager.IsPlaying) { PlayManager.SetCameraMode(_mode); ; }
     }
+
+    private void Update()
+    {
+        
+    }
 }

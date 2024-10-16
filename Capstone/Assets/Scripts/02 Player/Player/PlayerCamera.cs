@@ -16,13 +16,17 @@ public class PlayerCamera : MonoBehaviour
 
     public void Rotate()
     {
-        float mouseX = player.MouseDelta.x * mouseSensitivity * Time.deltaTime;
-        float mouseY = player.MouseDelta.y * mouseSensitivity * Time.deltaTime;
+        // 추후에 문제 발생 시 Time.deltaTime 고려
+        //float mouseX = player.MouseDelta.x * mouseSensitivity * Time.deltaTime;
+        //float mouseY = player.MouseDelta.y * mouseSensitivity * Time.deltaTime;
+
+        float mouseX = Input.GetAxis("Mouse X") * mouseSensitivity;
+        float mouseY = Input.GetAxis("Mouse Y") * mouseSensitivity;
 
         verticalRotation -= mouseY;
         horizontalRotation += mouseX;
 
-        verticalRotation = Mathf.Clamp(verticalRotation, -90f, 90f); // 상하 회전을 -90도에서 90도로 제한
+        verticalRotation = Mathf.Clamp(verticalRotation, -90f, 90f);                 // 상하 회전을 -90도에서 90도로 제한
 
         transform.localRotation = Quaternion.Euler(verticalRotation, 0f, 0f);        // 카메라 상하 회전 적용 (X축 회전)
         player.transform.rotation = Quaternion.Euler(0f, horizontalRotation, 0f);    // 플레이어 좌우 회전

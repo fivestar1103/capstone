@@ -10,14 +10,15 @@ public partial class PlayerController
     [SerializeField]
     private float moveSpeed = 5f;         // 움직임 속도
     [SerializeField]
-    private float jumpForce = 10f;        // 점프 세기
+    private float jumpHeight = 3f;        // 점프 세기
     [SerializeField]
     private float mouseSensitivity = 100; // 마우스 감도
+    [SerializeField]
+    private float groundDistance = 0.1f;
 
     public Vector3 MoveInput { get; private set; }     // wasd 입력
     public Vector2 MouseDelta { get; private set; }    // 마우스 좌표
-
-    private bool IsGrounded = true;
+    public bool IsGround { get; private set; }
 
     // PlayerInput 컴포넌트에서 Move 액션에 대한 입력을 처리
     public void OnMove(InputAction.CallbackContext context)
@@ -28,10 +29,14 @@ public partial class PlayerController
     public void OnJump(InputAction.CallbackContext context)
     {
         // 점프 입력을 받음; 일단은 무한 점프인데 수정 예정
-        if (context.performed && IsGrounded)
+        if (context.performed)
         {
-            IsGrounded = false;
-            rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse); // 위로 점프
+            CheckGround();
+            if (IsGround)
+            {
+                Vector3 jumpForce = Vector3.up * Mathf.Sqrt(jumpHeight * -Physics.gravity.y);
+                playerRB.AddForce(jumpForce, ForceMode.VelocityChange); // 위로 점프
+            }
         }
     }
 
@@ -45,6 +50,16 @@ public partial class PlayerController
         Vector3 moveDirection = transform.forward * MoveInput.y + transform.right * MoveInput.x;
         Vector3 moveVelocity = moveDirection * moveSpeed;
 
-        rb.velocity = new Vector3(moveVelocity.x, rb.velocity.y, moveVelocity.z);
+        playerRB.velocity = new Vector3(moveVelocity.x, playerRB.velocity.y, moveVelocity.z);
+    }
+
+    private void CheckGround()
+    {
+        RaycastHit hit;
+
+        if (Physics.Raycast(transform.position, Vector3.down, out hit, groundDistance, ValueDefinition.GROUND_LAYER))
+            IsGround = true;
+        else
+            IsGround = false;
     }
 }
