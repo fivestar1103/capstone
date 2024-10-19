@@ -12,8 +12,6 @@ public partial class PlayerController
     [SerializeField]
     private float jumpHeight = 3f;        // 점프 세기
     [SerializeField]
-    private float mouseSensitivity = 100; // 마우스 감도
-    [SerializeField]
     private float groundDistance = 0.1f;
 
     public Vector3 MoveInput { get; private set; }     // wasd 입력
