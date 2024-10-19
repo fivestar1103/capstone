@@ -368,7 +368,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 63a288d4bc21ff646a4e2659f5881177, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerHP: 100
+  curHP: 100
+  curSpeed: 0
   interactableObject: {fileID: 0}
   moveSpeed: 5
   jumpHeight: 3
@@ -459,6 +460,22 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: 1ab53023-3bb8-45f4-8506-76d8b2feec8f
     m_ActionName: Player/SupportUI[/Keyboard/h]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1681218640425170630}
+        m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
+        m_MethodName: PlayerAttack
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: e5e37ae7-0c61-4cfd-85a4-2ecea6fe4c6b
+    m_ActionName: Player/Attack[/Mouse/leftButton]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player
