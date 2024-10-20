@@ -369,11 +369,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   curHP: 100
+  attack: 0
   curSpeed: 0
   interactableObject: {fileID: 0}
   moveSpeed: 5
   jumpHeight: 3
-  mouseSensitivity: 100
   groundDistance: 0.1
 --- !u!114 &6530868779885223877
 MonoBehaviour:

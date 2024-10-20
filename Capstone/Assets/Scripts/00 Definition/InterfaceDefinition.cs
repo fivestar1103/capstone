@@ -6,7 +6,7 @@ public interface IHittable          // 데미지를 입을 수 있는 오브젝트들이 공통적
 {
     public bool IsPlayer { get; }
     public bool IsMonster { get; }
-    public void GetHit(Collider _hit);   // 데미지 받기
+    public void GetHit(GameObject _hit);   // 데미지 받기
 }
 
 public interface IInteractable         // 상호작용이 가능한 오브젝트에 필수 부착
