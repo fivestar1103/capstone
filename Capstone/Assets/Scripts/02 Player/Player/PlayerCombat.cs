@@ -9,12 +9,11 @@ public partial class PlayerController
     {
         if(context.performed)
         {
-            // 공격
             Debug.Log("Attack");
         }
     }
 
-    public override void GetHit(Collider _hit)
+    public override void GetHit(GameObject _hit)
     {   
         // 몬스터의 공격에만 피격이 적용되도록 함
         MonsterScript monsterHit = _hit.GetComponent<MonsterScript>();

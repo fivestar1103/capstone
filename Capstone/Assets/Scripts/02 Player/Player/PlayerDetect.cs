@@ -9,7 +9,7 @@ public partial class PlayerController
     private InteractScript interactableObject;  // 상호작용 누르면 상호작용 할 대상
     private bool Interacting { get; set; }
 
-    private void DetactObject()
+    private void DetectObject()
     {
         if (Interacting) { return; }
 
@@ -40,10 +40,28 @@ public partial class PlayerController
             interactableObject = null;
         }
     }
+    public void StartInteract()                                                     // 상호작용 시작
+    {
+        Interacting = true;
+    }
+    public void StopInteract()                                                      // 상호작용 중단
+    {
+        interactableObject = null;
+        Interacting = false;
+    }
+    public void StopInteract(InteractScript _interact)
+    {
+        if (interactableObject != _interact) { return; }
+    }
 
     public void PlayerInteract(InputAction.CallbackContext context)
     {
-
-
+        DetectObject();
+        if (interactableObject != null && context.performed)
+        {
+            // Debug.Log("Interact");
+            StartInteract();
+            interactableObject.StartInteract();
+        }
     }
 }

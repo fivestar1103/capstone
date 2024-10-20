@@ -10,7 +10,7 @@ public partial class PlayerController
         switch(_other.tag)
         {
             case ValueDefinition.MONSTER_ATTACK_TAG:    // 몬스터 공격에 피격
-                GetHit(_other);
+                GetHit(_other.gameObject);
                 break;
         }
       

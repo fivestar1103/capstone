@@ -34,6 +34,7 @@ public partial class PlayerController : ObjectScript
     {
         playerCam.Rotate();
         PlayerMove();
+        DetectObject();
     }
 
     private void Awake()
