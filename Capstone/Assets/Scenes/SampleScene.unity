@@ -435,6 +435,64 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 446393335}
   m_CullTransparentMesh: 1
+--- !u!1 &701910199
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 701910200}
+  - component: {fileID: 701910201}
+  - component: {fileID: 701910202}
+  m_Layer: 0
+  m_Name: System
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &701910200
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 701910199}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &701910201
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 701910199}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b5c289684ebbace489a3bd9e61b27738, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &701910202
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 701910199}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67f5310c0d952654ca26b5be97459234, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dialogue: {fileID: 1811081118}
 --- !u!1 &705507993
 GameObject:
   m_ObjectHideFlags: 0
@@ -697,7 +755,7 @@ Transform:
   m_GameObject: {fileID: 737314321}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.05, y: 2.34, z: -1.01}
+  m_LocalPosition: {x: 1, y: 2, z: -1}
   m_LocalScale: {x: 0.4, y: 0.4, z: 0.4}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -745,8 +803,8 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 359707765}
   - {fileID: 1588335541}
+  - {fileID: 359707765}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &743102011
@@ -1382,7 +1440,7 @@ Transform:
   m_GameObject: {fileID: 963194225}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.19000006, y: 1.2360001, z: 0}
+  m_LocalPosition: {x: 0, y: 1.2360001, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1850,7 +1908,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7968295490422481177, guid: 286ac1954b1454e468b6392747fcfc1d, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.19
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7968295490422481177, guid: 286ac1954b1454e468b6392747fcfc1d, type: 3}
       propertyPath: m_LocalPosition.y
@@ -2107,6 +2165,7 @@ GameObject:
   - component: {fileID: 1517141963}
   - component: {fileID: 1517141962}
   - component: {fileID: 1517141966}
+  - component: {fileID: 1517141967}
   m_Layer: 7
   m_Name: TempNPC1
   m_TagString: Untagged
@@ -2214,6 +2273,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   canInteractDist: 2.5
+--- !u!114 &1517141967
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1517141961}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 15f72e959a97ebc48b51db3ce402e63a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1556337239
 GameObject:
   m_ObjectHideFlags: 0
@@ -2371,7 +2442,7 @@ Canvas:
   m_AdditionalShaderChannelsFlag: 25
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_TargetDisplay: 0
 --- !u!1 &1725469526
 GameObject:
@@ -2478,6 +2549,7 @@ GameObject:
   - component: {fileID: 1811081115}
   - component: {fileID: 1811081117}
   - component: {fileID: 1811081116}
+  - component: {fileID: 1811081118}
   m_Layer: 5
   m_Name: DialogueFrame
   m_TagString: Untagged
@@ -2541,6 +2613,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1811081114}
   m_CullTransparentMesh: 1
+--- !u!114 &1811081118
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1811081114}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 085d17dc0df61b14083ca56d5ea2ae22, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1847517670
 GameObject:
   m_ObjectHideFlags: 0
@@ -2554,6 +2638,7 @@ GameObject:
   - component: {fileID: 1847517672}
   - component: {fileID: 1847517671}
   - component: {fileID: 1847517675}
+  - component: {fileID: 1847517676}
   m_Layer: 7
   m_Name: TempNPC2
   m_TagString: Untagged
@@ -2660,6 +2745,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   canInteractDist: 2.5
+--- !u!114 &1847517676
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1847517670}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 15f72e959a97ebc48b51db3ce402e63a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1969613863
 GameObject:
   m_ObjectHideFlags: 0
@@ -3060,13 +3157,14 @@ SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
   - {fileID: 1556337242}
+  - {fileID: 701910200}
   - {fileID: 963194228}
   - {fileID: 705507995}
   - {fileID: 949391777}
   - {fileID: 1298071667}
+  - {fileID: 737314325}
   - {fileID: 1517141965}
   - {fileID: 1847517674}
   - {fileID: 715002644}
   - {fileID: 740989855}
-  - {fileID: 737314325}
   - {fileID: 2117852979}

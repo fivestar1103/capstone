@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SupporterController : MonoBehaviour
+public class SupporterController : NPCScript
 {
     [SerializeField]
     private PlayerController player;
@@ -14,11 +14,12 @@ public class SupporterController : MonoBehaviour
 
     private void Update()
     {
-        AccordPlayerPos();
+        MatchPlayerPos();
     }
 
-    private void AccordPlayerPos()
+    private void MatchPlayerPos()
     {
-        
+        Vector3 newPos = new Vector3((PlayManager.PlayerPos.x + 1), transform.position.y, (PlayManager.PlayerPos.z - 1));    
+        transform.position = newPos;   
     }
 }

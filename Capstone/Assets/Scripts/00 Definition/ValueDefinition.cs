@@ -15,4 +15,6 @@ public static class ValueDefinition
     // 레이어
     public const int GROUND_LAYER = 1 << 6;   // 땅 레이어
     public const int INTERACT_LAYER = 1 << 7; // 상호작용 레이어
+
+    public readonly static Vector3 NULL_VECTOR = Vector3.up * 100;      // 아무것도 아닌 벡터
 }

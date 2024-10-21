@@ -40,6 +40,7 @@ public partial class PlayerController
             interactableObject = null;
         }
     }
+
     public void StartInteract()                                                     // 상호작용 시작
     {
         Interacting = true;
@@ -59,7 +60,6 @@ public partial class PlayerController
         DetectObject();
         if (interactableObject != null && context.performed)
         {
-            // Debug.Log("Interact");
             StartInteract();
             interactableObject.StartInteract();
         }

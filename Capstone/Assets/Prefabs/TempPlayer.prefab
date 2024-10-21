@@ -453,7 +453,19 @@ MonoBehaviour:
     m_ActionId: 75f9e3fa-71e1-40e0-93b7-e497432f4249
     m_ActionName: UIControl/New action
   - m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1681218640425170630}
+        m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
+        m_MethodName: PlayerInteract
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: 30a8d391-9501-409e-9a0a-48d05ea87cd0
     m_ActionName: Player/Interact[/Keyboard/g]
   - m_PersistentCalls:
