@@ -34,11 +34,11 @@ public partial class PlayerController : ObjectScript
     {
         playerCam.Rotate();
         PlayerMove();
-        DetectObject();
     }
 
-    private void Awake()
+    private void Start()
     {
+        PlayManager.SetCurPlayer(this);
         playerRB = GetComponent<Rigidbody>();
         playerCam = GetComponentInChildren<PlayerCamera>();
     }

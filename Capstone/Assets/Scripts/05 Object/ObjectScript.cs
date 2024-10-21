@@ -11,6 +11,8 @@ public abstract class ObjectScript : MonoBehaviour, IHittable
     [SerializeField]
     private float curSpeed;
 
+    public Vector3 Position { get { return transform.position; } }                                  // 좌표
+    public Vector2 Position2 { get { return new(transform.position.x, transform.position.z); } }    // 평면 좌표
 
     public float CurHP
     {
@@ -24,7 +26,7 @@ public abstract class ObjectScript : MonoBehaviour, IHittable
     }
     public virtual float CurSpeed
     {
-        get { return curSpeed; }          // 현재 속도
+        get { return curSpeed; }                      // 현재 속도
         protected set { curSpeed = value; }
     }
 

@@ -12,7 +12,7 @@ public partial class PlayerController
     [SerializeField]
     private float jumpHeight = 3f;        // 점프 세기
     [SerializeField]
-    private float groundDistance = 0.1f;
+    private float groundDistance = 1.5f;
 
     public Vector3 MoveInput { get; private set; }     // wasd 입력
     public Vector2 MouseDelta { get; private set; }    // 마우스 좌표
@@ -26,7 +26,6 @@ public partial class PlayerController
 
     public void OnJump(InputAction.CallbackContext context)
     {
-        // 점프 입력을 받음; 일단은 무한 점프인데 수정 예정
         if (context.performed)
         {
             CheckGround();
@@ -54,10 +53,6 @@ public partial class PlayerController
     private void CheckGround()
     {
         RaycastHit hit;
-
-        if (Physics.Raycast(transform.position, Vector3.down, out hit, groundDistance, ValueDefinition.GROUND_LAYER))
-            IsGround = true;
-        else
-            IsGround = false;
+        IsGround = Physics.Raycast(transform.position, Vector3.down, out hit, groundDistance, ValueDefinition.GROUND_LAYER);
     }
 }
