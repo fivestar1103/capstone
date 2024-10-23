@@ -19,7 +19,8 @@ public class GameManager : MonoBehaviour
 
     private void SetSubManagers()
     {
-        inputManager = GetComponent<InputManager>();    
+        inputManager = GetComponent<InputManager>();
+        inputManager.SetManager();
     }
 
     private void Awake()
@@ -28,8 +29,5 @@ public class GameManager : MonoBehaviour
         Inst = this;
         DontDestroyOnLoad(gameObject);
         SetSubManagers();
-
-        Cursor.visible = false;
-        Cursor.lockState = CursorLockMode.Locked;
     }
 }

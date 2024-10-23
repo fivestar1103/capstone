@@ -14,20 +14,13 @@ public partial class PlayerController
     [SerializeField]
     private float groundDistance = 1.5f;
 
-    public Vector3 MoveInput { get; private set; }     // wasd 입력
-    public Vector2 MouseDelta { get; private set; }    // 마우스 좌표
     public bool IsGround { get; private set; }
 
-    // PlayerInput 컴포넌트에서 Move 액션에 대한 입력을 처리
-    public void OnMove(InputAction.CallbackContext context)
+    public void OnJump()
     {
-        MoveInput = context.ReadValue<Vector2>();
-    }
-
-    public void OnJump(InputAction.CallbackContext context)
-    {
-        if (context.performed)
+        if (JumpTrigger)
         {
+            Debug.Log(111);
             CheckGround();
             if (IsGround)
             {
@@ -35,11 +28,6 @@ public partial class PlayerController
                 playerRB.AddForce(jumpForce, ForceMode.VelocityChange); // 위로 점프
             }
         }
-    }
-
-    public void OnLook(InputAction.CallbackContext context)
-    {
-        MouseDelta = context.ReadValue<Vector2>();
     }
 
     private void PlayerMove()

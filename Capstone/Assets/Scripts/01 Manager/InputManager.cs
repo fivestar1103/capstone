@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -27,6 +28,12 @@ public class InputManager : MonoBehaviour
         // PlayManager.SetCameraSensitive(_sensitive);
     }
 
+
+    public void SetManager()
+    {
+        inputSystem = new();   
+    }
+
     public void SetControlMode(EControlMode _mode)                                          // 조작 모드 설정
     {
         CurControlMode = _mode;
@@ -51,6 +58,19 @@ public class InputManager : MonoBehaviour
 
     private void Update()
     {
-        
+        if(CurControlMode == EControlMode.FIRST_PERSON)
+        {
+            if(PlayerInputs.SupportUI.triggered)
+            {
+                SetControlMode(EControlMode.UI_CONTROL);
+            }
+        }
+        else if(CurControlMode == EControlMode.UI_CONTROL)
+        {
+            if (PlayerInputs.SupportUI.triggered)
+            {
+                SetControlMode(EControlMode.FIRST_PERSON);
+            }
+        }
     }
 }

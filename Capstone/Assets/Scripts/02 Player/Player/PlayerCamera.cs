@@ -17,8 +17,8 @@ public class PlayerCamera : MonoBehaviour
     public void Rotate()
     {
         // 추후에 문제 발생 시 Time.deltaTime 고려
-        //float mouseX = player.MouseDelta.x * mouseSensitivity * Time.deltaTime;
-        //float mouseY = player.MouseDelta.y * mouseSensitivity * Time.deltaTime;
+        // float mouseX = player.MouseDelta.x * mouseSensitivity * Time.deltaTime;
+        // float mouseY = player.MouseDelta.y * mouseSensitivity * Time.deltaTime;
 
         float mouseX = Input.GetAxis("Mouse X") * mouseSensitivity;
         float mouseY = Input.GetAxis("Mouse Y") * mouseSensitivity;
