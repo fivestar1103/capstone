@@ -6,6 +6,12 @@ public class PlayManager : MonoBehaviour
 {
     public static PlayManager Inst;
 
+    // 게임 시작 관련 함수
+    private void StartPlay()
+    {
+        GameManager.SetControlMode(EControlMode.FIRST_PERSON);
+    }
+
     // 플레이어
     private static PlayerController Player { get; set; }
     public static void SetCurPlayer(PlayerController _player) { Player = _player; }                                                         // 플레이어 등록
@@ -31,5 +37,10 @@ public class PlayManager : MonoBehaviour
         if (Inst != null) { Destroy(Inst.gameObject); }
         Inst = this;
         SetSubManagers();
+    }
+
+    private void Start()
+    {
+        StartPlay();
     }
 }

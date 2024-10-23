@@ -18,12 +18,13 @@ public class NPCScript : MonoBehaviour, IInteractable
     public virtual void StartInteract()
     {
         Debug.Log(this.name + " 상호작용 시작");
-        // PlayManager.OpenDialogue();
+        PlayManager.OpenDialogue();
     }
 
     public virtual void StopInteract()
     {
         Debug.Log(this.name + " 상호작용 종료");
+        PlayManager.CloseDialogue();
     }
 
     private void Start()

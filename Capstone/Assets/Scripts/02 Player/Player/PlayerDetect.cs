@@ -55,10 +55,10 @@ public partial class PlayerController
         if (interactableObject != _interact) { return; }
     }
 
-    public void PlayerInteract(InputAction.CallbackContext context)
+    public void PlayerInteract()
     {
         DetectObject();
-        if (interactableObject != null && context.performed)
+        if (interactableObject != null && PlayerInput.Interact.triggered)
         {
             StartInteract();
             interactableObject.StartInteract();
