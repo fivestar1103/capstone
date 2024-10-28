@@ -21,6 +21,10 @@ public class PlayManager : MonoBehaviour
     public static bool IsPlayerSet { get { return Player != null; } }                                                                       // 플레이어 등록 여부
     public static float GetDistToPlayer(Vector2 _pos) { if (!IsPlayerSet) return -1; return (PlayerPos2 - _pos).magnitude; }                // 플레이어와의 거리
 
+    // 몬스터 관련
+    public static MonsterSpawnPoint[] spawnPoints;      // 몬스터 스폰 포인트
+    public static int huntedMonsterNum = 0;             // 사냥당한 몬스터 수
+
     // UI
     private static UIManager UI;
     public static void OpenDialogue() { UI.OpenDialogue(); }    // 대화창 열기
