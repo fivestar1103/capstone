@@ -26,8 +26,8 @@ public partial class MonsterScript : ObjectScript
 
         if (PlayerHit != null)
         {
-            CurHP -= PlayerHit.Player.Attack;
-            if (CurHP < 0)
+            curHP -= PlayerHit.Player.Attack;
+            if (curHP < 0)
             {
                 Destroy(gameObject);
                 PlayManager.huntedMonsterNum++;

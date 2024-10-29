@@ -20,8 +20,10 @@ public partial class PlayerController
 
         if(monsterHit != null)
         {
-            CurHP -= monsterHit.Attack;
-            if(CurHP < 0)
+            curHP -= monsterHit.Attack;
+            PlayManager.SetHPInfo(curHP);
+
+            if(curHP < 0)
             {
                 Die();
             }

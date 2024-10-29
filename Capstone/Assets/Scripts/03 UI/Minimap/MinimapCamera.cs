@@ -15,7 +15,7 @@ public class MinimapCamera : MonoBehaviour
 
         transform.position = new Vector3(
             (x ? target.position.x : transform.position.x),
-            (y ? target.position.x : transform.position.y),
-            (z ? target.position.x : transform.position.z));
+            (y ? target.position.y : transform.position.y),
+            (z ? target.position.z : transform.position.z));
     }
 }
