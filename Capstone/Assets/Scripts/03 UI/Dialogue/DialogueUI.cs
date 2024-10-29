@@ -4,13 +4,17 @@ using UnityEngine;
 
 public class DialogueUI : MonoBehaviour
 {
+    public bool IsOpened { get; set; }
+
     public void OpenDialogue()
     {
+        IsOpened = true;
         gameObject.SetActive(true);
     }
 
     public void CloseDialogue()
     {
+        IsOpened = false;
         gameObject.SetActive(false);
     }
 

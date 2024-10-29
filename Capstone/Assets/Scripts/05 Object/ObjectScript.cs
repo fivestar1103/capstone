@@ -5,7 +5,9 @@ using UnityEngine;
 public abstract class ObjectScript : MonoBehaviour, IHittable
 {
     [SerializeField]
-    private float curHP;
+    private float maxHP;
+    protected float curHP;
+
     [SerializeField]
     private float attack;
     [SerializeField]
@@ -14,10 +16,10 @@ public abstract class ObjectScript : MonoBehaviour, IHittable
     public Vector3 Position { get { return transform.position; } }                                  // 좌표
     public Vector2 Position2 { get { return new(transform.position.x, transform.position.z); } }    // 평면 좌표
 
-    public float CurHP
+    public float MaxHP
     {
-        get { return curHP; }                        // 현재 HP
-        protected set { curHP = value; }
+        get { return maxHP; }                         // 최대 체력
+        protected set { maxHP = value; }
     }
     public float Attack
     {

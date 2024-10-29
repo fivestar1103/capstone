@@ -71,6 +71,11 @@ public class InputManager : MonoBehaviour
             {
                 SetControlMode(EControlMode.FIRST_PERSON);
             }
+            else if(PlayManager.IsDialogueOpened && PlayerInputs.Interact.triggered)
+            {
+                PlayManager.CloseDialogue();
+                SetControlMode(EControlMode.FIRST_PERSON);
+            }
         }
     }
 }
