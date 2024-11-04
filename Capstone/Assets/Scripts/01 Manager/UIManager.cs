@@ -7,8 +7,12 @@ public class UIManager : MonoBehaviour
     [SerializeField]
     private DialogueUI dialogue;
     public bool IsDialogueOpened { get { return dialogue.IsOpened; } }
-    public void OpenDialogue() { dialogue.OpenDialogue(); }
+    public void OpenDialogue(NPCScript _npc) { dialogue.OpenDialogue(_npc); }
     public void CloseDialogue() { dialogue.CloseDialogue(); }
+
+    [SerializeField]
+    private SupporterUI support;
+    public void ToggleSupporterUI(bool _toggle) { support.ToggleSupporterUI(_toggle); }
 
     [SerializeField]
     private HPbar hpbar;

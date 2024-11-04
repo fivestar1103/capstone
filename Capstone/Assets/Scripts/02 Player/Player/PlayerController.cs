@@ -54,10 +54,9 @@ public partial class PlayerController : ObjectScript
 
     private void Start()
     {
-        curHP = MaxHP;
-
         PlayManager.SetCurPlayer(this);
-        PlayManager.SetHPInfo(curHP);
+        // PlayManager.SetHPInfo(MaxHP);
+
         playerRB = GetComponent<Rigidbody>();
         playerCam = GetComponentInChildren<PlayerCamera>();
     }
