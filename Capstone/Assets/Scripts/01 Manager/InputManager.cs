@@ -53,7 +53,7 @@ public class InputManager : MonoBehaviour
                 break;
         }
 
-        // if (PlayManager.IsPlaying) { PlayManager.SetCameraMode(_mode); ; }
+        // if (PlayManager.IsPlaying) { PlayManager.SetCameraMode(_mode); }
     }
 
     private void Update()
@@ -62,18 +62,20 @@ public class InputManager : MonoBehaviour
         {
             if(PlayerInputs.SupportUI.triggered)
             {
+                PlayManager.ToggleSupporterUI(true);
                 SetControlMode(EControlMode.UI_CONTROL);
             }
         }
         else if(CurControlMode == EControlMode.UI_CONTROL)
         {
-            if (PlayerInputs.SupportUI.triggered)
+            if (UIControlInputs.SupportUI.triggered)
             {
+                PlayManager.ToggleSupporterUI(false);
                 SetControlMode(EControlMode.FIRST_PERSON);
             }
-            else if(PlayManager.IsDialogueOpened && PlayerInputs.Interact.triggered)
+            else if(UIControlInputs.Interact.triggered)
             {
-                PlayManager.CloseDialogue();
+                PlayManager.StopPlayerInteract();
                 SetControlMode(EControlMode.FIRST_PERSON);
             }
         }

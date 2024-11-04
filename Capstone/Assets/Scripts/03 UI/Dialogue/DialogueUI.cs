@@ -4,17 +4,22 @@ using UnityEngine;
 
 public class DialogueUI : MonoBehaviour
 {
+    private NPCScript curNPC;
     public bool IsOpened { get; set; }
 
-    public void OpenDialogue()
+    
+    public void OpenDialogue(NPCScript _npc)
     {
+        curNPC = _npc;
+
         IsOpened = true;
         gameObject.SetActive(true);
+        GameManager.SetControlMode(EControlMode.UI_CONTROL);
     }
 
     public void CloseDialogue()
     {
-        IsOpened = false;
+        curNPC.StopInteract();
         gameObject.SetActive(false);
     }
 

@@ -200,9 +200,18 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
             ""id"": ""d062ecbc-3398-457b-8bf8-c0f382e8ebe1"",
             ""actions"": [
                 {
-                    ""name"": ""New action"",
+                    ""name"": ""Interact"",
                     ""type"": ""Button"",
                     ""id"": ""75f9e3fa-71e1-40e0-93b7-e497432f4249"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""SupportUI"",
+                    ""type"": ""Button"",
+                    ""id"": ""e6386d55-0fd8-4be8-adee-5e6d46ab3dce"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
@@ -213,11 +222,22 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""2b04485e-02c5-4f2f-b49e-680fced60b1b"",
-                    ""path"": """",
+                    ""path"": ""<Keyboard>/g"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""New action"",
+                    ""action"": ""Interact"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""e0766520-42ee-46d9-bfc0-a6a46e277820"",
+                    ""path"": ""<Keyboard>/h"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""SupportUI"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -236,7 +256,8 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
         m_Player_Attack = m_Player.FindAction("Attack", throwIfNotFound: true);
         // UIControl
         m_UIControl = asset.FindActionMap("UIControl", throwIfNotFound: true);
-        m_UIControl_Newaction = m_UIControl.FindAction("New action", throwIfNotFound: true);
+        m_UIControl_Interact = m_UIControl.FindAction("Interact", throwIfNotFound: true);
+        m_UIControl_SupportUI = m_UIControl.FindAction("SupportUI", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -384,12 +405,14 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
     // UIControl
     private readonly InputActionMap m_UIControl;
     private List<IUIControlActions> m_UIControlActionsCallbackInterfaces = new List<IUIControlActions>();
-    private readonly InputAction m_UIControl_Newaction;
+    private readonly InputAction m_UIControl_Interact;
+    private readonly InputAction m_UIControl_SupportUI;
     public struct UIControlActions
     {
         private @PlayerInput m_Wrapper;
         public UIControlActions(@PlayerInput wrapper) { m_Wrapper = wrapper; }
-        public InputAction @Newaction => m_Wrapper.m_UIControl_Newaction;
+        public InputAction @Interact => m_Wrapper.m_UIControl_Interact;
+        public InputAction @SupportUI => m_Wrapper.m_UIControl_SupportUI;
         public InputActionMap Get() { return m_Wrapper.m_UIControl; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -399,16 +422,22 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
         {
             if (instance == null || m_Wrapper.m_UIControlActionsCallbackInterfaces.Contains(instance)) return;
             m_Wrapper.m_UIControlActionsCallbackInterfaces.Add(instance);
-            @Newaction.started += instance.OnNewaction;
-            @Newaction.performed += instance.OnNewaction;
-            @Newaction.canceled += instance.OnNewaction;
+            @Interact.started += instance.OnInteract;
+            @Interact.performed += instance.OnInteract;
+            @Interact.canceled += instance.OnInteract;
+            @SupportUI.started += instance.OnSupportUI;
+            @SupportUI.performed += instance.OnSupportUI;
+            @SupportUI.canceled += instance.OnSupportUI;
         }
 
         private void UnregisterCallbacks(IUIControlActions instance)
         {
-            @Newaction.started -= instance.OnNewaction;
-            @Newaction.performed -= instance.OnNewaction;
-            @Newaction.canceled -= instance.OnNewaction;
+            @Interact.started -= instance.OnInteract;
+            @Interact.performed -= instance.OnInteract;
+            @Interact.canceled -= instance.OnInteract;
+            @SupportUI.started -= instance.OnSupportUI;
+            @SupportUI.performed -= instance.OnSupportUI;
+            @SupportUI.canceled -= instance.OnSupportUI;
         }
 
         public void RemoveCallbacks(IUIControlActions instance)
@@ -437,6 +466,7 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
     }
     public interface IUIControlActions
     {
-        void OnNewaction(InputAction.CallbackContext context);
+        void OnInteract(InputAction.CallbackContext context);
+        void OnSupportUI(InputAction.CallbackContext context);
     }
 }
