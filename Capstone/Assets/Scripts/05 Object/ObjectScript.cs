@@ -39,8 +39,13 @@ public abstract class ObjectScript : MonoBehaviour, IHittable
     public virtual bool IsPlayer { get { return false; } }      
     public virtual bool IsMonster { get { return false; } }     
 
-    public virtual void GetHit(GameObject _hit)
+    public virtual void GetHit(float _damage)
     {
 
+    }
+
+    public virtual void Start()
+    {
+        curHP = maxHP;
     }
 }

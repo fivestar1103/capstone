@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -9,31 +10,20 @@ public partial class MonsterScript : ObjectScript
 {
     private NavMeshAgent monsterNav;
 
-    private void OnTriggerEnter(Collider _other)
+    public override void GetHit(float _damage)
     {
-        switch (_other.tag)
+        curHP -= _damage;
+        if (curHP <= 0)
         {
-            case ValueDefinition.PLAYER_WEAPON_TAG :    // 플레이어 공격에 피격
-                GetHit(_other.gameObject);
-                break;
-        }
+            Destroy(this.gameObject);
+            PlayManager.huntedMonsterNum++;
+            // Etc.
+         }
     }
 
-    public override void GetHit(GameObject _hit)
+    public override void Start()
     {
-        // 플레이어의 공격에만 피격이 적용되도록 함
-        PlayerWeapon PlayerHit = _hit.GetComponent<PlayerWeapon>();
-
-        if (PlayerHit != null)
-        {
-            curHP -= PlayerHit.Player.Attack;
-            if (curHP < 0)
-            {
-                Destroy(gameObject);
-                PlayManager.huntedMonsterNum++;
-                // Etc.
-            }
-        }
+        base.Start();
     }
 
     private void Awake()

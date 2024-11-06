@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 public class PlayManager : MonoBehaviour
 {
@@ -15,6 +16,7 @@ public class PlayManager : MonoBehaviour
     // 플레이어
     private static PlayerController Player { get; set; }
     public static float MaxHP { get { return Player.MaxHP; } }                                                                              // 플레이어 최대 체력
+    public static float PlayerAttack { get { return Player.Attack; } }                                                                      // 플레이어 공격력
     public static void SetCurPlayer(PlayerController _player) { Player = _player; }                                                         // 플레이어 등록
     public static bool CheckIsPlayer(ObjectScript _object) { return _object == Player; }                                                    // 플레이어인지 확인
     public static Vector3 PlayerPos { get { if (IsPlayerSet) return Player.transform.position; return ValueDefinition.NULL_VECTOR; } }      // 플레이어 위치
@@ -30,18 +32,21 @@ public class PlayManager : MonoBehaviour
     public static int huntedMonsterNum = 0;             // 사냥당한 몬스터 수
 
     // UI
-    private static UIManager UI;
-    public static bool IsDialogueOpened { get { return UI.IsDialogueOpened; } } // 대화창 열렸는지
-    public static void OpenDialogue(NPCScript _npc) { UI.OpenDialogue(_npc); }    // 대화창 열기
-    public static void CloseDialogue() { UI.CloseDialogue(); }  // 대화창 닫기
+    private UIManager playerUI;
+    private static UIManager UIManager { get { return Inst.playerUI; } }
+    public static bool IsDialogueOpened { get { return UIManager.IsDialogueOpened; } }   // 대화창 열렸는지
+    public static void OpenDialogue(NPCScript _npc) { UIManager.OpenDialogue(_npc); }    // 대화창 열기
+    public static void CloseDialogue() { UIManager.CloseDialogue(); }                    // 대화창 닫기
 
-    public static void ToggleSupporterUI(bool _toggle) { UI.ToggleSupporterUI(_toggle); }
-    public static void SetHPInfo(float _curHP) { UI.SetHPInfo(_curHP); }        // 체력바 설정
+    public static void ToggleSupporterUI(bool _toggle) { UIManager.ToggleSupporterUI(_toggle); }
+    public static void SetPlayerMaxHP(float _hp) { UIManager.SetMaxHP(_hp); }    // 체력바 최대 체력
+    public static void SetPlayerCurHP(float _hp) { UIManager.SetCurHP(_hp); }    // 체력바 현재 체력
 
 
     private void SetSubManagers()
     {
-        UI = GetComponent<UIManager>();
+        playerUI = GetComponent<UIManager>();
+        playerUI.SetManager();
     }
 
     private void Awake()

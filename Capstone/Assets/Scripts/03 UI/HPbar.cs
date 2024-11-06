@@ -9,17 +9,26 @@ public class HPbar : MonoBehaviour
     private Slider hpBar;
     private TextMeshProUGUI HPInfo;
 
-    public void SetHPInfo(float _curHP)
+    private float MaxHP { get; set; }
+
+    public void SetMaxHP(float _hp)
     {
-        hpBar.value = _curHP / PlayManager.MaxHP;
-        HPInfo.text = $"{_curHP} / {PlayManager.MaxHP}";
+        hpBar.maxValue = _hp;
+        MaxHP = _hp;
+        SetCurHP(_hp);
+    }
+
+    public void SetCurHP(float _hp)
+    {
+        hpBar.value = _hp;
+        HPInfo.text = $"{_hp:F0} / {MaxHP:F0}";
 
         if (hpBar.value <= 0.3f) HPInfo.color = Color.red;
     }
 
-    private void Start()
+    public void SetComps()
     {
-        hpBar = GetComponent<Slider>();
+        hpBar = GetComponentInChildren<Slider>();
         HPInfo = GetComponentInChildren<TextMeshProUGUI>();
     }
 }

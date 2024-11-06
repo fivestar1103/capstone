@@ -5,28 +5,42 @@ using UnityEngine.InputSystem;
 
 public partial class PlayerController
 {
-    public void PlayerAttack(InputAction.CallbackContext context)
+    [SerializeField]
+    private Transform attackPos;
+    [SerializeField]
+    private GameObject attackObject;
+    [SerializeField]
+    private float attackSpeed = 100f;
+
+    public void PlayerAttack()
     {
-        if(context.performed)
+        if(AttackTrigger)
         {
-            Debug.Log("Attack");
+            TempAttack();
         }
     }
 
-    public override void GetHit(GameObject _hit)
-    {   
-        // 몬스터의 공격에만 피격이 적용되도록 함
-        MonsterScript monsterHit = _hit.GetComponent<MonsterScript>();
+    // 임시 공격 로직 -> 탄환 발사 느낌
+    private void TempAttack()
+    {
+        GameObject bullet = Instantiate(attackObject, attackPos.position, attackPos.rotation);
 
-        if(monsterHit != null)
+        Rigidbody rb = bullet.GetComponent<Rigidbody>();
+        if (rb != null)
         {
-            curHP -= monsterHit.Attack;
-            PlayManager.SetHPInfo(curHP);
+            rb.velocity = attackPos.forward * attackSpeed;  
+        }
+    }
 
-            if(curHP < 0)
-            {
-                Die();
-            }
+    public override void GetHit(float _damage)
+    {
+        curHP -= _damage;
+        PlayManager.SetPlayerCurHP(curHP);
+
+        if (curHP < 0)
+        {
+            // 사망 로직
+            // Etc.
         }
     }
 }

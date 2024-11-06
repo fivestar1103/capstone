@@ -9,7 +9,7 @@ public static class ValueDefinition
     public const string MONSTER_ATTACK_TAG = "MonsterAttack";
 
     public const string PLAYER_TAG = "Player";
-    public const string PLAYER_WEAPON_TAG = "Weapon";
+    public const string PLAYER_ATTACK_TAG = "PlayerAttack";
 
 
     // ·¹ÀÌ¾î
