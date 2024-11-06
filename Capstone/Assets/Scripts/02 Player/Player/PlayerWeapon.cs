@@ -11,7 +11,7 @@ public class PlayerWeapon : MonoBehaviour
     {
         if (_other.CompareTag(ValueDefinition.MONSTER_TAG))
         {
-            _other.transform.GetComponentInChildren<MonsterScript>()?.GetHit(this.gameObject);
+            // _other.transform.GetComponentInChildren<MonsterScript>()?.GetHit(this.gameObject);
         }
     }
 

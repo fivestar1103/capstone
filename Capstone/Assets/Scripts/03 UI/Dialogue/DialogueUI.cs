@@ -6,7 +6,6 @@ public class DialogueUI : MonoBehaviour
 {
     private NPCScript curNPC;
     public bool IsOpened { get; set; }
-
     
     public void OpenDialogue(NPCScript _npc)
     {

@@ -20,7 +20,6 @@ public partial class PlayerController
     {
         if (JumpTrigger)
         {
-            Debug.Log(111);
             CheckGround();
             if (IsGround)
             {

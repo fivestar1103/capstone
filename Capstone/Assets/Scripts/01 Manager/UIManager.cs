@@ -5,6 +5,9 @@ using UnityEngine;
 public class UIManager : MonoBehaviour
 {
     [SerializeField]
+    private Canvas playerUICanvas;
+
+    [SerializeField]
     private DialogueUI dialogue;
     public bool IsDialogueOpened { get { return dialogue.IsOpened; } }
     public void OpenDialogue(NPCScript _npc) { dialogue.OpenDialogue(_npc); }
@@ -14,20 +17,13 @@ public class UIManager : MonoBehaviour
     private SupporterUI support;
     public void ToggleSupporterUI(bool _toggle) { support.ToggleSupporterUI(_toggle); }
 
-    [SerializeField]
-    private HPbar hpbar;
-    public void SetHPInfo(float _curHP) { hpbar.SetHPInfo(_curHP); }
+    private HPbar hpBar;
+    public void SetMaxHP(float _hp) { hpBar.SetMaxHP(_hp); }
+    public void SetCurHP(float _hp) { hpBar.SetCurHP(_hp); }
 
-
-    // Start is called before the first frame update
-    void Start()
+    public void SetManager()
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        hpBar = playerUICanvas.GetComponentInChildren<HPbar>();
+        hpBar.SetComps();
     }
 }
