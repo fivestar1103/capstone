@@ -216,6 +216,15 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""UICancel"",
+                    ""type"": ""Button"",
+                    ""id"": ""06404974-bb88-4abd-83e5-78603513c952"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -240,6 +249,17 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
                     ""action"": ""SupportUI"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""d3d5898f-1e6e-4854-aab5-769593c81e97"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""UICancel"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -258,6 +278,7 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
         m_UIControl = asset.FindActionMap("UIControl", throwIfNotFound: true);
         m_UIControl_Interact = m_UIControl.FindAction("Interact", throwIfNotFound: true);
         m_UIControl_SupportUI = m_UIControl.FindAction("SupportUI", throwIfNotFound: true);
+        m_UIControl_UICancel = m_UIControl.FindAction("UICancel", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -407,12 +428,14 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
     private List<IUIControlActions> m_UIControlActionsCallbackInterfaces = new List<IUIControlActions>();
     private readonly InputAction m_UIControl_Interact;
     private readonly InputAction m_UIControl_SupportUI;
+    private readonly InputAction m_UIControl_UICancel;
     public struct UIControlActions
     {
         private @PlayerInput m_Wrapper;
         public UIControlActions(@PlayerInput wrapper) { m_Wrapper = wrapper; }
         public InputAction @Interact => m_Wrapper.m_UIControl_Interact;
         public InputAction @SupportUI => m_Wrapper.m_UIControl_SupportUI;
+        public InputAction @UICancel => m_Wrapper.m_UIControl_UICancel;
         public InputActionMap Get() { return m_Wrapper.m_UIControl; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -428,6 +451,9 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
             @SupportUI.started += instance.OnSupportUI;
             @SupportUI.performed += instance.OnSupportUI;
             @SupportUI.canceled += instance.OnSupportUI;
+            @UICancel.started += instance.OnUICancel;
+            @UICancel.performed += instance.OnUICancel;
+            @UICancel.canceled += instance.OnUICancel;
         }
 
         private void UnregisterCallbacks(IUIControlActions instance)
@@ -438,6 +464,9 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
             @SupportUI.started -= instance.OnSupportUI;
             @SupportUI.performed -= instance.OnSupportUI;
             @SupportUI.canceled -= instance.OnSupportUI;
+            @UICancel.started -= instance.OnUICancel;
+            @UICancel.performed -= instance.OnUICancel;
+            @UICancel.canceled -= instance.OnUICancel;
         }
 
         public void RemoveCallbacks(IUIControlActions instance)
@@ -468,5 +497,6 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
     {
         void OnInteract(InputAction.CallbackContext context);
         void OnSupportUI(InputAction.CallbackContext context);
+        void OnUICancel(InputAction.CallbackContext context);
     }
 }

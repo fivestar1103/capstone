@@ -7,7 +7,6 @@ public partial class MonsterScript
 {
     public enum EMonsterState
     {
-        WANDER,
         PATROL,
         TRACE,
         ATTACK,
@@ -15,83 +14,72 @@ public partial class MonsterScript
     }
 
     [SerializeField]
-    private float wanderRadius = 4.0f;
+    private float PATROLRadius = 5.0f;
     [SerializeField]
-    private float attackDist = 2.0f;
+    private float attackDist = 10.0f;
     [SerializeField]
-    private float traceDist = 10.0f;
+    private float traceDist = 20.0f;
 
-    private EMonsterState state = EMonsterState.WANDER;
-    private bool isDie = false;
+    private EMonsterState state = EMonsterState.PATROL;
 
-    IEnumerator CheckMonsterState()
+    public bool IsAttack { get; private set; }
+    public bool IsDie { get; private set; }
+
+    private void CheckMonsterState()
     {
-        while (!isDie)
+        if (state == EMonsterState.DIE) return;
+
+        float distance = Vector3.Distance(PlayManager.PlayerPos, transform.position);
+
+        if (distance <= attackDist)
         {
-            yield return new WaitForSeconds(0.3f);
-
-            if (state == EMonsterState.DIE) yield break;
-
-            float distance = Vector3.Distance(PlayManager.PlayerPos, transform.position);
-
-            if (distance <= attackDist)
-            {
-                state = EMonsterState.ATTACK;
-            }
-            else if (distance <= traceDist)
-            {
-                state = EMonsterState.TRACE;
-            }
-            else
-                state = EMonsterState.WANDER;
+            state = EMonsterState.ATTACK;
         }
+        else if (distance <= traceDist)
+        {
+            state = EMonsterState.TRACE;
+        }
+        else
+            state = EMonsterState.PATROL;
+
     }
 
-    IEnumerator MonsterAction()
+    private void MonsterAction()
     {
-        while (!isDie)
+        switch (state)
         {
-            switch (state)
-            {
-                case EMonsterState.WANDER:
-                    if (!monsterNav.hasPath || monsterNav.remainingDistance < 0.1f)
-                    {
-                        Vector3 randomPos = RandomNavSphere(transform.position, wanderRadius, 1 << 0);  // Walkable 영역에서만 적용되게 함
-                        monsterNav.SetDestination(randomPos);
-                        monsterNav.isStopped = false;
-                    }
-                    break;
-                case EMonsterState.TRACE:
-                    monsterNav.SetDestination(PlayManager.PlayerPos);
+            case EMonsterState.PATROL:
+                if (!monsterNav.hasPath || monsterNav.remainingDistance < 0.1f)
+                {
+                    Vector3 randomPos = RandomNavSphere(transform.position, PATROLRadius, 1 << 0);  // Walkable 영역에서만 적용되게 함
+                    monsterNav.SetDestination(randomPos);
                     monsterNav.isStopped = false;
-                    break;
-                case EMonsterState.ATTACK:
-                    // 공격
-                    break;
-                case EMonsterState.DIE:
-                    monsterNav.isStopped = true;
-                    GetComponent<CapsuleCollider>().enabled = false;
-                    break;
-            }
-            yield return new WaitForEndOfFrame();
+                }
+                break;
+            case EMonsterState.TRACE:
+                monsterNav.SetDestination(PlayManager.PlayerPos);
+                monsterNav.isStopped = false;
+                break;
+            case EMonsterState.ATTACK:
+                if(!IsAttack) StartCoroutine(TempAttack());
+                break;
+            case EMonsterState.DIE:
+                IsDie = true;
+                monsterNav.isStopped = true;
+                GetComponent<CapsuleCollider>().enabled = false;
+                break;
         }
     }
 
-    private Vector3 RandomNavSphere(Vector3 origin, float distance, int layermask)
+    private Vector3 RandomNavSphere(Vector3 _origin, float _distance, int _layermask)
     {
-        Vector3 randomDirection = Random.insideUnitSphere * distance;  // 반경 내 랜덤한 방향 설정
-        randomDirection += origin;  // 현재 위치 기준으로 오프셋 추가
+        Vector3 randomDirection = Random.insideUnitSphere * _distance;  // 반경 내 랜덤한 방향 설정
+        randomDirection += _origin;  // 현재 위치 기준으로 오프셋 추가
 
         NavMeshHit navHit;
         // NavMesh 위의 유효한 위치 찾기
-        NavMesh.SamplePosition(randomDirection, out navHit, distance, layermask);
+        NavMesh.SamplePosition(randomDirection, out navHit, _distance, _layermask);
 
         return navHit.position;  // 유효한 위치 반환
-    }
-
-    private void OnEnable()
-    {
-        StartCoroutine(CheckMonsterState());
-        StartCoroutine(MonsterAction());
     }
 }
