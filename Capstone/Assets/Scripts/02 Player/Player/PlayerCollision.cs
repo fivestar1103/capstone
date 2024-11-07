@@ -1,18 +1,19 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UIElements;
 
 public partial class PlayerController
 {
-    private void OnTriggerEnter(Collider _other)
+    private void OnCollisionEnter(Collision _other)
     {
-        switch(_other.tag)
+        switch (_other.gameObject.tag)
         {
             case ValueDefinition.MONSTER_ATTACK_TAG:    // 몬스터 공격에 피격
-                // GetHit(_other.gameObject);
+                MonsterAttack monsterAttack = _other.gameObject.GetComponent<MonsterAttack>();
+                if (monsterAttack != null) GetHit(monsterAttack.attack);
+                // 피격 파티클? 추가
+                Destroy(_other.gameObject);
                 break;
         }
-      
     }
 }
