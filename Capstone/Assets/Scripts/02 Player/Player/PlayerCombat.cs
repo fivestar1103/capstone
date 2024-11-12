@@ -12,6 +12,8 @@ public partial class PlayerController
     [SerializeField]
     private float attackSpeed = 100f;
 
+    public PlayerAttack[] skills;
+
     public void PlayerAttack()
     {
         if(AttackTrigger)
@@ -30,6 +32,12 @@ public partial class PlayerController
         {
             rb.velocity = attackPos.forward * attackSpeed;  
         }
+    }
+
+    private void RealAttack(string _spell)
+    {
+        GameObject bullet = Instantiate(attackObject, attackPos.position, attackPos.rotation);
+
     }
 
     public override void GetHit(float _damage)
