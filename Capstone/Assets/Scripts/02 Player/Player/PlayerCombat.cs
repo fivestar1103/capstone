@@ -22,7 +22,7 @@ public partial class PlayerController
         }
     }
 
-    // ÀÓ½Ã °ø°Ý ·ÎÁ÷ -> ÅºÈ¯ ¹ß»ç ´À³¦
+    // Ã€Ã“Â½Ãƒ Â°Ã¸Â°Ã Â·ÃŽÃÃ· -> Ã…ÂºÃˆÂ¯ Â¹ÃŸÂ»Ã§ Â´Ã€Â³Â¦
     private void TempAttack()
     {
         GameObject bullet = Instantiate(attackObject, attackPos.position, attackPos.rotation);
@@ -47,7 +47,7 @@ public partial class PlayerController
 
         if (curHP < 0)
         {
-            // »ç¸Á ·ÎÁ÷
+            // Â»Ã§Â¸Ã Â·ÃŽÃÃ·
             // Etc.
         }
     }

@@ -20,8 +20,8 @@ public partial class MonsterScript : ObjectScript
         {
             PlayerAttack playerAttack = _other.gameObject.GetComponent<PlayerAttack>();
             GetHit(PlayManager.PlayerAttack);
-            // ¿©±â¼­ Æø¹ß ÆÄÆ¼Å¬
-            if (playerAttack != null) StartCoroutine(ApplyCCType(playerAttack.ccType));    // °¨Á¤¿¡ ÀÇÇÑ CC±â Àû¿ë
+            // Â¿Â©Â±Ã¢Â¼Â­ Ã†Ã¸Â¹ÃŸ Ã†Ã„Ã†Â¼Ã…Â¬
+            if (playerAttack != null) StartCoroutine(ApplyCCType(playerAttack.ccType));    // Â°Â¨ÃÂ¤Â¿Â¡ Ã€Ã‡Ã‡Ã‘ CCÂ±Ã¢ Ã€Ã»Â¿Ã«
             Destroy(_other.gameObject);
         }
     }
