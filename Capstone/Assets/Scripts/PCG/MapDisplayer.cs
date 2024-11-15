@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using PCG.Data_Structures;
 using TMPro;
 using UnityEngine;
@@ -13,13 +14,15 @@ public class MapDisplayer
     public GameObject CellPrototypePrefab { get; private set; }
     public GameObject RoomInfoPanelParent { get; private set; }
     public GameObject RoomInfoPanelPrefab { get; private set; }
+    public TextMeshProUGUI GenerationText { get; private set; }
     
     public MapDisplayer(int width,
         int height,
         GameObject cellsParent,
         GameObject cellPrototypePrefab,
         GameObject roomInfoPanelParent,
-        GameObject roomInfoPanelPrefab)
+        GameObject roomInfoPanelPrefab,
+        TextMeshProUGUI generationText)
     {
         Width = width;
         Height = height;
@@ -27,10 +30,21 @@ public class MapDisplayer
         CellPrototypePrefab = cellPrototypePrefab;
         RoomInfoPanelParent = roomInfoPanelParent;
         RoomInfoPanelPrefab = roomInfoPanelPrefab;
+        GenerationText = generationText;
     }
 
+    public void RemoveRoomInfoAndCells()
+    {
+        foreach (Transform child in RoomInfoPanelParent.transform)
+            GameObject.Destroy(child.gameObject);
+        
+        foreach (Transform child in CellsParent.transform)
+            GameObject.Destroy(child.gameObject);
+    }
+    
     public void LogRoomInfo(List<Room> rooms)
     {
+        GenerationText.text += $"\nTotal rooms: {rooms.Count}";
         foreach (var room in rooms)
         {
             var roomInfoPanel = GameObject.Instantiate(RoomInfoPanelPrefab, RoomInfoPanelParent.transform);
@@ -45,10 +59,13 @@ public class MapDisplayer
                                 
                                 $"\tWidth: {room.Width}" +
                                 $"\tHeight: {room.Height}";
+            
+            // log each cell in room
+            Debug.Log($"Room {room.RoomNumber}\nRoom Cells: {string.Join(", ", room.RoomCellsRelative.Select(cell => $"({cell.X}, {cell.Y})"))}\nWall Cells: {string.Join(", ", room.WallCellsRelative.Select(cell => $"({cell.X}, {cell.Y})"))}");
         }
     }
 
-    public void LogMap(Map map)
+    public void LogMap(Map map, int currentGeneration)
     {
         var cellSize = CellPrototypePrefab.GetComponent<RectTransform>().rect.width;
         var screenTopLeft = new Vector3(-Width * cellSize / 2, Height * cellSize / 2, 0);
@@ -66,6 +83,7 @@ public class MapDisplayer
                 var position = screenTopLeft + new Vector3(x * cellSize, -y * cellSize, 0);
                 cellObject.transform.localPosition = position;
 
+                // Debug.Log($"Cell ({x}, {y}) Type: {cellType}");
                 switch (cellType)
                 {
                     // case CellType.Blank:
@@ -75,6 +93,7 @@ public class MapDisplayer
                     // }
                     case CellType.Room:
                     {
+                        if (cell is not RoomCell) continue;
                         cellObject.GetComponent<SpriteRenderer>()
                             .color = ((RoomCell)cell).IsCenter
                             ? Color.yellow
@@ -97,6 +116,8 @@ public class MapDisplayer
                         break;
                 }
             }
+        
+        GenerationText.text = $"Generation {currentGeneration}";
     }
     
     public void LogMapText(Map rawMap)

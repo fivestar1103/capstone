@@ -40,17 +40,13 @@ public class MapGenerator
         var roomCells = (int)(totalCells * RoomPercentage);
         while (roomCells > 0)
         {
-            var x = Random.Range(0, Width);
-            var y = Random.Range(0, Height);
+            var x = Random.Range(1, Width - 1);
+            var y = Random.Range(1, Height - 1);
             if (rawMap.Cells[y, x].Type == CellType.Room) continue;
 
             rawMap.Cells[y, x].Type = CellType.Room;
             roomCells--;
         }
-
-        // run cellular automata for a number of generations
-        for (var i = 0; i < Generations; i++)
-            CellularAutomata(rawMap); 
 
         return rawMap;
     }
@@ -59,8 +55,8 @@ public class MapGenerator
     {
         var rooms = new List<Room>();
         var roomNumber = 0;
-        for (var y = 0; y < Height; y++)
-            for (var x = 0; x < Width; x++)
+        for (var y = 1; y < Height - 1; y++)
+            for (var x = 1; x < Width - 1; x++)
             {
                 if (map.Cells[y, x].Type != CellType.Room || map.Cells[y, x] is RoomCell) continue;
                 
@@ -72,6 +68,7 @@ public class MapGenerator
                 }
                 else
                 {
+                    room.CalculateRoomInfo();
                     rooms.Add(room);
                     roomNumber++;
                 }
@@ -92,51 +89,55 @@ public class MapGenerator
         while (queue.Count > 0)
         {
             var cell = queue.Dequeue();
-            var roomCell = new RoomCell(cell.X, cell.Y, CellType.Room, roomNumber); 
+            var roomCell = new RoomCell(cell.X, cell.Y, CellType.Room, roomNumber);
             map.Cells[cell.Y, cell.X] = roomCell;
             room.AddCell(roomCell);
-                    
-            var neighbours = GetNeighbours(map, cell.X, cell.Y, adjacent:true);
+
+            var neighbours = GetNeighbours(map, cell.X, cell.Y, adjacent: true);
             foreach (var neighbour in neighbours)
                 if (neighbour.Type == CellType.Room && !visited[neighbour.Y, neighbour.X])
                 {
-                    queue.Enqueue(neighbour);
-                    visited[neighbour.Y, neighbour.X] = true;
+                    if (IsEdgeCellPosition(neighbour.X, neighbour.Y))
+                        map.Cells[neighbour.Y, neighbour.X].Type = CellType.Blank;
+                    else {
+                        queue.Enqueue(neighbour);
+                        visited[neighbour.Y, neighbour.X] = true;
+                    }
                 }
         }
         
         return room;
     }
 
-    private void CellularAutomata(Map map)
+    public Map CellularAutomata(Map map)
     {
         var birthCount = 0;
         var deathCount = 0;
         
-        for (var y = 0; y < Height; y++)
-            for (var x = 0; x < Width; x++)
+        for (var y = 1; y < Height - 1; y++)
+            for (var x = 1; x < Width - 1; x++)
             {
-                var neighboursCount = GetNeighbours(map, x, y).Count;
+                var neighbours = GetNeighbours(map, x, y);
+                var roomNeighbours = neighbours.FindAll(neighbour => neighbour.Type == CellType.Room);
+                var roomNeighboursCount = roomNeighbours.Count;
                 switch (map.Cells[y, x].Type)
                 {
                     case CellType.Blank:
                     {
-                        if (neighboursCount > BirthLimit)
+                        if (roomNeighboursCount > BirthLimit)
                         {
                             map.Cells[y, x].Type = CellType.Room;
                             birthCount++;
                         }
-                                
                         break;
                     }
                     case CellType.Room:
                     {
-                        if (neighboursCount < DeathLimit)
+                        if (roomNeighboursCount < DeathLimit)
                         {
                             map.Cells[y, x].Type = CellType.Blank;
                             deathCount++;
                         }
-                                
                         break;
                     }
                     case CellType.Wall:
@@ -146,41 +147,60 @@ public class MapGenerator
                 }
             }
         
-        // Debug.Log($"Births: {birthCount}, Deaths: {deathCount}");
-    }
-
-    public Map GenerateWalls(Map map, List<Room> rooms)
-    {
-        for (var y = 0; y < Height; y++)
-            for (var x = 0; x < Width; x++)
-                if (map.Cells[y, x].Type == CellType.Blank && GetNeighbours(map, x, y).Count > 0)
-                    map.Cells[y, x].Type = CellType.Wall;
-
-        var deletedRoomCells = new List<RoomCell>();
-        foreach (var room in rooms)
-            foreach (var roomCell in room.RoomCells)
-                if (IsEdgeCellPosition(roomCell.X, roomCell.Y))
-                {
-                    map.Cells[roomCell.Y, roomCell.X].Type = CellType.Wall;
-                    deletedRoomCells.Add(roomCell);
-                }
-        foreach (var roomCell in deletedRoomCells)
-            rooms[roomCell.RoomNumber].DeleteCell(roomCell);
-
+        Debug.Log($"Births: {birthCount}, Deaths: {deathCount}");
         return map;
     }
 
-    private static bool IsValidCellPosition(Map map, int x, int y) // check if a given cell position is valid
+    public (Map, List<Room>) GenerateWalls(Map map, List<Room> rooms)
     {
-        return x >= 0 && y >= 0 && x < map.Width && y < map.Height;
+        // for (var y = 0; y < Height; y++)
+        //     for (var x = 0; x < Width; x++)
+        //         if (map.Cells[y, x].Type == CellType.Blank && GetNeighbours(map, x, y).Count > 0)
+        //             map.Cells[y, x].Type = CellType.Wall;
+        //
+        // var deletedRoomCells = new List<RoomCell>();
+        // foreach (var room in rooms)
+        //     foreach (var roomCell in room.RoomCells)
+        //         if (IsEdgeCellPosition(roomCell.X, roomCell.Y))
+        //         {
+        //             map.Cells[roomCell.Y, roomCell.X].Type = CellType.Wall;
+        //             deletedRoomCells.Add(roomCell);
+        //         }
+        // foreach (var roomCell in deletedRoomCells)
+        //     rooms[roomCell.RoomNumber].DeleteCell(roomCell);
+        
+        foreach (var room in rooms)
+        {
+            var uniqueNeighbours = new HashSet<Cell>();
+            foreach (var roomCell in room.RoomCells)
+            {
+                var neighbours = GetNeighbours(map, roomCell.X, roomCell.Y, adjacent:true);
+                foreach (var neighbour in neighbours)
+                    if (neighbour.Type == CellType.Blank)
+                        uniqueNeighbours.Add(neighbour);
+            }
+
+            foreach (var neighbour in uniqueNeighbours)
+            {
+                map.Cells[neighbour.Y, neighbour.X].Type = CellType.Wall;
+                room.AddCell(map.Cells[neighbour.Y, neighbour.X]);
+            }
+        }
+
+        return (map, rooms);
+    }
+
+    private bool IsValidCellPosition(int x, int y) // check if a given cell position is valid
+    {
+        return x >= 0 && y >= 0 && x < Width && y < Height;
     }
 
     private bool IsEdgeCellPosition(int x, int y)
     {
-        return x == 0 || x == Width - 1 || y == 0 || y == Height - 1;
+        return IsValidCellPosition(x, y) && (x == 0 || x == Width - 1 || y == 0 || y == Height - 1);
     }
     
-    private static List<Cell> GetNeighbours(Map map, int x, int y, bool adjacent=false) // get the room cells around a given cell
+    private List<Cell> GetNeighbours(Map map, int x, int y, bool adjacent=false) // get the room cells around a given cell
     {
         var neighbours = new List<Cell>();
         for (var i = -1; i <= 1; i++)
@@ -191,8 +211,7 @@ public class MapGenerator
 
                 var neighbourX = x + i;
                 var neighbourY = y + j;
-                if (IsValidCellPosition(map, neighbourX, neighbourY) &&
-                    map.Cells[neighbourY, neighbourX].Type == CellType.Room)
+                if (IsValidCellPosition(neighbourX, neighbourY))
                     neighbours.Add(map.Cells[neighbourY, neighbourX]);
             }
 
