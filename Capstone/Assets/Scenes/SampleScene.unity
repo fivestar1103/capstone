@@ -3605,6 +3605,22 @@ PrefabInstance:
       propertyPath: attackObject
       value: 
       objectReference: {fileID: 2732741230357401279, guid: fe0ac62666cc58a499e1d3430354d257, type: 3}
+    - target: {fileID: 1681218640425170630, guid: 286ac1954b1454e468b6392747fcfc1d, type: 3}
+      propertyPath: skills.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1681218640425170630, guid: 286ac1954b1454e468b6392747fcfc1d, type: 3}
+      propertyPath: skills.Array.data[0]
+      value: 
+      objectReference: {fileID: 3699720400830963398, guid: 744310e6543043641a557b9251d23e39, type: 3}
+    - target: {fileID: 1681218640425170630, guid: 286ac1954b1454e468b6392747fcfc1d, type: 3}
+      propertyPath: skills.Array.data[1]
+      value: 
+      objectReference: {fileID: 2849162538547345671, guid: af6a5e69a4e41fc479b73e0a04c90aff, type: 3}
+    - target: {fileID: 1681218640425170630, guid: 286ac1954b1454e468b6392747fcfc1d, type: 3}
+      propertyPath: skills.Array.data[2]
+      value: 
+      objectReference: {fileID: 6605719743788314364, guid: 610a52eda0d37c14da3269727fd79519, type: 3}
     - target: {fileID: 6368869818584420165, guid: 286ac1954b1454e468b6392747fcfc1d, type: 3}
       propertyPath: m_Name
       value: TempPlayer
@@ -4632,6 +4648,7 @@ GameObject:
   - component: {fileID: 1556337242}
   - component: {fileID: 1556337241}
   - component: {fileID: 1556337240}
+  - component: {fileID: 1556337243}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -4678,6 +4695,26 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1556337243
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1556337239}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 59644ded18c62b4498023679a34fa2e5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Skills:
+  - {fileID: 3699720400830963398, guid: 744310e6543043641a557b9251d23e39, type: 3}
+  - {fileID: 2849162538547345671, guid: af6a5e69a4e41fc479b73e0a04c90aff, type: 3}
+  - {fileID: 6605719743788314364, guid: 610a52eda0d37c14da3269727fd79519, type: 3}
+  spells:
+  - Expecto Patronum
+  - Avada Kedavra
+  - Wingardium Leviosa
 --- !u!1 &1588335540
 GameObject:
   m_ObjectHideFlags: 0
@@ -6585,7 +6622,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &2069737126
 Transform:
   m_ObjectHideFlags: 0

@@ -17,10 +17,17 @@ public class GameManager : MonoBehaviour
     public static void SetControlMode(EControlMode _mode) { InputManager.SetControlMode(_mode); }                                           // 조작 모드 변경
     public static void SetMouseSensitive(float _sensitive) { InputManager.SetMouseSensitive(_sensitive); }                                  // 마우스 민감도 설정
 
+    // 스킬
+    private SkillManager skillManager;
+    public static SkillManager SkillManager { get { return Inst.skillManager; } }
+    public static PlayerAttack[] Skills { get { return SkillManager.Skills; } }
+
     private void SetSubManagers()
     {
         inputManager = GetComponent<InputManager>();
         inputManager.SetManager();
+        skillManager = GetComponent<SkillManager>();
+        skillManager.SetManager();
     }
 
     private void Awake()

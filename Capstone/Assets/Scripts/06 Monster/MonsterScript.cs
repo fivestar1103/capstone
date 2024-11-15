@@ -19,9 +19,15 @@ public partial class MonsterScript : ObjectScript
         if (_other.gameObject.CompareTag(ValueDefinition.PLAYER_ATTACK_TAG))
         {
             PlayerAttack playerAttack = _other.gameObject.GetComponent<PlayerAttack>();
-            GetHit(PlayManager.PlayerAttack);
-            // ¿©±â¼­ Æø¹ß ÆÄÆ¼Å¬
-            if (playerAttack != null) StartCoroutine(ApplyCCType(playerAttack.ccType));    // °¨Á¤¿¡ ÀÇÇÑ CC±â Àû¿ë
+            GetHit(PlayManager.PlayerAttack);   // 피흡량 조절 필요
+            if (playerAttack != null)
+            {
+                if(playerAttack.IsDrained)
+                {
+                    playerAttack.Drain(PlayManager.PlayerAttack);
+                }
+                StartCoroutine(ApplyCCType(playerAttack.CCType));    // 상태이상 적용
+            }
             Destroy(_other.gameObject);
         }
     }

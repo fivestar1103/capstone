@@ -4,12 +4,13 @@ using UnityEngine;
 
 
 public partial class PlayerAttack : MonoBehaviour
-{
+{ 
     [SerializeField]
     private float lifeTime = 1.5f;
 
-    public ESkill skill { get; set; }
-    public ECCType ccType { get; set; }
+    public string Spell { get; set; }
+    public ESkill Skill { get; set; }
+    public ECCType CCType { get; set; }
 
     public void SetSkill(ESkill _skill, EEmotion _emotion)
     {
@@ -19,6 +20,6 @@ public partial class PlayerAttack : MonoBehaviour
 
     private void Start()
     {
-        Destroy(this.gameObject, lifeTime);
+        // Destroy(this.gameObject, lifeTime);
     }
 }

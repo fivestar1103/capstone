@@ -16,13 +16,10 @@ public enum EEmotion
 
 public enum ECCType
 {
-    ECCType1,
-    ECCType2,
-    ECCType3,
-    ECCType4,
-    ECCType5,
-    ECCType6,
-    ECCType7,
+    SLOW,
+    DOT_DAMAGE,
+    STUN,
+    NERF_STAT,
     LAST
 }
 

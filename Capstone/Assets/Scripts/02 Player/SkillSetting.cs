@@ -4,10 +4,12 @@ using UnityEngine;
 
 public partial class PlayerAttack
 { 
+    public bool IsDrained { get; private set; }
+
     public void SetEmotion(EEmotion _emotion)
     {
         // 감정과 ccType을 일치
-        ccType = (ECCType)_emotion;
+        CCType = (ECCType)_emotion;
 
         // 시각효과 적용을 위해 있는데 뭐 더 넣을 듯
         switch(_emotion)
@@ -18,13 +20,13 @@ public partial class PlayerAttack
             case EEmotion.EAngry:
 
                 break;
+            case EEmotion.ENeutral:
+                IsDrained = true;
+                break;
             case EEmotion.EDisgust:
 
                 break;
             case EEmotion.EFear:
-
-                break;
-            case EEmotion.ENeutral:
 
                 break;
             case EEmotion.ESad:
@@ -40,6 +42,12 @@ public partial class PlayerAttack
 
     public void SetSkillType(ESkill _skill)
     {
-        skill = _skill;
+        Skill = _skill;
+    }
+
+    public void Drain(float _hp)
+    {
+        if(IsDrained) PlayManager.Drain(_hp);
     }
 }
+

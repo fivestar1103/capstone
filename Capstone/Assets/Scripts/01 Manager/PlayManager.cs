@@ -26,6 +26,9 @@ public class PlayManager : MonoBehaviour
     public static void StopPlayerInteract() { Player.StopInteract(); }                                                                      // 상호작용 종료
     public static void StopPlayerInteract(InteractScript _interact) { Player.StopInteract(_interact); }
 
+    // 전투 관련
+    
+    public static void Drain(float _hp) { Player.Drain(_hp); }
 
     // 몬스터 관련
     public static MonsterSpawnPoint[] spawnPoints;      // 몬스터 스폰 포인트

@@ -41,46 +41,59 @@ public partial class MonsterScript
         IsAttack = false;
     }
 
+    // 지속시간 동안 상태이상 적용
     IEnumerator ApplyCCType(ECCType _ccType)
     {
-        float elapsedTime = 0f;
-
-        if(_ccType == ECCType.ECCType1) // 둔화
+        if(_ccType == ECCType.SLOW) // 둔화
         {
-            this.CurSpeed *= 0.5f;
+            this.Speed *= 0.5f;
         }
-        else if (_ccType == ECCType.ECCType2) // 도트뎀
+        else if (_ccType == ECCType.DOT_DAMAGE) // 도트뎀
         {
             IsDotted = true;
             StartCoroutine(DottedDamage());
         }
-        else if (_ccType == ECCType.ECCType3) // 스턴
+        else if (_ccType == ECCType.STUN) // 스턴
         {
             this.monsterNav.isStopped = true;
             IsAttack = false;
         }
-        // 추후 추가...
+        else if(_ccType == ECCType.NERF_STAT)
+        {
+            this.Attack *= 0.7f;
+            this.Defense *= 0.7f;
+        }
+
+        float elapsedTime = 0f;
 
         while (elapsedTime < duration)
         {
             elapsedTime += Time.deltaTime;
             yield return null;
         }
+        RemoveCC(_ccType);
     }
 
+    // 스탯 원상 복구
     private void RemoveCC(ECCType _ccType)
     {
         switch(_ccType)
         {
-            case ECCType.ECCType1:
-                this.CurSpeed /= 0.5f;
+            case ECCType.SLOW:
+                this.Speed /= 0.5f;
                 break;
-            case ECCType.ECCType2:
+            case ECCType.DOT_DAMAGE:
                 IsDotted = false;
                 break;
-            case ECCType.ECCType3:
+            case ECCType.STUN:
                 this.monsterNav.isStopped = false;
                 break;
+            case ECCType.NERF_STAT:
+                this.Attack /= 0.7f;
+                this.Defense /= 0.7f;
+                break;
+            default:
+                return;
         }
     }
 
