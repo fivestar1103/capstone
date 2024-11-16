@@ -6,22 +6,28 @@ public enum EEmotion
 {
     EHappy,
     EAngry,
+    ENeutral,
     EDisgust,
     EFear,
-    ENeutral,
     ESad,
     ESurprise,
     LAST
 }
 
-public enum ECCType
+public enum EStatusEffect
 {
+    // 캐릭터 버프
+    ATTACK_UP,
+    ATTACK_SPEED_UP,
+    DRAIN,      
+
+    // 몬스터 디버프
     SLOW,
     DOT_DAMAGE,
     STUN,
     NERF_STAT,
     LAST
-}
+} 
 
 public enum ESkill
 {

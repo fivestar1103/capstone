@@ -8,36 +8,34 @@ public partial class PlayerAttack
 
     public void SetEmotion(EEmotion _emotion)
     {
-        // 감정과 ccType을 일치
-        CCType = (ECCType)_emotion;
-
         // 시각효과 적용을 위해 있는데 뭐 더 넣을 듯
-        switch(_emotion)
+        switch (_emotion)
         {
             case EEmotion.EHappy:
-
+                
                 break;
             case EEmotion.EAngry:
-
+                
                 break;
             case EEmotion.ENeutral:
-                IsDrained = true;
+                
                 break;
             case EEmotion.EDisgust:
-
+                
                 break;
             case EEmotion.EFear:
-
+                
                 break;
             case EEmotion.ESad:
-
+                
                 break;
             case EEmotion.ESurprise:
-
+                
                 break;
             default: 
                 return;
         }
+        StatusEffect = (EStatusEffect)_emotion;
     }
 
     public void SetSkillType(ESkill _skill)

@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using static UnityEditor.Timeline.TimelinePlaybackControls;
 
 public partial class PlayerController
 {
@@ -16,16 +15,13 @@ public partial class PlayerController
 
     public bool IsGround { get; private set; }
 
-    public void OnJump()
+    public void PlayerJump()
     {
-        if (JumpTrigger)
+        if (JumpTrigger && IsGround)
         {
-            CheckGround();
-            if (IsGround)
-            {
-                Vector3 jumpForce = Vector3.up * Mathf.Sqrt(jumpHeight * -Physics.gravity.y);
-                playerRB.AddForce(jumpForce, ForceMode.VelocityChange); // 위로 점프
-            }
+            Vector3 jumpForce = Vector3.up * Mathf.Sqrt(jumpHeight * -Physics.gravity.y);
+            playerRB.AddForce(jumpForce, ForceMode.VelocityChange);
+            IsGround = false;
         }
     }
 
@@ -35,11 +31,5 @@ public partial class PlayerController
         Vector3 moveVelocity = moveDirection * moveSpeed;
 
         playerRB.velocity = new Vector3(moveVelocity.x, playerRB.velocity.y, moveVelocity.z);
-    }
-
-    private void CheckGround()
-    {
-        RaycastHit hit;
-        IsGround = Physics.Raycast(transform.position, Vector3.down, out hit, groundDistance, ValueDefinition.GROUND_LAYER);
     }
 }

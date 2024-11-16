@@ -28,6 +28,7 @@ public class PlayManager : MonoBehaviour
 
     // 전투 관련
     
+    public static bool IsDrain { get { return Player.IsDrain; } }
     public static void Drain(float _hp) { Player.Drain(_hp); }
 
     // 몬스터 관련

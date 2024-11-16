@@ -4,13 +4,12 @@ using UnityEngine;
 
 
 public partial class PlayerAttack : MonoBehaviour
-{ 
-    [SerializeField]
-    private float lifeTime = 1.5f;
+{
+    private Renderer renderer;
 
     public string Spell { get; set; }
     public ESkill Skill { get; set; }
-    public ECCType CCType { get; set; }
+    public EStatusEffect StatusEffect { get; set; }
 
     public void SetSkill(ESkill _skill, EEmotion _emotion)
     {

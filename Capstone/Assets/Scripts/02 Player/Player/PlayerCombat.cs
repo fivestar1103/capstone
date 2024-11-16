@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -17,38 +18,28 @@ public partial class PlayerController
 
     public ESkill CurSkill { get; private set; }
 
-    public bool IsBuffApplied { get; set; }
+    public bool IsDrain { get; private set; }
 
     public void PlayerAttack()
     {
-        if (AttackTrigger)
-        {
-            // TempAttack();
+        if (AttackTrigger) 
             UseSkill();
-        }
-    }
-
-
-    private void TempAttack()
-    {
-        GameObject bullet = Instantiate(attackObject, attackPos.position, attackPos.rotation);
-
-        Rigidbody rb = bullet.GetComponent<Rigidbody>();
-        if (rb != null)
-        {
-            rb.velocity = attackPos.forward * AttackSpeed;
-        }
     }
 
     // 현재 구현 중인 부분
     private void PrepareSkill(string _spell, EEmotion _emotion)
     {
-        for (int i = 0; i < (int)ESkill.LAST; i++)
+        int idx;
+        for (idx = 0; idx < (int)ESkill.LAST; idx++)
         {
-            if (_spell == GameManager.Skills[i].Spell) CurSkill = (ESkill)i;
-            GameManager.Skills[(int)CurSkill].SetSkill(CurSkill, _emotion);
+            if (_spell == GameManager.Skills[idx].Spell)
+            {
+                CurSkill = (ESkill)idx;
+                break;
+            }
         }
         preparedSkill = Instantiate(GameManager.Skills[(int)CurSkill], attackPos.position, attackPos.rotation, attackPos);
+        preparedSkill.SetSkill(CurSkill, _emotion);
 
         /* 생성된 스킬 오브젝트를 보정하는 부분 */
         preparedSkill.transform.localPosition = new Vector3(0, 0, 0.5f); // 약간 앞쪽으로 위치 보정
@@ -64,47 +55,50 @@ public partial class PlayerController
             rb.isKinematic = false;
             rb.velocity = attackPos.forward * AttackSpeed;
         }
-    }
-    //
 
-    IEnumerator ApplyBuff(EEmotion _emotion)
+        if ((int)preparedSkill.StatusEffect >= 0 && (int)preparedSkill.StatusEffect <= 2) // 버프인 경우
+            StartCoroutine(ApplyBuff(preparedSkill.StatusEffect));
+    }
+
+    IEnumerator ApplyBuff(EStatusEffect _buff)
     {
         float elapsedTime = 0f;
 
-        if (_emotion == EEmotion.EHappy)        // 공격력 증가
+        if (_buff == EStatusEffect.ATTACK_UP)        // 공격력 증가
         {
             Attack *= 1.5f;
-        }
-        else if (_emotion == EEmotion.ENeutral) // 공속 증가
-        {
-            AttackSpeed *= 1.5f;
-        }
-        else if (_emotion == EEmotion.EAngry)   // 피흡
-        {
             
         }
-        
-        IsBuffApplied = true;
+        else if (_buff == EStatusEffect.ATTACK_SPEED_UP) // 공속 증가
+        {
+            AttackSpeed *= 1.5f;
+           
+        }
+        else if (_buff == EStatusEffect.DRAIN)   // 피흡
+        {
+            IsDrain = true;
+        }
 
         while (elapsedTime < duration)
         {
             elapsedTime += Time.deltaTime;
             yield return null;
         }
+        SetOriginalStat(_buff);
     }
 
-    private void SetOriginalStat(EEmotion _emotion)
+    private void SetOriginalStat(EStatusEffect _buff)
     {
-        switch (_emotion)
+        switch (_buff)
         {
-            case EEmotion.EHappy:
+            case EStatusEffect.ATTACK_UP:
                 Attack /= 1.5f;
                 break;
-            case EEmotion.ENeutral:
+            case EStatusEffect.ATTACK_SPEED_UP:
                 AttackSpeed /= 1.5f;
                 break;
-            case EEmotion.EAngry:
-                // IsDrained flag sets to false
+            case EStatusEffect.DRAIN:
+                IsDrain = false;
                 break;
             default:
                 return;

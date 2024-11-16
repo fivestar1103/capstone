@@ -8,6 +8,9 @@ public partial class PlayerController
     {
         switch (_other.gameObject.tag)
         {
+            case ValueDefinition.GROUND_TAG:
+                IsGround = true;
+                break;
             case ValueDefinition.MONSTER_ATTACK_TAG:    // 몬스터 공격에 피격
                 MonsterAttack monsterAttack = _other.gameObject.GetComponent<MonsterAttack>();
                 if (monsterAttack != null) GetHit(monsterAttack.attack);

@@ -42,23 +42,24 @@ public partial class MonsterScript
     }
 
     // 지속시간 동안 상태이상 적용
-    IEnumerator ApplyCCType(ECCType _ccType)
+    IEnumerator ApplyCCType(EStatusEffect _ccType)
     {
-        if(_ccType == ECCType.SLOW) // 둔화
+        if(_ccType == EStatusEffect.SLOW) // 둔화
         {
             this.Speed *= 0.5f;
         }
-        else if (_ccType == ECCType.DOT_DAMAGE) // 도트뎀
+        else if (_ccType == EStatusEffect.DOT_DAMAGE) // 도트뎀
         {
             IsDotted = true;
             StartCoroutine(DottedDamage());
         }
-        else if (_ccType == ECCType.STUN) // 스턴
+        else if (_ccType == EStatusEffect.STUN) // 스턴
         {
             this.monsterNav.isStopped = true;
+            StopCoroutine(TempAttack());
             IsAttack = false;
         }
-        else if(_ccType == ECCType.NERF_STAT)
+        else if(_ccType == EStatusEffect.NERF_STAT)
         {
             this.Attack *= 0.7f;
             this.Defense *= 0.7f;
@@ -75,20 +76,22 @@ public partial class MonsterScript
     }
 
     // 스탯 원상 복구
-    private void RemoveCC(ECCType _ccType)
+    private void RemoveCC(EStatusEffect _ccType)
     {
         switch(_ccType)
         {
-            case ECCType.SLOW:
+            case EStatusEffect.SLOW:
                 this.Speed /= 0.5f;
                 break;
-            case ECCType.DOT_DAMAGE:
+            case EStatusEffect.DOT_DAMAGE:
                 IsDotted = false;
                 break;
-            case ECCType.STUN:
+            case EStatusEffect.STUN:
                 this.monsterNav.isStopped = false;
+                StartCoroutine(TempAttack());
+                IsAttack = true;
                 break;
-            case ECCType.NERF_STAT:
+            case EStatusEffect.NERF_STAT:
                 this.Attack /= 0.7f;
                 this.Defense /= 0.7f;
                 break;

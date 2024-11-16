@@ -22,11 +22,14 @@ public partial class MonsterScript : ObjectScript
             GetHit(PlayManager.PlayerAttack);   // 피흡량 조절 필요
             if (playerAttack != null)
             {
-                if(playerAttack.IsDrained)
+                if(PlayManager.IsDrain)
                 {
                     playerAttack.Drain(PlayManager.PlayerAttack);
                 }
-                StartCoroutine(ApplyCCType(playerAttack.CCType));    // 상태이상 적용
+                if ((int)playerAttack.StatusEffect >= 3 && (int)playerAttack.StatusEffect <= 6) // 상태이상인 경우
+                {
+                    StartCoroutine(ApplyCCType(playerAttack.StatusEffect));    
+                }
             }
             Destroy(_other.gameObject);
         }

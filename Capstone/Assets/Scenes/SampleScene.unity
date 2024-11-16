@@ -2930,7 +2930,7 @@ GameObject:
   - component: {fileID: 949391774}
   m_Layer: 6
   m_Name: Plane
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 2147483647
@@ -3017,7 +3017,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 5, y: 5, z: 5}
+  m_LocalScale: {x: 5, y: 5, z: 3}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -3048,7 +3048,7 @@ AudioListener:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
-  m_Enabled: 1
+  m_Enabled: 0
 --- !u!20 &963194227
 Camera:
   m_ObjectHideFlags: 0
@@ -3109,7 +3109,7 @@ Transform:
   m_GameObject: {fileID: 963194225}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.2360001, z: 0}
+  m_LocalPosition: {x: 0, y: 0.23600006, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -3711,7 +3711,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7968295490422481177, guid: 286ac1954b1454e468b6392747fcfc1d, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7968295490422481177, guid: 286ac1954b1454e468b6392747fcfc1d, type: 3}
       propertyPath: m_LocalPosition.z
@@ -4711,10 +4711,6 @@ MonoBehaviour:
   - {fileID: 3699720400830963398, guid: 744310e6543043641a557b9251d23e39, type: 3}
   - {fileID: 2849162538547345671, guid: af6a5e69a4e41fc479b73e0a04c90aff, type: 3}
   - {fileID: 6605719743788314364, guid: 610a52eda0d37c14da3269727fd79519, type: 3}
-  spells:
-  - Expecto Patronum
-  - Avada Kedavra
-  - Wingardium Leviosa
 --- !u!1 &1588335540
 GameObject:
   m_ObjectHideFlags: 0

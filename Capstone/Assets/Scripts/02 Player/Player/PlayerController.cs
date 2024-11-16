@@ -40,6 +40,7 @@ public partial class PlayerController : ObjectScript
     {
         PlayerInteract();       // 상호작용 물체 탐색
         PlayerAttack();
+        PlayerJump();
     }
 
     private void Update()
@@ -60,6 +61,6 @@ public partial class PlayerController : ObjectScript
         playerCam = GetComponentInChildren<PlayerCamera>();
 
         // Test Calling
-        PrepareSkill(ValueDefinition.SPELL2, 0);
+        PrepareSkill(ValueDefinition.SPELL1, EEmotion.ENeutral);
     }
 }
