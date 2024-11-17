@@ -62,10 +62,8 @@ public class MapGenerator
                 
                 var room = LabelRoomWithBFS(x, y, map, roomNumber);
                 if (room.RoomCells.Count < RoomThreshold)
-                {
                     foreach (var roomCell in room.RoomCells)
                         map.Cells[roomCell.Y, roomCell.X].Type = CellType.Blank;
-                }
                 else
                 {
                     room.CalculateRoomInfo();
@@ -81,10 +79,13 @@ public class MapGenerator
     private Room LabelRoomWithBFS(int startX, int startY, Map map, int roomNumber)
     {
         var room = new Room(roomNumber);
-        var visited = new bool[Height, Width];
+        var visited = new bool[Height][];
+        for (int index = 0; index < Height; index++)
+            visited[index] = new bool[Width];
+
         var queue = new Queue<Cell>();
         
-        visited[startY, startX] = true;
+        visited[startY][startX] = true;
         queue.Enqueue(map.Cells[startY, startX]);
         while (queue.Count > 0)
         {
@@ -95,13 +96,13 @@ public class MapGenerator
 
             var neighbours = GetNeighbours(map, cell.X, cell.Y, adjacent: true);
             foreach (var neighbour in neighbours)
-                if (neighbour.Type == CellType.Room && !visited[neighbour.Y, neighbour.X])
+                if (neighbour.Type == CellType.Room && !visited[neighbour.Y][neighbour.X])
                 {
                     if (IsEdgeCellPosition(neighbour.X, neighbour.Y))
                         map.Cells[neighbour.Y, neighbour.X].Type = CellType.Blank;
                     else {
                         queue.Enqueue(neighbour);
-                        visited[neighbour.Y, neighbour.X] = true;
+                        visited[neighbour.Y][neighbour.X] = true;
                     }
                 }
         }
@@ -147,28 +148,12 @@ public class MapGenerator
                 }
             }
         
-        Debug.Log($"Births: {birthCount}, Deaths: {deathCount}");
+        // Debug.Log($"Births: {birthCount}, Deaths: {deathCount}");
         return map;
     }
 
     public (Map, List<Room>) GenerateWalls(Map map, List<Room> rooms)
     {
-        // for (var y = 0; y < Height; y++)
-        //     for (var x = 0; x < Width; x++)
-        //         if (map.Cells[y, x].Type == CellType.Blank && GetNeighbours(map, x, y).Count > 0)
-        //             map.Cells[y, x].Type = CellType.Wall;
-        //
-        // var deletedRoomCells = new List<RoomCell>();
-        // foreach (var room in rooms)
-        //     foreach (var roomCell in room.RoomCells)
-        //         if (IsEdgeCellPosition(roomCell.X, roomCell.Y))
-        //         {
-        //             map.Cells[roomCell.Y, roomCell.X].Type = CellType.Wall;
-        //             deletedRoomCells.Add(roomCell);
-        //         }
-        // foreach (var roomCell in deletedRoomCells)
-        //     rooms[roomCell.RoomNumber].DeleteCell(roomCell);
-        
         foreach (var room in rooms)
         {
             var uniqueNeighbours = new HashSet<Cell>();

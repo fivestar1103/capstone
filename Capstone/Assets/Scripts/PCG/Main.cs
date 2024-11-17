@@ -25,9 +25,17 @@ public class Main : MonoBehaviour
     [Range(0, 100)] public int roomThreshold = 25;
     
     private MapGenerator mapGenerator;
+    private MapDisplayer mapDisplayer;
     private Map map;
-    int currentGeneration = 0;
+    int currentGeneration = -1;
+    
+    private readonly DelaunayTriangulation delaunayTriangulation = new DelaunayTriangulation();
 
+    /*
+     * 100, 100, 0.15, 6, 3, 1, 30
+     * 100, 100, 0.35, 5, 4, 3, 20
+     */
+    
     private void Start()
     {
         if (stepByStep) return;
@@ -43,22 +51,24 @@ public class Main : MonoBehaviour
             {
                 currentGeneration = 0;
                 (mapGenerator, map) = InitiateMap();
-                DisplayMap(null, map);
+                DisplayMap(null);
             }
             else
                 InstantlyGenerateMap();
         }
-        else if (Input.GetKeyDown(KeyCode.Space) && currentGeneration < generations)
+        else if (Input.GetKeyDown(KeyCode.Space) && 0 <= currentGeneration && currentGeneration < generations)
         {
             currentGeneration++;
             map = mapGenerator.CellularAutomata(map);
             if (currentGeneration == generations)
             {
-                var (wallMap, roomsWithWalls) = PostProcessMap(mapGenerator, map);
-                DisplayMap(roomsWithWalls, wallMap);
+                var (wallMap, roomsWithWalls, delaunayEdges) = PostProcessMap();
+                map = wallMap;
+                DisplayMap(roomsWithWalls);
+                delaunayTriangulation.DisplayDelaunayEdges(delaunayEdges, cellsParent.transform);
             }
             else 
-                DisplayMap(null, map);
+                DisplayMap(null);
         }
     }
 
@@ -68,13 +78,15 @@ public class Main : MonoBehaviour
         currentGeneration = generations;
         for (var i = 0; i < generations; i++)
             map = mapGenerator.CellularAutomata(map);
-        var (wallMap, roomsWithWalls) = PostProcessMap(mapGenerator, map);
-        DisplayMap(roomsWithWalls, wallMap);
+        var (wallMap, roomsWithWalls, delaunayEdges) = PostProcessMap();
+        map = wallMap;
+        DisplayMap(roomsWithWalls);
+        delaunayTriangulation.DisplayDelaunayEdges(delaunayEdges, cellsParent.transform);
     }
 
     private (MapGenerator, Map) InitiateMap()
     {
-        var mapGenerator = new MapGenerator(width,
+        mapGenerator = new MapGenerator(width,
             height,
             roomPercentage,
             generations,
@@ -86,22 +98,24 @@ public class Main : MonoBehaviour
         return (mapGenerator, rawMap);
     }
     
-    private (Map, List<Room>) PostProcessMap(MapGenerator mapGenerator, Map rawMap)
+    private (Map, List<Room>, HashSet<Edge>) PostProcessMap()
     {
         Map roomMap;
         List<Room> rooms;
-        (roomMap, rooms) = mapGenerator.GenerateRooms(rawMap);
+        (roomMap, rooms) = mapGenerator.GenerateRooms(map);
 
         Map wallMap;
         List<Room> roomsWithWalls;
         (wallMap, roomsWithWalls) = mapGenerator.GenerateWalls(roomMap, rooms);
         
-        return (wallMap, roomsWithWalls);
+        var delaunayEdges = delaunayTriangulation.GenerateDelaunayTriangulation(roomsWithWalls);
+        // HashSet<Edge> delaunayEdges = null;
+        return (wallMap, roomsWithWalls, delaunayEdges);
     }
 
-    private void DisplayMap(List<Room> rooms, Map map)
+    private void DisplayMap(List<Room> rooms)
     {
-        var mapDisplayer = new MapDisplayer(mapGenerator.Width,
+        mapDisplayer = new MapDisplayer(mapGenerator.Width,
             mapGenerator.Height,
             cellsParent,
             cellPrototypePrefab,

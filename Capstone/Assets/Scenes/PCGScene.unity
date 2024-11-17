@@ -1186,15 +1186,15 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1508945198}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 70}
-  m_LocalScale: {x: 0.4009377, y: 0.4009377, z: 0.4009377}
+  m_LocalPosition: {x: 0, y: 0, z: 180}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 10, y: 0}
+  m_AnchoredPosition: {x: 40, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1727970177
@@ -1319,7 +1319,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b4200f50cf41b477a8d5a28547c4d398, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  stepByStep: 1
+  stepByStep: 0
   cellsParent: {fileID: 1508945198}
   cellPrototypePrefab: {fileID: 6853610098588288013, guid: 39ab88549b9ae4cb8a1930819f66226b, type: 3}
   roomInfoPanelParent: {fileID: 1431100680}
@@ -1327,11 +1327,11 @@ MonoBehaviour:
   generationText: {fileID: 1044999824}
   width: 100
   height: 100
-  roomPercentage: 0.5
+  roomPercentage: 0.35
   generations: 5
-  birthLimit: 6
+  birthLimit: 4
   deathLimit: 3
-  roomThreshold: 10
+  roomThreshold: 15
 --- !u!1 &1899175909
 GameObject:
   m_ObjectHideFlags: 0
