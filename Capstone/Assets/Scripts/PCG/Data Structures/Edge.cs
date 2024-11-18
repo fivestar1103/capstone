@@ -13,19 +13,11 @@ public class Edge
     public override bool Equals(object obj)
     {
         if (obj is not Edge other) return false;
-
-        // Edges are equal if they have the same vertices, irrespective of order
-        return (A.Equals(other.A) && B.Equals(other.B)) ||
+    
+        return (A.Equals(other.A) && B.Equals(other.B)) || 
                (A.Equals(other.B) && B.Equals(other.A));
     }
 
-    // Override GetHashCode to handle order-independent hashing
-    public override int GetHashCode()
-    {
-        // Use XOR to create an order-independent hash
-        return A.GetHashCode() ^ B.GetHashCode();
-    }
-    
     public override string ToString()
     {
         return $"{A} - {B}";

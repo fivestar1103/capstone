@@ -18,4 +18,9 @@ public class Cell
         Y = y;
         Type = type;
     }
+
+    public override string ToString()
+    {
+        return $"({X}, {Y})";
+    }
 }

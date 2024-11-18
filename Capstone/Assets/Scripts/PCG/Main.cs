@@ -8,12 +8,15 @@ using UnityEngine.Serialization;
 
 public class Main : MonoBehaviour
 {
-    [Tooltip("Step by step generation of the map")] public bool stepByStep = false; 
+    [Tooltip("Step by step generation of the map")] public bool stepByStep; 
+    [Tooltip("Step by step generation of the Delaunay triangulation")] public bool pointByPoint; 
     
     public GameObject cellsParent;
     public GameObject cellPrototypePrefab;
     public GameObject roomInfoPanelParent;
     public GameObject roomInfoPanelPrefab;
+    public GameObject edgesParent;
+    
     public TextMeshProUGUI generationText;
 
     [Range(10, 200)] public int width = 100;
@@ -29,8 +32,8 @@ public class Main : MonoBehaviour
     private Map map;
     int currentGeneration = -1;
     
-    private readonly DelaunayTriangulation delaunayTriangulation = new DelaunayTriangulation();
-
+    DelaunayTriangulation delaunayTriangulation;
+    
     /*
      * 100, 100, 0.15, 6, 3, 1, 30
      * 100, 100, 0.35, 5, 4, 3, 20
@@ -49,6 +52,8 @@ public class Main : MonoBehaviour
         {
             if (stepByStep)
             {
+                delaunayTriangulation = new DelaunayTriangulation(new List<Room>());
+                delaunayTriangulation.DeleteAllEdges(edgesParent.transform);
                 currentGeneration = 0;
                 (mapGenerator, map) = InitiateMap();
                 DisplayMap(null);
@@ -56,7 +61,7 @@ public class Main : MonoBehaviour
             else
                 InstantlyGenerateMap();
         }
-        else if (Input.GetKeyDown(KeyCode.Space) && 0 <= currentGeneration && currentGeneration < generations)
+        else if (Input.GetKeyDown(KeyCode.C) && 0 <= currentGeneration && currentGeneration < generations)
         {
             currentGeneration++;
             map = mapGenerator.CellularAutomata(map);
@@ -65,11 +70,14 @@ public class Main : MonoBehaviour
                 var (wallMap, roomsWithWalls, delaunayEdges) = PostProcessMap();
                 map = wallMap;
                 DisplayMap(roomsWithWalls);
-                delaunayTriangulation.DisplayDelaunayEdges(delaunayEdges, cellsParent.transform);
+                
+                delaunayTriangulation.DisplayDelaunayEdges(delaunayEdges, edgesParent.transform);
             }
             else 
                 DisplayMap(null);
         }
+        else if (Input.GetKeyDown(KeyCode.D) && currentGeneration >= generations)
+            delaunayTriangulation.DisplayDelaunayEdges(GetDelaunayEdges(), edgesParent.transform);
     }
 
     private void InstantlyGenerateMap()
@@ -81,7 +89,8 @@ public class Main : MonoBehaviour
         var (wallMap, roomsWithWalls, delaunayEdges) = PostProcessMap();
         map = wallMap;
         DisplayMap(roomsWithWalls);
-        delaunayTriangulation.DisplayDelaunayEdges(delaunayEdges, cellsParent.transform);
+        
+        delaunayTriangulation.DisplayDelaunayEdges(delaunayEdges, edgesParent.transform);
     }
 
     private (MapGenerator, Map) InitiateMap()
@@ -108,9 +117,17 @@ public class Main : MonoBehaviour
         List<Room> roomsWithWalls;
         (wallMap, roomsWithWalls) = mapGenerator.GenerateWalls(roomMap, rooms);
         
-        var delaunayEdges = delaunayTriangulation.GenerateDelaunayTriangulation(roomsWithWalls);
-        // HashSet<Edge> delaunayEdges = null;
+        delaunayTriangulation = new DelaunayTriangulation(roomsWithWalls);
+        var delaunayEdges = GetDelaunayEdges();
+
         return (wallMap, roomsWithWalls, delaunayEdges);
+    }
+    
+    private HashSet<Edge> GetDelaunayEdges()
+    {
+        return pointByPoint 
+            ? delaunayTriangulation.GenerateDelaunayTriangulationPointByPoint() 
+            : delaunayTriangulation.GenerateDelaunayTriangulationInstantly();
     }
 
     private void DisplayMap(List<Room> rooms)

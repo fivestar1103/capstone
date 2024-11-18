@@ -5,7 +5,29 @@ using UnityEngine;
 
 public class DelaunayTriangulation
 {
-    public void DisplayDelaunayEdges(HashSet<Edge> delaunayEdges, Transform parentTransform) 
+    public List<Room> Rooms;
+    public List<RoomCell> MidPoints;
+    private int maxX;
+    private int minX;
+    private int maxY;
+    private int minY;
+    private int width;
+    private int height;
+    
+    private Triangle superTriangle;
+    private int iteration;
+    
+    public List<Triangle> Triangles { get; private set; }
+    
+    public DelaunayTriangulation(List<Room> rooms)
+    {
+        Rooms = rooms;
+        iteration = 0;
+        
+        GetMidPointsInfo();
+    }
+    
+    public void DisplayDelaunayEdges(HashSet<Edge> delaunayEdges, Transform parentTransform)
     {
         var Width = 100;
         var Height = 100;
@@ -13,12 +35,15 @@ public class DelaunayTriangulation
         var xOffset = 40;
         var zOffset = 179;
         var screenTopLeft = new Vector3(-Width * cellSize / 2, Height * cellSize / 2, 0);
-        
+
         if (delaunayEdges == null || !parentTransform) return;
 
         // Create a default material
         Material defaultMaterial = new Material(Shader.Find("Unlit/Color")) { color = Color.green };
 
+        // delete all previous lines
+        DeleteAllEdges(parentTransform);
+        
         foreach (var edge in delaunayEdges)
         {
             // Calculate world positions for the vertices
@@ -53,19 +78,18 @@ public class DelaunayTriangulation
         }
     }
 
-    
-    public HashSet<Edge> GenerateDelaunayTriangulation(List<Room> rooms)
+    public void GetMidPointsInfo()
     {
-        var midPoints = new List<RoomCell>();
-        foreach (var room in rooms)
-            midPoints.Add(room.CenterCell);
-        if (midPoints.Count < 3) return null;
+        MidPoints = new List<RoomCell>();
+        foreach (var room in Rooms)
+            MidPoints.Add(room.CenterCell);
+        if (MidPoints.Count < 3) return;
 
-        var maxX = midPoints[0].X;
-        var minX = midPoints[0].X;
-        var maxY = midPoints[0].Y;
-        var minY = midPoints[0].Y;
-        foreach (var midPoint in midPoints)
+        maxX = MidPoints[0].X;
+        minX = MidPoints[0].X;
+        maxY = MidPoints[0].Y;
+        minY = MidPoints[0].Y;
+        foreach (var midPoint in MidPoints)
         {
             if (midPoint.X > maxX) maxX = midPoint.X;
             if (midPoint.X < minX) minX = midPoint.X;
@@ -73,75 +97,118 @@ public class DelaunayTriangulation
             if (midPoint.Y < minY) minY = midPoint.Y;
         }
 
-        var width = maxX - minX;
-        var height = maxY - minY;
+        width = maxX - minX;
+        height = maxY - minY;
+    }
 
-        var superTriangle = new Triangle(
-            new Vertex(minX - width, minY - height),
-            new Vertex(maxX + width, minY - height),
-            new Vertex((minX + maxX) / 2.0f, maxY + height));
-        var triangles = new List<Triangle> { superTriangle };
-        
+    public void AddPoint(RoomCell midPoint)
+    {
         var trianglesToRemove = new List<Triangle>();
 
-        var iteration = 0;
-        foreach (var midPoint in midPoints)
-        {
-            Debug.Log($"Processing point {iteration}: ({midPoint.X}, {midPoint.Y})");
-
-            var edges = new List<Edge>();
-            
-            trianglesToRemove.Clear();
-            foreach (var triangle in triangles)
-                if (triangle.IsPointInsideCircumcircle(midPoint))
-                {
-                    trianglesToRemove.Add(triangle);
-                    foreach (var edge in triangle.Edges)
-                        edges.Add(edge);
-                }
-
-            Debug.Log($"Iteration {iteration}: Removing {trianglesToRemove.Count} triangles");
-            foreach (var triangle in trianglesToRemove)
-                triangles.Remove(triangle);
-            
-            var uniqueEdges = new List<Edge>();
-            foreach (var edge in edges)
-            {
-                var reversedEdge = new Edge(edge.B, edge.A);
-                if (uniqueEdges.Contains(edge))
-                    uniqueEdges.Remove(edge);
-                else if (uniqueEdges.Contains(reversedEdge))
-                    uniqueEdges.Remove(reversedEdge);
-                else
-                    uniqueEdges.Add(edge);
-            }
-
-            Debug.Log($"Iteration {iteration}: Processing {uniqueEdges.Count} unique edges");
-            foreach (var edge in uniqueEdges)
-                triangles.Add(new Triangle(edge.A, edge.B, new Vertex(midPoint.X, midPoint.Y)));
-            
-            Debug.Log($"Iteration {iteration}: Current triangle count: {triangles.Count}");
-            iteration++;
-        }
-        
-        // remove triangles that contain super triangle vertices
+        var uniqueEdges = new List<Edge>();
         trianglesToRemove.Clear();
-        foreach (var triangle in triangles)
+        
+        Debug.Log($"Triangles before adding point: {Triangles.Count}");
+        foreach (var triangle in Triangles)
+            if (triangle.IsPointInsideCircumcircle(midPoint))
+            {
+                trianglesToRemove.Add(triangle);
+                foreach (var edge in triangle.Edges)
+                {
+                    if (uniqueEdges.Contains(edge))
+                        uniqueEdges.Remove(edge);
+                    else
+                        uniqueEdges.Add(edge);
+                }
+            }
+        foreach (var triangle in trianglesToRemove)
+            Triangles.Remove(triangle);
+            
+        foreach (var edge in uniqueEdges)
+            Triangles.Add(new Triangle(edge.A, edge.B, new Vertex(midPoint.X, midPoint.Y)));
+        Debug.Log($"Triangles after adding point: {Triangles.Count}");
+    }    
+    
+    // remove triangles that contain super triangle vertices
+    public void RemoveTrianglesWithSuperTriangleVertices()
+    {
+        var trianglesToRemove = new List<Triangle>();
+        foreach (var triangle in Triangles) // can be optimized
             foreach (var vertex in superTriangle.Vertices)
                 if (triangle.Vertices.Contains(vertex))
                     trianglesToRemove.Add(triangle);
         foreach (var triangle in trianglesToRemove)
-            triangles.Remove(triangle);
-        Debug.Log($"Triangles: {triangles.Count}");
-
+            Triangles.Remove(triangle);
+        // Debug.Log($"Triangles: {Triangles.Count}");
+    }
+    
+    // get all unique edges
+    public HashSet<Edge> GetDelaunayEdges()
+    {
         var delaunayEdges = new HashSet<Edge>();
-        foreach (var triangle in triangles)
+        foreach (var triangle in Triangles)
             foreach (var edge in triangle.Edges)
-            {
                 delaunayEdges.Add(edge);
-                // Debug.Log($"Edge: {edge.A} - {edge.B}");
-            }
         
-        return delaunayEdges;        
+        return delaunayEdges;
+    }
+    
+    public HashSet<Edge> GenerateDelaunayTriangulationInstantly()
+    {
+        if (iteration != 0)
+            return GetDelaunayEdges();
+        Debug.Log($"Generating Delaunay Triangulation for {MidPoints.Count} midpoints");
+        
+        superTriangle = new Triangle(
+            new Vertex(minX - width, minY - height),
+            new Vertex(maxX + width, minY - height),
+            new Vertex((minX + maxX) / 2.0f, maxY + height));
+        Triangles = new List<Triangle> { superTriangle };
+        
+        foreach (var midPoint in MidPoints)
+            AddPoint(midPoint);
+        
+        iteration = MidPoints.Count;
+
+        RemoveTrianglesWithSuperTriangleVertices();
+
+        return GetDelaunayEdges();     
+    }
+    
+    public HashSet<Edge> GenerateDelaunayTriangulationPointByPoint()
+    {
+        if (iteration == 0)
+        {
+            Debug.Log($"Generating Delaunay Triangulation for {MidPoints.Count} midpoints");
+            
+            superTriangle = new Triangle(
+                new Vertex(minX - width, minY - height),
+                new Vertex(maxX + width, minY - height),
+                new Vertex((minX + maxX) / 2.0f, maxY + height));
+            Triangles = new List<Triangle> { superTriangle };
+            
+            var midPoint = MidPoints[iteration];
+            Debug.Log($"Adding point #{iteration}: {midPoint}");
+            AddPoint(midPoint);
+            iteration++;
+        }
+        else if (iteration < MidPoints.Count)
+        {
+            var midPoint = MidPoints[iteration];
+            Debug.Log($"Adding point #{iteration}: {midPoint}");
+            AddPoint(midPoint);
+            iteration++;
+            
+            if (iteration == MidPoints.Count)
+                RemoveTrianglesWithSuperTriangleVertices();
+        }
+        
+        return GetDelaunayEdges();
+    }
+    
+    public void DeleteAllEdges(Transform parentTransform)
+    {
+        foreach (Transform child in parentTransform)
+            GameObject.Destroy(child.gameObject);
     }
 }

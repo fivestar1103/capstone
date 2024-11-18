@@ -45,15 +45,6 @@ public class Triangle
         //           $"Result: " + ret);
         return ret;
     }
-    
-    public override int GetHashCode()
-    {
-        // Order-independent hash combining all vertices
-        var hash = A.GetHashCode();
-        hash ^= B.GetHashCode();
-        hash ^= C.GetHashCode();
-        return hash;
-    }
 
     public Circle CreateCircumcircle()
     {

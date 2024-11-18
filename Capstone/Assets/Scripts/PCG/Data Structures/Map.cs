@@ -13,7 +13,5 @@ public class Map
         for (var y = 0; y < Height; y++)
             for (var x = 0; x < Width; x++)
                 Cells[y, x] = new Cell(x, y);
-        
-        
     }
 }
