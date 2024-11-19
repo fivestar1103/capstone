@@ -1,7 +1,9 @@
+using UnityEngine;
+
 public class Edge
 {
-    public Vertex A { get; }
-    public Vertex B { get; }
+    public Vertex A { get; set; }
+    public Vertex B { get; set; }
     
     public Edge(Vertex a, Vertex b)
     {
@@ -16,6 +18,11 @@ public class Edge
     
         return (A.Equals(other.A) && B.Equals(other.B)) || 
                (A.Equals(other.B) && B.Equals(other.A));
+    }
+    
+    public override int GetHashCode()
+    {
+        return A.GetHashCode() ^ B.GetHashCode();
     }
 
     public override string ToString()

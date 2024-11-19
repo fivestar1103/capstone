@@ -33,6 +33,9 @@ public class Main : MonoBehaviour
     int currentGeneration = -1;
     
     DelaunayTriangulation delaunayTriangulation;
+    HashSet<Edge> delaunayEdges;
+
+    private bool IsMinimumSpanningTreeDone;
     
     /*
      * 100, 100, 0.15, 6, 3, 1, 30
@@ -64,6 +67,7 @@ public class Main : MonoBehaviour
         else if (Input.GetKeyDown(KeyCode.C) && 0 <= currentGeneration && currentGeneration < generations)
         {
             currentGeneration++;
+            Debug.Log($"Generation {currentGeneration}");
             map = mapGenerator.CellularAutomata(map);
             if (currentGeneration == generations)
             {
@@ -77,7 +81,22 @@ public class Main : MonoBehaviour
                 DisplayMap(null);
         }
         else if (Input.GetKeyDown(KeyCode.D) && currentGeneration >= generations)
-            delaunayTriangulation.DisplayDelaunayEdges(GetDelaunayEdges(), edgesParent.transform);
+        {
+            GetDelaunayEdges();
+            delaunayTriangulation.DisplayDelaunayEdges(delaunayEdges, edgesParent.transform);
+            IsMinimumSpanningTreeDone = false;
+        }
+        else if (Input.GetKeyDown(KeyCode.M) &&
+                 currentGeneration >= generations &&
+                 delaunayTriangulation.isDone &&
+                 !IsMinimumSpanningTreeDone)
+        {
+            var minimumSpanningTree = new MinimumSpanningTree();
+            var minimumSpanningTreeEdges = minimumSpanningTree.GenerateMinimumSpanningTree(
+                delaunayEdges, delaunayTriangulation.MidPoints);
+            delaunayTriangulation.DeleteNonMinimumSpanningTreeEdges(minimumSpanningTreeEdges, edgesParent.transform);
+            IsMinimumSpanningTreeDone = true;
+        }
     }
 
     private void InstantlyGenerateMap()
@@ -91,6 +110,14 @@ public class Main : MonoBehaviour
         DisplayMap(roomsWithWalls);
         
         delaunayTriangulation.DisplayDelaunayEdges(delaunayEdges, edgesParent.transform);
+        
+        if (delaunayTriangulation.isDone)
+        {
+            var minimumSpanningTree = new MinimumSpanningTree();
+            var minimumSpanningTreeEdges = minimumSpanningTree.GenerateMinimumSpanningTree(delaunayEdges,
+                delaunayTriangulation.MidPoints);
+            delaunayTriangulation.DeleteNonMinimumSpanningTreeEdges(minimumSpanningTreeEdges, edgesParent.transform);
+        }
     }
 
     private (MapGenerator, Map) InitiateMap()
@@ -118,14 +145,14 @@ public class Main : MonoBehaviour
         (wallMap, roomsWithWalls) = mapGenerator.GenerateWalls(roomMap, rooms);
         
         delaunayTriangulation = new DelaunayTriangulation(roomsWithWalls);
-        var delaunayEdges = GetDelaunayEdges();
+        GetDelaunayEdges();
 
         return (wallMap, roomsWithWalls, delaunayEdges);
     }
     
-    private HashSet<Edge> GetDelaunayEdges()
+    private void GetDelaunayEdges()
     {
-        return pointByPoint 
+        delaunayEdges = pointByPoint 
             ? delaunayTriangulation.GenerateDelaunayTriangulationPointByPoint() 
             : delaunayTriangulation.GenerateDelaunayTriangulationInstantly();
     }

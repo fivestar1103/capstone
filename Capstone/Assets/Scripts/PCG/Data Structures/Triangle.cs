@@ -79,5 +79,10 @@ public class Triangle
                (A.Equals(other.C) && B.Equals(other.A) && C.Equals(other.B)) ||
                (A.Equals(other.C) && B.Equals(other.B) && C.Equals(other.A));
     }
+    
+    public override int GetHashCode()
+    {
+        return A.GetHashCode() ^ B.GetHashCode() ^ C.GetHashCode();
+    }
 
 }

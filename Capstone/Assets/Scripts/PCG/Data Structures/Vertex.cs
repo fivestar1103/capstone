@@ -20,6 +20,11 @@ public class Vertex
                Mathf.Approximately(Y, other.Y);
     }
 
+    public override int GetHashCode()
+    {
+        return X.GetHashCode() ^ Y.GetHashCode();
+    }
+    
     public override string ToString()
     {
         return $"({X}, {Y})";

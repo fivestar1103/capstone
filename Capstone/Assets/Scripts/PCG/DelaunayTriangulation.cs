@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Linq;
 using PCG.Data_Structures;
 using UnityEngine;
 
@@ -16,8 +15,9 @@ public class DelaunayTriangulation
     
     private Triangle superTriangle;
     private int iteration;
-    
+    public bool isDone;
     public List<Triangle> Triangles { get; private set; }
+    private readonly Material defaultMaterial = new(Shader.Find("Unlit/Color")) { color = Color.green };
     
     public DelaunayTriangulation(List<Room> rooms)
     {
@@ -25,57 +25,6 @@ public class DelaunayTriangulation
         iteration = 0;
         
         GetMidPointsInfo();
-    }
-    
-    public void DisplayDelaunayEdges(HashSet<Edge> delaunayEdges, Transform parentTransform)
-    {
-        var Width = 100;
-        var Height = 100;
-        var cellSize = 2;
-        var xOffset = 40;
-        var zOffset = 179;
-        var screenTopLeft = new Vector3(-Width * cellSize / 2, Height * cellSize / 2, 0);
-
-        if (delaunayEdges == null || !parentTransform) return;
-
-        // Create a default material
-        Material defaultMaterial = new Material(Shader.Find("Unlit/Color")) { color = Color.green };
-
-        // delete all previous lines
-        DeleteAllEdges(parentTransform);
-        
-        foreach (var edge in delaunayEdges)
-        {
-            // Calculate world positions for the vertices
-            Vector3 startPosition = screenTopLeft +
-                                    new Vector3(xOffset + edge.A.X * cellSize,
-                                        -edge.A.Y * cellSize,
-                                        zOffset);
-            Vector3 endPosition = screenTopLeft +
-                                  new Vector3(xOffset + edge.B.X * cellSize,
-                                      -edge.B.Y * cellSize,
-                                      zOffset);
-
-            // Create a new GameObject for the line
-            GameObject lineObject = new GameObject($"Line_{edge.A}_{edge.B}");
-            lineObject.transform.parent = parentTransform;
-
-            // Add LineRenderer component
-            LineRenderer lineRenderer = lineObject.AddComponent<LineRenderer>();
-
-            // Configure LineRenderer properties
-            lineRenderer.material = defaultMaterial;
-            lineRenderer.startColor = Color.green;
-            lineRenderer.endColor = Color.green;
-            lineRenderer.startWidth = 0.5f;
-            lineRenderer.endWidth = 0.5f;
-            lineRenderer.positionCount = 2;
-            lineRenderer.useWorldSpace = true;
-
-            // Set the positions of the line
-            lineRenderer.SetPosition(0, startPosition);
-            lineRenderer.SetPosition(1, endPosition);
-        }
     }
 
     public void GetMidPointsInfo()
@@ -108,7 +57,7 @@ public class DelaunayTriangulation
         var uniqueEdges = new List<Edge>();
         trianglesToRemove.Clear();
         
-        Debug.Log($"Triangles before adding point: {Triangles.Count}");
+        // Debug.Log($"Triangles before adding point: {Triangles.Count}");
         foreach (var triangle in Triangles)
             if (triangle.IsPointInsideCircumcircle(midPoint))
             {
@@ -126,7 +75,7 @@ public class DelaunayTriangulation
             
         foreach (var edge in uniqueEdges)
             Triangles.Add(new Triangle(edge.A, edge.B, new Vertex(midPoint.X, midPoint.Y)));
-        Debug.Log($"Triangles after adding point: {Triangles.Count}");
+        // Debug.Log($"Triangles after adding point: {Triangles.Count}");
     }    
     
     // remove triangles that contain super triangle vertices
@@ -171,6 +120,7 @@ public class DelaunayTriangulation
         iteration = MidPoints.Count;
 
         RemoveTrianglesWithSuperTriangleVertices();
+        isDone = true;
 
         return GetDelaunayEdges();     
     }
@@ -191,6 +141,8 @@ public class DelaunayTriangulation
             Debug.Log($"Adding point #{iteration}: {midPoint}");
             AddPoint(midPoint);
             iteration++;
+            
+            isDone = false;
         }
         else if (iteration < MidPoints.Count)
         {
@@ -200,7 +152,10 @@ public class DelaunayTriangulation
             iteration++;
             
             if (iteration == MidPoints.Count)
+            {
                 RemoveTrianglesWithSuperTriangleVertices();
+                isDone = true;
+            }
         }
         
         return GetDelaunayEdges();
@@ -210,5 +165,56 @@ public class DelaunayTriangulation
     {
         foreach (Transform child in parentTransform)
             GameObject.Destroy(child.gameObject);
+    }
+    
+    public void DeleteNonMinimumSpanningTreeEdges(List<Edge> minimumSpanningTreeEdges, Transform parentTransform)
+    {
+        foreach (Transform child in parentTransform)
+        {
+            var edge = child.GetComponent<EdgeMonoBehaviour>().edge;
+            if (!minimumSpanningTreeEdges.Contains(edge))
+                child.gameObject.SetActive(false);
+        }
+    }
+    
+    public void DisplayDelaunayEdges(HashSet<Edge> delaunayEdges, Transform parentTransform)
+    {
+        var Width = 100;
+        var Height = 100;
+        var cellSize = 2;
+        var xOffset = 40;
+        var zOffset = 179;
+        var screenTopLeft = new Vector3(-Width * cellSize / 2, Height * cellSize / 2, 0);
+
+        if (delaunayEdges == null || !parentTransform) return;
+
+        DeleteAllEdges(parentTransform);
+        
+        foreach (var edge in delaunayEdges)
+        {
+            var startPosition = screenTopLeft +
+                                new Vector3(xOffset + edge.A.X * cellSize, -edge.A.Y * cellSize, zOffset);
+            var endPosition = screenTopLeft +
+                              new Vector3(xOffset + edge.B.X * cellSize, -edge.B.Y * cellSize, zOffset);
+
+            var lineObject = new GameObject($"Line_{edge.A}_{edge.B}");
+            lineObject.transform.parent = parentTransform;
+            var lineRenderer = lineObject.AddComponent<LineRenderer>();
+
+            lineRenderer.material = defaultMaterial;
+            lineRenderer.startColor = Color.green;
+            lineRenderer.endColor = Color.green;
+            lineRenderer.startWidth = 0.5f;
+            lineRenderer.endWidth = 0.5f;
+            lineRenderer.positionCount = 2;
+            lineRenderer.useWorldSpace = true;
+
+            lineRenderer.SetPosition(0, startPosition);
+            lineRenderer.SetPosition(1, endPosition);
+            
+            // add an Edge component to the line object
+            var edgeComponent = lineObject.AddComponent<EdgeMonoBehaviour>();
+            edgeComponent.edge = edge;
+        }
     }
 }
