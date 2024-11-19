@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 8720752020741279585}
   m_Layer: 0
   m_Name: TempSkill3
-  m_TagString: Untagged
+  m_TagString: PlayerAttack
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -121,7 +121,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 652a0e2f39e0dbb4797fb685be20a833, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lifeTime: 2
 --- !u!54 &8720752020741279585
 Rigidbody:
   m_ObjectHideFlags: 0

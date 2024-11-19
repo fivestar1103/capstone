@@ -11,12 +11,10 @@ public class MonsterSpawnPoint : MonoBehaviour
     [SerializeField]
     private float spawnRadius;
 
-    private int curMonsterNum = 0;
-    public int CurMonsterNum { get { return curMonsterNum; } }
-
     IEnumerator MonsterSpawn()
     {
-        while(curMonsterNum < 3)    // 임시
+        // while (PlayManager.CurMonseterNum < PlayManager.TotalMonsterNum)    
+        while (PlayManager.CurMonseterNum < 10) // 임시
         {
             Vector3 spawnPosition = GetRandomPositionWithinRadius();
 
@@ -26,7 +24,7 @@ public class MonsterSpawnPoint : MonoBehaviour
             // Instantiate(mob, transform.position, Quaternion.identity);
 
             Instantiate(monster, spawnPosition, Quaternion.identity);
-            curMonsterNum++;
+            PlayManager.CurMonseterNum++;
 
             yield return new WaitForSeconds(spawnTime);
         }

@@ -12,18 +12,24 @@ public partial class PlayerController
     private GameObject attackObject;
 
     [SerializeField]
-    private float duration = 10f;
+    private float buffDuration = 10f;
 
     private PlayerAttack preparedSkill;   // 주문을 말한 후 생성된 스킬 오브젝트
 
     public ESkill CurSkill { get; private set; }
 
+    private bool canAttack = true;
+    public bool IsBuffApplied { get; private set; }
     public bool IsDrain { get; private set; }
 
     public void PlayerAttack()
     {
-        if (AttackTrigger) 
-            UseSkill();
+        if (AttackTrigger && canAttack)
+        {
+            // Test Calling
+            PrepareSkill(ValueDefinition.SPELL2, EEmotion.EDisgust);
+            StartCoroutine(UseSkill());
+        }
     }
 
     // 현재 구현 중인 부분
@@ -46,22 +52,27 @@ public partial class PlayerController
         preparedSkill.transform.localRotation = Quaternion.identity;
     }
 
-    private void UseSkill()
+    IEnumerator UseSkill()
     {
+        canAttack = false;
+
         Rigidbody rb = preparedSkill.GetComponent<Rigidbody>();
         if (rb != null)
         {
             preparedSkill.transform.SetParent(null);
             rb.isKinematic = false;
-            rb.velocity = attackPos.forward * AttackSpeed;
+            rb.velocity = attackPos.forward * 10;   // 수치 조정 필요
         }
-
-        if ((int)preparedSkill.StatusEffect >= 0 && (int)preparedSkill.StatusEffect <= 2) // 버프인 경우
+        if (((int)preparedSkill.StatusEffect >= 0 && (int)preparedSkill.StatusEffect <= 2) && !IsBuffApplied) 
             StartCoroutine(ApplyBuff(preparedSkill.StatusEffect));
+
+        yield return new WaitForSeconds(AttackSpeed);
+        canAttack = true;
     }
 
     IEnumerator ApplyBuff(EStatusEffect _buff)
     {
+        IsBuffApplied = true;
         float elapsedTime = 0f;
 
         if (_buff == EStatusEffect.ATTACK_UP)        // 공격력 증가
@@ -69,9 +80,9 @@ public partial class PlayerController
             Attack *= 1.5f;
             
         }
-        else if (_buff == EStatusEffect.ATTACK_SPEED_UP) // 공속 증가
+        else if (_buff == EStatusEffect.ATTACK_SPEED_UP) // 공속 증가(== 공격 쿨타임 감소)
         {
-            AttackSpeed *= 1.5f;
+            AttackSpeed /= 1.5f;
            
         }
         else if (_buff == EStatusEffect.DRAIN)   // 피흡
@@ -79,7 +90,7 @@ public partial class PlayerController
             IsDrain = true;
         }
 
-        while (elapsedTime < duration)
+        while (elapsedTime < buffDuration)
         {
             elapsedTime += Time.deltaTime;
             yield return null;
@@ -95,7 +106,7 @@ public partial class PlayerController
                 Attack /= 1.5f;
                 break;
             case EStatusEffect.ATTACK_SPEED_UP:
-                AttackSpeed /= 1.5f;
+                AttackSpeed *= 1.5f;
                 break;
             case EStatusEffect.DRAIN:
                 IsDrain = false;
@@ -103,6 +114,7 @@ public partial class PlayerController
             default:
                 return;
         }
+        IsBuffApplied = false;
     }
 
     public override void GetHit(float _damage)

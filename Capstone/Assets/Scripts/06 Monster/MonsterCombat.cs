@@ -6,19 +6,22 @@ public partial class MonsterScript
 {
     [SerializeField]
     private float duration = 3f; // cc기 지속시간
+    [SerializeField]
+    private float dottedDamage = 5f;
 
+    public bool IsDebuffed { get; private set; }
     public bool IsDotted { get; private set; }  // 도트 데미지 여부
 
     public override void GetHit(float _damage)
     {
         curHP -= _damage;
+        HPbar.SetHPValue(curHP);
         Debug.Log(curHP);
 
         if (curHP <= 0)
         {
             Destroy(this.gameObject);
-            PlayManager.huntedMonsterNum++;
-            // Etc.
+            PlayManager.MonsterNum++;   // 퇴치한 몬스터 수 증가
         }
     }
 
@@ -44,9 +47,11 @@ public partial class MonsterScript
     // 지속시간 동안 상태이상 적용
     IEnumerator ApplyCCType(EStatusEffect _ccType)
     {
+        IsDebuffed = true; 
+
         if(_ccType == EStatusEffect.SLOW) // 둔화
         {
-            this.Speed *= 0.5f;
+            monsterNav.speed *= 0.5f;
         }
         else if (_ccType == EStatusEffect.DOT_DAMAGE) // 도트뎀
         {
@@ -59,7 +64,7 @@ public partial class MonsterScript
             StopCoroutine(TempAttack());
             IsAttack = false;
         }
-        else if(_ccType == EStatusEffect.NERF_STAT)
+        else if(_ccType == EStatusEffect.NERF_STAT) // 공격력 & 방어력 감소
         {
             this.Attack *= 0.7f;
             this.Defense *= 0.7f;
@@ -72,6 +77,8 @@ public partial class MonsterScript
             elapsedTime += Time.deltaTime;
             yield return null;
         }
+
+        IsDebuffed = false;
         RemoveCC(_ccType);
     }
 
@@ -81,13 +88,13 @@ public partial class MonsterScript
         switch(_ccType)
         {
             case EStatusEffect.SLOW:
-                this.Speed /= 0.5f;
+                monsterNav.speed = Speed;
                 break;
             case EStatusEffect.DOT_DAMAGE:
                 IsDotted = false;
                 break;
             case EStatusEffect.STUN:
-                this.monsterNav.isStopped = false;
+                monsterNav.isStopped = false;
                 StartCoroutine(TempAttack());
                 IsAttack = true;
                 break;
@@ -104,7 +111,7 @@ public partial class MonsterScript
     {
         while(IsDotted)
         {
-            curHP -= 5f;
+            curHP -= dottedDamage;
             yield return new WaitForSeconds(1.0f);
         }
     }

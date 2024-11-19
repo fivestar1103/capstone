@@ -59,8 +59,5 @@ public partial class PlayerController : ObjectScript
 
         playerRB = GetComponent<Rigidbody>();
         playerCam = GetComponentInChildren<PlayerCamera>();
-
-        // Test Calling
-        PrepareSkill(ValueDefinition.SPELL1, EEmotion.ENeutral);
     }
 }
