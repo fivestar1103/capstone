@@ -1354,8 +1354,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b4200f50cf41b477a8d5a28547c4d398, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  stepByStep: 1
+  stepByStep: 0
   pointByPoint: 1
+  vertexByVertex: 0
   cellsParent: {fileID: 1508945198}
   cellPrototypePrefab: {fileID: 6853610098588288013, guid: 39ab88549b9ae4cb8a1930819f66226b, type: 3}
   roomInfoPanelParent: {fileID: 1431100680}
@@ -1542,7 +1543,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 696363864}
   m_Direction: 0
   m_Value: 1
-  m_Size: 0.9999999
+  m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:

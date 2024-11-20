@@ -9,7 +9,8 @@ using UnityEngine.Serialization;
 public class Main : MonoBehaviour
 {
     [Tooltip("Step by step generation of the map")] public bool stepByStep; 
-    [Tooltip("Step by step generation of the Delaunay triangulation")] public bool pointByPoint; 
+    [Tooltip("Step by step generation of the Delaunay triangulation")] public bool pointByPoint;
+    [Tooltip("Click to generate minimum spanning tree")] public bool vertexByVertex;
     
     public GameObject cellsParent;
     public GameObject cellPrototypePrefab;
@@ -35,7 +36,7 @@ public class Main : MonoBehaviour
     DelaunayTriangulation delaunayTriangulation;
     HashSet<Edge> delaunayEdges;
 
-    private bool IsMinimumSpanningTreeDone;
+    private bool isMinimumSpanningTreeDone;
     
     /*
      * 100, 100, 0.15, 6, 3, 1, 30
@@ -71,7 +72,8 @@ public class Main : MonoBehaviour
             map = mapGenerator.CellularAutomata(map);
             if (currentGeneration == generations)
             {
-                var (wallMap, roomsWithWalls, delaunayEdges) = PostProcessMap();
+                isMinimumSpanningTreeDone = false;
+                var (wallMap, roomsWithWalls) = PostProcessMap();
                 map = wallMap;
                 DisplayMap(roomsWithWalls);
                 
@@ -84,40 +86,53 @@ public class Main : MonoBehaviour
         {
             GetDelaunayEdges();
             delaunayTriangulation.DisplayDelaunayEdges(delaunayEdges, edgesParent.transform);
-            IsMinimumSpanningTreeDone = false;
+            isMinimumSpanningTreeDone = false;
+            if (delaunayTriangulation.isDone && !vertexByVertex)
+            {
+                var minimumSpanningTree = new MinimumSpanningTree();
+                var minimumSpanningTreeEdges = minimumSpanningTree.GenerateMinimumSpanningTree(
+                    delaunayEdges, delaunayTriangulation.MidPoints);
+                delaunayTriangulation.DeleteNonMinimumSpanningTreeEdges(minimumSpanningTreeEdges,
+                    edgesParent.transform);
+                isMinimumSpanningTreeDone = true;
+            }
         }
-        else if (Input.GetKeyDown(KeyCode.M) &&
-                 currentGeneration >= generations &&
-                 delaunayTriangulation.isDone &&
-                 !IsMinimumSpanningTreeDone)
+        else if (Input.GetKeyDown(KeyCode.M))
         {
-            var minimumSpanningTree = new MinimumSpanningTree();
-            var minimumSpanningTreeEdges = minimumSpanningTree.GenerateMinimumSpanningTree(
-                delaunayEdges, delaunayTriangulation.MidPoints);
-            delaunayTriangulation.DeleteNonMinimumSpanningTreeEdges(minimumSpanningTreeEdges, edgesParent.transform);
-            IsMinimumSpanningTreeDone = true;
+            // Debug.Log($"currentGeneration: {currentGeneration}, generations: {generations}, delaunayTriangulation.isDone: {delaunayTriangulation.isDone}, IsMinimumSpanningTreeDone: {isMinimumSpanningTreeDone}");
+            if (currentGeneration >= generations &&
+                delaunayTriangulation.isDone &&
+                !isMinimumSpanningTreeDone)
+            {
+                var minimumSpanningTree = new MinimumSpanningTree();
+                var minimumSpanningTreeEdges = minimumSpanningTree.GenerateMinimumSpanningTree(
+                    delaunayEdges, delaunayTriangulation.MidPoints);
+                delaunayTriangulation.DeleteNonMinimumSpanningTreeEdges(minimumSpanningTreeEdges,
+                    edgesParent.transform);
+                isMinimumSpanningTreeDone = true;
+            }
         }
     }
 
     private void InstantlyGenerateMap()
     {
+        isMinimumSpanningTreeDone = false;
         (mapGenerator, map) = InitiateMap();
         currentGeneration = generations;
         for (var i = 0; i < generations; i++)
             map = mapGenerator.CellularAutomata(map);
-        var (wallMap, roomsWithWalls, delaunayEdges) = PostProcessMap();
+        var (wallMap, roomsWithWalls) = PostProcessMap();
         map = wallMap;
         DisplayMap(roomsWithWalls);
         
         delaunayTriangulation.DisplayDelaunayEdges(delaunayEdges, edgesParent.transform);
+
+        if (vertexByVertex) return;
         
-        if (delaunayTriangulation.isDone)
-        {
-            var minimumSpanningTree = new MinimumSpanningTree();
-            var minimumSpanningTreeEdges = minimumSpanningTree.GenerateMinimumSpanningTree(delaunayEdges,
-                delaunayTriangulation.MidPoints);
-            delaunayTriangulation.DeleteNonMinimumSpanningTreeEdges(minimumSpanningTreeEdges, edgesParent.transform);
-        }
+        var minimumSpanningTree = new MinimumSpanningTree();
+        var minimumSpanningTreeEdges = minimumSpanningTree.GenerateMinimumSpanningTree(delaunayEdges,
+            delaunayTriangulation.MidPoints);
+        delaunayTriangulation.DeleteNonMinimumSpanningTreeEdges(minimumSpanningTreeEdges, edgesParent.transform);
     }
 
     private (MapGenerator, Map) InitiateMap()
@@ -134,7 +149,7 @@ public class Main : MonoBehaviour
         return (mapGenerator, rawMap);
     }
     
-    private (Map, List<Room>, HashSet<Edge>) PostProcessMap()
+    private (Map, List<Room>) PostProcessMap()
     {
         Map roomMap;
         List<Room> rooms;
@@ -147,7 +162,7 @@ public class Main : MonoBehaviour
         delaunayTriangulation = new DelaunayTriangulation(roomsWithWalls);
         GetDelaunayEdges();
 
-        return (wallMap, roomsWithWalls, delaunayEdges);
+        return (wallMap, roomsWithWalls);
     }
     
     private void GetDelaunayEdges()

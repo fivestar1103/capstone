@@ -144,7 +144,7 @@ public class DelaunayTriangulation
             
             isDone = false;
         }
-        else if (iteration < MidPoints.Count)
+        else if (iteration <= MidPoints.Count && !isDone)
         {
             var midPoint = MidPoints[iteration];
             Debug.Log($"Adding point #{iteration}: {midPoint}");

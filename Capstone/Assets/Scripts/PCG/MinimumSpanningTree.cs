@@ -47,6 +47,7 @@ public class MinimumSpanningTree
                     minDistance = distanceSquared[vertex];
                     minVertex = vertex;
                 }
+            if (minVertex == null) break;
             
             visitedVertices.Add(minVertex);
             if (parent[minVertex] != null)
