@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PressureSwitchScript : MonoBehaviour
 {
-    [SerializeField] private DoorScript Door;
+    [SerializeField] private PSDoorScript Door;
 
     private void OnCollisionEnter(Collision collision)
     {

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting.Antlr3.Runtime;
 using UnityEngine;
 
-public class DoorScript : MonoBehaviour
+public class PSDoorScript : MonoBehaviour
 {
     [SerializeField] private GameObject doorObject;
 
