@@ -13,8 +13,7 @@ public class MonsterSpawnPoint : MonoBehaviour
 
     IEnumerator MonsterSpawn()
     {
-        // while (PlayManager.CurMonseterNum < PlayManager.TotalMonsterNum)    
-        while (PlayManager.CurMonseterNum < 10) // юс╫ц
+        while (PlayManager.CurMonsterNum < PlayManager.TotalMonsterNum)    
         {
             Vector3 spawnPosition = GetRandomPositionWithinRadius();
 
@@ -24,7 +23,7 @@ public class MonsterSpawnPoint : MonoBehaviour
             // Instantiate(mob, transform.position, Quaternion.identity);
 
             Instantiate(monster, spawnPosition, Quaternion.identity);
-            PlayManager.CurMonseterNum++;
+            PlayManager.CurMonsterNum++;
 
             yield return new WaitForSeconds(spawnTime);
         }

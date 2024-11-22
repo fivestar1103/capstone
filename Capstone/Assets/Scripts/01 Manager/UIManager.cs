@@ -17,6 +17,10 @@ public class UIManager : MonoBehaviour
     private SupporterUI support;
     public void ToggleSupporterUI(bool _toggle) { support.ToggleSupporterUI(_toggle); }
 
+    [SerializeField]
+    private HuntingUI huntingInfo;
+    public void SetMonsterNum() { huntingInfo.SetMonsterNum(); }
+
     private HPbar hpBar;
     public void SetMaxHP(float _hp) { hpBar.SetMaxHP(_hp); }
     public void SetCurHP(float _hp) { hpBar.SetCurHP(_hp); }

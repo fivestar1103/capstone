@@ -1,18 +1,20 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class HuntingUI : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    [SerializeField]
+    private TextMeshProUGUI monsterNum;
+
+    public void SetMonsterNum()
     {
-        
+        monsterNum.text = $"{PlayManager.MonsterNum} / {PlayManager.TotalMonsterNum}";
     }
 
-    // Update is called once per frame
-    void Update()
+    private void Start()
     {
-        
+        monsterNum.text = $"{PlayManager.MonsterNum} / {PlayManager.TotalMonsterNum}";
     }
 }

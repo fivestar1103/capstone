@@ -21,9 +21,12 @@ public class HPbar : MonoBehaviour
     public void SetCurHP(float _hp)
     {
         hpBar.value = _hp;
-        HPInfo.text = $"{_hp:F0} / {MaxHP:F0}";
-
         if (hpBar.value <= 0.3f) HPInfo.color = Color.red;
+
+        if (_hp >= 0)
+            HPInfo.text = $"{_hp:F0} / {MaxHP:F0}";
+        else
+            HPInfo.text = $"0 / {MaxHP:F0}";
     }
 
     public void SetComps()

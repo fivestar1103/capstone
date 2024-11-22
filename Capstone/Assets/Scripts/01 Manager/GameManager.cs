@@ -1,11 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class GameManager : MonoBehaviour
 {
-    private static GameManager Inst;
+    public static GameManager Inst { get; private set; }
 
     // 입력
     private InputManager inputManager;
@@ -22,6 +23,38 @@ public class GameManager : MonoBehaviour
     public static SkillManager SkillManager { get { return Inst.skillManager; } }
     public static PlayerAttack[] Skills { get { return SkillManager.Skills; } }
 
+    // 전투
+    private List<MonsterScript> monsters = new List<MonsterScript>();
+    private void HandlePlayerDeath()    // 플레이어가 죽었을 때 시스템에서 처리할 기능
+    {
+        Debug.Log("Death!!");
+        NotifyMonsters();
+    }
+    public void RegisterMonster(MonsterScript monster)
+    {
+        if (!monsters.Contains(monster))
+        {
+            monsters.Add(monster);
+            Debug.Log($"{monster.name} registered to GameManager.");
+        }
+    }
+    public void UnregisterMonster(MonsterScript monster)
+    {
+        if (monsters.Contains(monster))
+        {
+            monsters.Remove(monster);
+            Debug.Log($"{monster.name} unregistered from GameManager.");
+        }
+    }
+    public void NotifyMonsters()    // 플레이어가 죽었을 때 몬스터 단에서 처리할 기능
+    {
+        Debug.Log("Notifying all monsters about player's death...");
+        foreach (var monster in monsters)
+        {
+            monster.ReactToPlayerDeath();
+        }
+    }
+
     private void SetSubManagers()
     {
         inputManager = GetComponent<InputManager>();
@@ -36,5 +69,15 @@ public class GameManager : MonoBehaviour
         Inst = this;
         DontDestroyOnLoad(gameObject);
         SetSubManagers();
+    }
+
+    private void OnEnable()
+    {
+        PlayerController.OnPlayerDeath += HandlePlayerDeath;
+    }
+
+    private void OnDisable()
+    {
+        PlayerController.OnPlayerDeath -= HandlePlayerDeath;
     }
 }

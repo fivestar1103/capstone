@@ -122,10 +122,10 @@ public partial class PlayerController
         curHP -= _damage;
         PlayManager.SetPlayerCurHP(curHP);
 
-        if (curHP < 0)
+        if (curHP <= 0 && !isDead)
         {
-            // »ç¸Á ·ÎÁ÷
-            // Etc.
+            isDead = true;
+            PlayerDie();
         }
     }
 

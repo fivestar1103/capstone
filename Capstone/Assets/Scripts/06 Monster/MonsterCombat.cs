@@ -22,6 +22,7 @@ public partial class MonsterScript
         {
             Destroy(this.gameObject);
             PlayManager.MonsterNum++;   // 퇴치한 몬스터 수 증가
+            PlayManager.SetMonsterNum();
         }
     }
 

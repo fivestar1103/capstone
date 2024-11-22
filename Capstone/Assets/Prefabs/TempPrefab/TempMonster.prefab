@@ -269,7 +269,7 @@ MonoBehaviour:
   attack: 10
   attackSpeed: 0
   defense: 0
-  speed: 5
+  speed: 3
   duration: 3
   dottedDamage: 5
   monsterBullet: {fileID: 1141520411253339737, guid: f157c532793f65a438c8301664fe9b28, type: 3}
@@ -277,6 +277,7 @@ MonoBehaviour:
   PATROLRadius: 4
   attackDist: 2
   traceDist: 10
+  minMonsterDistance: 2
 --- !u!195 &798134420473316964
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -287,7 +288,7 @@ NavMeshAgent:
   m_Enabled: 1
   m_AgentTypeID: 0
   m_Radius: 0.5
-  m_Speed: 3.5
+  m_Speed: 3
   m_Acceleration: 8
   avoidancePriority: 50
   m_AngularSpeed: 120
@@ -578,4 +579,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a3c0ee99c6139e545aafba287c922fb4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cam: {fileID: 0}

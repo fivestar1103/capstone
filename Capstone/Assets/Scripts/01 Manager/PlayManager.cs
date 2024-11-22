@@ -33,8 +33,8 @@ public class PlayManager : MonoBehaviour
 
     // 몬스터 관련
     public static MonsterSpawnPoint[] spawnPoints;      // 몬스터 스폰 포인트
-    public static int TotalMonsterNum;                  // 사냥해야 하는 몬스터 수
-    public static int CurMonseterNum;                   // 현재 소환된 몬스터 수
+    public static int TotalMonsterNum = 10;             // 사냥해야 하는 몬스터 수
+    public static int CurMonsterNum;                    // 현재 소환된 몬스터 수
     public static int MonsterNum;                       // 사냥당한 몬스터 수
 
     // UI
@@ -43,6 +43,7 @@ public class PlayManager : MonoBehaviour
     public static bool IsDialogueOpened { get { return UIManager.IsDialogueOpened; } }   // 대화창 열렸는지
     public static void OpenDialogue(NPCScript _npc) { UIManager.OpenDialogue(_npc); }    // 대화창 열기
     public static void CloseDialogue() { UIManager.CloseDialogue(); }                    // 대화창 닫기
+    public static void SetMonsterNum() { UIManager.SetMonsterNum(); }                    // 전투 시 몬스터 수 정보 
 
     public static void ToggleSupporterUI(bool _toggle) { UIManager.ToggleSupporterUI(_toggle); }
     public static void SetPlayerMaxHP(float _hp) { UIManager.SetMaxHP(_hp); }    // 체력바 최대 체력

@@ -20,6 +20,8 @@ public partial class MonsterScript
     private float attackDist = 10.0f;
     [SerializeField]
     private float traceDist = 20.0f;
+    [SerializeField]
+    private float minMonsterDistance = 2.0f;
 
     private EMonsterState state = EMonsterState.PATROL;
 
@@ -31,7 +33,9 @@ public partial class MonsterScript
         float distance = Vector3.Distance(PlayManager.PlayerPos, transform.position);
 
         if (GameManager.ControlMode == EControlMode.UI_CONTROL)
+        {
             state = EMonsterState.PAUSED;
+        }
         else if(GameManager.ControlMode == EControlMode.FIRST_PERSON)
         {
             if (distance <= attackDist)
@@ -50,18 +54,19 @@ public partial class MonsterScript
         switch (state)
         {
             case EMonsterState.PAUSED:
+                monsterNav.isStopped = true;
+                StopAllCoroutines();
                 return;
             case EMonsterState.PATROL:
                 if (!monsterNav.hasPath || monsterNav.remainingDistance < 0.1f)
                 {
                     Vector3 randomPos = RandomNavSphere(transform.position, PATROLRadius, 1 << 0);  // Walkable 영역에서만 적용되게 함
                     monsterNav.SetDestination(randomPos);
-                    monsterNav.isStopped = false;
                 }
                 break;
             case EMonsterState.TRACE:
                 monsterNav.SetDestination(PlayManager.PlayerPos);
-                monsterNav.isStopped = false;
+                MaintainDistance();
                 break;
             case EMonsterState.ATTACK:
                 if(!IsAttack) StartCoroutine(TempAttack());
@@ -84,5 +89,31 @@ public partial class MonsterScript
         NavMesh.SamplePosition(randomDirection, out navHit, _distance, _layermask);
 
         return navHit.position;  // 유효한 위치 반환
+    }
+
+    private void MaintainDistance()
+    {
+        Collider[] nearbyMonsters = Physics.OverlapSphere(transform.position, minMonsterDistance);
+        foreach (Collider collider in nearbyMonsters)
+        {
+            if (collider.gameObject != this.gameObject && collider.CompareTag("Monster"))
+            {
+                // 다른 몬스터와의 거리 계산
+                Vector3 directionAway = transform.position - collider.transform.position;
+                float distance = directionAway.magnitude;
+
+                if (distance < minMonsterDistance)
+                {
+                    // 가까워졌다면 반대 방향으로 이동하거나 NavMesh를 수정
+                    Vector3 newDestination = transform.position + directionAway.normalized * minMonsterDistance;
+                    monsterNav.SetDestination(newDestination);
+                }
+            }
+        }
+    }
+
+    public void ReactToPlayerDeath()
+    {
+        state = EMonsterState.PATROL;
     }
 }

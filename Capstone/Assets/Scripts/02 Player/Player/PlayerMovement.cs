@@ -10,8 +10,6 @@ public partial class PlayerController
     private float moveSpeed = 5f;         // 움직임 속도
     [SerializeField]
     private float jumpHeight = 3f;        // 점프 세기
-    [SerializeField]
-    private float groundDistance = 1.5f;
 
     public bool IsGround { get; private set; }
 

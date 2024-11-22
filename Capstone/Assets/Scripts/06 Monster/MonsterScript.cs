@@ -20,7 +20,6 @@ public partial class MonsterScript : ObjectScript
         if (_other.gameObject.CompareTag(ValueDefinition.PLAYER_ATTACK_TAG))
         {
             PlayerAttack playerAttack = _other.gameObject.GetComponent<PlayerAttack>();
-            // HPbar.gameObject.SetActive(true);
 
             GetHit(PlayManager.PlayerAttack);   // 피흡량 조절 필요
             if (playerAttack != null)
@@ -60,5 +59,15 @@ public partial class MonsterScript : ObjectScript
 
         monsterNav = GetComponent<NavMeshAgent>();
         monsterNav.speed = Speed;
+    }
+
+    private void OnEnable()
+    {
+        GameManager.Inst.RegisterMonster(this);
+    }
+
+    private void OnDisable()
+    {
+        GameManager.Inst.UnregisterMonster(this);
     }
 }
