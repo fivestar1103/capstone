@@ -56,6 +56,8 @@ public partial class MonsterScript : ObjectScript
     private void Awake()
     {
         HPbar = GetComponentInChildren<MonsterHPbar>();
+        HPbar.SetComps();
+
         monsterNav = GetComponent<NavMeshAgent>();
         monsterNav.speed = Speed;
     }

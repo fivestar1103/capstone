@@ -7,6 +7,7 @@ public partial class MonsterScript
 {
     public enum EMonsterState
     {
+        PAUSED,
         PATROL,
         TRACE,
         ATTACK,
@@ -27,27 +28,29 @@ public partial class MonsterScript
 
     private void CheckMonsterState()
     {
-        if (state == EMonsterState.DIE) return;
-
         float distance = Vector3.Distance(PlayManager.PlayerPos, transform.position);
 
-        if (distance <= attackDist)
+        if (GameManager.ControlMode == EControlMode.UI_CONTROL)
+            state = EMonsterState.PAUSED;
+        else if(GameManager.ControlMode == EControlMode.FIRST_PERSON)
         {
-            state = EMonsterState.ATTACK;
+            if (distance <= attackDist)
+                state = EMonsterState.ATTACK;
+            else if (distance <= traceDist)
+                state = EMonsterState.TRACE;
+            else if (curHP <= 0)
+                state = EMonsterState.DIE;
+            else
+                state = EMonsterState.PATROL;
         }
-        else if (distance <= traceDist)
-        {
-            state = EMonsterState.TRACE;
-        }
-        else
-            state = EMonsterState.PATROL;
-
     }
 
     private void MonsterAction()
     {
         switch (state)
         {
+            case EMonsterState.PAUSED:
+                return;
             case EMonsterState.PATROL:
                 if (!monsterNav.hasPath || monsterNav.remainingDistance < 0.1f)
                 {

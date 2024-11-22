@@ -27,7 +27,7 @@ public partial class PlayerController
         if (AttackTrigger && canAttack)
         {
             // Test Calling
-            PrepareSkill(ValueDefinition.SPELL2, EEmotion.EDisgust);
+            PrepareSkill(ValueDefinition.SPELL1, EEmotion.EHappy);
             StartCoroutine(UseSkill());
         }
     }

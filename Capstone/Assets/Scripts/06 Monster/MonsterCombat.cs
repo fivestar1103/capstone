@@ -15,8 +15,8 @@ public partial class MonsterScript
     public override void GetHit(float _damage)
     {
         curHP -= _damage;
+        HPbar.gameObject.SetActive(true);
         HPbar.SetHPValue(curHP);
-        Debug.Log(curHP);
 
         if (curHP <= 0)
         {

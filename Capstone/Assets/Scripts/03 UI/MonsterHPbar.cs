@@ -5,7 +5,6 @@ using UnityEngine.UI;
 
 public class MonsterHPbar : MonoBehaviour
 {
-    [SerializeField]
     private Camera cam;
 
     private MonsterScript monster;
@@ -22,7 +21,7 @@ public class MonsterHPbar : MonoBehaviour
         transform.rotation = Quaternion.LookRotation(-direction, Vector3.up);
     }
 
-    private void Start()
+    public void SetComps()
     {
         cam = Camera.main;
         HPBar = GetComponentInChildren<Slider>();
@@ -32,5 +31,7 @@ public class MonsterHPbar : MonoBehaviour
         
         HPBar.maxValue = monster.MaxHP;
         HPBar.value = monster.MaxHP;
+
+        this.gameObject.SetActive(false);
     }
 }
