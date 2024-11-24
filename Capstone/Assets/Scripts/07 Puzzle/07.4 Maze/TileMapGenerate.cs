@@ -6,6 +6,7 @@ public class TileMapGenerate : MonoBehaviour
 {
     [SerializeField] private GameObject TileMap;
     [SerializeField] private List<GameObject> prefabList;
+    private MazeGenerate mazeGenerate;
 
     enum Blocks { NONE = -1, FLOOR = 0, WALL, INTERACTIVE, DOOR }
 
@@ -45,11 +46,19 @@ public class TileMapGenerate : MonoBehaviour
                     case Blocks.INTERACTIVE:
                         prefab = Instantiate(prefabList[(int)nowPos], TileMap.transform);
                         prefab.transform.localPosition = new Vector3(1 + height * 2, 3, 1 + width * 2);
+
+                        Debug.Log(prefab.transform.localPosition);
+                        Debug.Log(maze[height + 1, width]);
+                        if (maze[height + 1, width] == 1)
+                        {
+                            Quaternion IWRotation = RotateInteractiveWalls(maze, (width, height));
+                            prefab.transform.rotation = IWRotation;
+                        }
+                        Debug.Log(prefab.transform.rotation);
                         break;
                     case Blocks.DOOR:
                         prefab = Instantiate(prefabList[(int)nowPos], TileMap.transform);
                         prefab.transform.localPosition = new Vector3(1 + height * 2, 3, 1 + width * 2);
-                        // prefab.transform.rotation = Quaternion.identity;
                         break;
                 }
                 
@@ -57,8 +66,26 @@ public class TileMapGenerate : MonoBehaviour
         }
     }
 
-    private void RotateInteractiveWalls(GameObject IWPrefab)
+    private Quaternion RotateInteractiveWalls(int[,] maze, (int, int) IWPos)
     {
+        Quaternion rotation = Quaternion.identity;
 
+        // аб ╩С ©Л
+        int[] dx = { -1, 0, 1 };
+        int[] dy = { 0, 1, 0 };
+
+        for (int i = 0; i < 3; i++)
+        {
+            var tempPos = (IWPos.Item1 + dx[i], IWPos.Item2 + dy[i]);
+            if (0 <= tempPos.Item1 && 0 <= tempPos.Item2 && tempPos.Item1 < maze.GetLength(1) && tempPos.Item2 < maze.GetLength(0))
+            {
+                if (maze[tempPos.Item2, tempPos.Item1] == 0)
+                {
+                    rotation = Quaternion.Euler(0, (i + 1) * 90, 0);
+                }
+            }
+        }
+
+        return rotation;
     }
 }

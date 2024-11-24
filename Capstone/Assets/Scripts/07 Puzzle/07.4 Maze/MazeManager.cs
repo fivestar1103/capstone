@@ -19,8 +19,8 @@ public class MazeManager : MonoBehaviour
     private void Awake()
     {
         mazeGenerate = new MazeGenerate();
-        mazeWidth = 14;
-        mazeHeight = 12;
+        mazeWidth = 20;
+        mazeHeight = 18;
 
         player = Instantiate(playerPrefab);
     }

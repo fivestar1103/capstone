@@ -8,6 +8,8 @@ public class MazeGenerate
     {
         int[,] maze = (int[,]) map.Clone();
         int[,] visited = (int[,])map.Clone();
+
+        // 좌 우 하 상
         int[] dx = { -1, 1, 0, 0 };
         int[] dy = { 0, 0, 1, -1 };
         int[] directionOrder = { 0, 1, 2, 3 };      // 탐색 방향 순서
@@ -40,8 +42,8 @@ public class MazeGenerate
             {
                 var visitPos = (nowPos.Item1 + dx[directionOrder[i]]*2, nowPos.Item2 + dy[directionOrder[i]]*2);
 
-                // 맵 범위 내에 있는지 확인
-                if (visitPos.Item1 >= 0 && visitPos.Item2 >= 0 && visitPos.Item1 < mazeWidth && visitPos.Item2 < mazeHeight)
+                // 탐색 중인 칸이 맵 범위 내에 있는지 확인
+                if (0 <= visitPos.Item1 && 0 <= visitPos.Item2 && visitPos.Item1 < mazeWidth && visitPos.Item2 < mazeHeight)
                 {
                     // 방문 여부 확인
                     if (visited[visitPos.Item2, visitPos.Item1] == 0)
@@ -103,10 +105,16 @@ public class MazeGenerate
             {
                 for (int w = minList[i].Item1; w < maxList[i].Item1; w++)
                 {
-                    // 벽이면 wallCells에 저장
-                    if (maze[h, w] == 1)
+                    // 범위 내 && 상하좌우 중 통로 존재 && 선택된 칸이 벽이면 wallCells에 저장
+                    if (CheckInRange(maze, (w, h)))
                     {
-                        wallCells.Add((w, h));
+                        if (maze[h - 1, w] == 0 || maze[h, w - 1] == 0 || maze[h + 1, w] == 0 || maze[h, w + 1] == 0)
+                        {
+                            if (maze[h, w] == 1)
+                            {
+                                wallCells.Add((w, h));
+                            }
+                        }
                     }
                 }
             }
@@ -115,6 +123,25 @@ public class MazeGenerate
             tempPos = wallCells[Random.Range(0, wallCells.Count)];
             maze[tempPos.Item2, tempPos.Item1] = 2;
         }
+    }
+
+    private bool CheckInRange(int[,] maze, (int, int) nowPos)
+    {
+        bool inRangeFlag = true;
+        int[] dx = { -1, 1, 0, 0 };
+        int[] dy = { 0, 0, 1, -1 };
+
+        for (int i = 0; i < 4; i++)
+        {
+            var tempPos = (nowPos.Item1 + dx[i], nowPos.Item2 + dy[i]);
+            if (tempPos.Item1 < 0 || tempPos.Item2 < 0 || tempPos.Item1 >= maze.GetLength(1) || tempPos.Item2 >= maze.GetLength(0))
+            {
+                inRangeFlag = false;
+                break;
+            }
+        }
+
+        return inRangeFlag;
     }
 
     // Fisher-Yates Shuffle
