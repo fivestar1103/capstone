@@ -13,7 +13,7 @@ public class MonsterSpawnPoint : MonoBehaviour
 
     IEnumerator MonsterSpawn()
     {
-        while (PlayManager.CurMonsterNum < PlayManager.TotalMonsterNum)    
+        while (PlayManager.CurMonsterNum < PlayManager.TotalMonsterNum)
         {
             Vector3 spawnPosition = GetRandomPositionWithinRadius();
 
@@ -22,8 +22,17 @@ public class MonsterSpawnPoint : MonoBehaviour
 
             // Instantiate(mob, transform.position, Quaternion.identity);
 
-            Instantiate(monster, spawnPosition, Quaternion.identity);
-            PlayManager.CurMonsterNum++;
+            //Instantiate(monster, spawnPosition, Quaternion.identity);
+
+            GameObject monster = GameManager.GetPooledObject();
+            if (monster != null)
+            {
+                monster.transform.position = spawnPosition;
+                monster.transform.rotation = Quaternion.identity;
+                monster.SetActive(true);
+
+                PlayManager.CurMonsterNum++;
+            }
 
             yield return new WaitForSeconds(spawnTime);
         }
@@ -33,14 +42,13 @@ public class MonsterSpawnPoint : MonoBehaviour
     {
         // 2D 상에서 반경 내의 랜덤한 위치 생성 (x, z 축 사용)
         Vector2 randomPos2D = Random.insideUnitCircle * spawnRadius;
-        Vector3 randomPos = new Vector3(randomPos2D.x, 0, randomPos2D.y); 
+        Vector3 randomPos = new Vector3(randomPos2D.x, 0, randomPos2D.y);
 
         return transform.position + randomPos;
     }
 
     private void Start()
     {
-        GetComponent<Renderer>().enabled = false;
         StartCoroutine(MonsterSpawn());
     }
 }

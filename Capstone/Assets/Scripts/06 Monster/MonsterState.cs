@@ -75,6 +75,9 @@ public partial class MonsterScript
                 IsDie = true;
                 monsterNav.isStopped = true;
                 GetComponent<CapsuleCollider>().enabled = false;
+                // Die Animation
+                this.gameObject.SetActive(false);
+                GameManager.PoolObjects.Add(this.gameObject);   // 풀에 반환
                 break;
         }
     }

@@ -55,12 +55,21 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    // 오브젝트 풀
+    private PoolManager poolManager;
+    public static PoolManager PoolManager { get { return Inst.poolManager; } }
+    public static List<GameObject> PoolObjects { get { return PoolManager.poolObjects; } }
+    public static int ObjectNum { get { return PoolManager.ObjectNum; } }
+    public static GameObject GetPooledObject() { return PoolManager.GetPooledObject(); }
+
     private void SetSubManagers()
     {
         inputManager = GetComponent<InputManager>();
         inputManager.SetManager();
         skillManager = GetComponent<SkillManager>();
         skillManager.SetManager();
+        poolManager = GetComponent<PoolManager>();
+        poolManager.SetManager();
     }
 
     private void Awake()

@@ -55,7 +55,6 @@ public partial class MonsterScript : ObjectScript
     private void Awake()
     {
         HPbar = GetComponentInChildren<MonsterHPbar>();
-        HPbar.SetComps();
 
         monsterNav = GetComponent<NavMeshAgent>();
         monsterNav.speed = Speed;
@@ -64,6 +63,11 @@ public partial class MonsterScript : ObjectScript
     private void OnEnable()
     {
         GameManager.Inst.RegisterMonster(this);
+
+        IsDie = false;
+        HPbar.SetComps();   // 활성화 될 때마다 다시 MaxHP로
+        monsterNav.isStopped = false;
+        GetComponent<CapsuleCollider>().enabled = true;
     }
 
     private void OnDisable()
