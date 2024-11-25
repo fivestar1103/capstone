@@ -77,9 +77,11 @@ public class MazeGenerate
                 maze[doorPos.Item2, doorPos.Item1] = 0;
 
                 if (doorPos.Item1 == (mazeWidth - 1))
-                    visitPos = (doorPos.Item1 + dx[directionOrder[0]], doorPos.Item2);
+                    visitPos = (doorPos.Item1 - 1, doorPos.Item2);
                 else if (doorPos.Item2 == (mazeHeight - 1))
-                    visitPos = (doorPos.Item1, doorPos.Item2 + dy[directionOrder[2]]);
+                    visitPos = (doorPos.Item1, doorPos.Item2 - 1);
+
+                maze[visitPos.Item2, visitPos.Item1] = 0;
             }
         }
 

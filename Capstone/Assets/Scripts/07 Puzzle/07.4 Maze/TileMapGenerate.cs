@@ -6,7 +6,6 @@ public class TileMapGenerate : MonoBehaviour
 {
     [SerializeField] private GameObject TileMap;
     [SerializeField] private List<GameObject> prefabList;
-    private MazeGenerate mazeGenerate;
 
     enum Blocks { NONE = -1, FLOOR = 0, WALL, INTERACTIVE, DOOR }
 
@@ -72,20 +71,36 @@ public class TileMapGenerate : MonoBehaviour
 
         // аб ╩С ©Л
         int[] dx = { -1, 0, 1 };
-        int[] dy = { 0, 1, 0 };
+        int[] dy = { 0, -1, 0 };
+        int[] directionOrder = { 0, 1, 2 };
+
+        ShuffleArray(directionOrder);
 
         for (int i = 0; i < 3; i++)
         {
-            var tempPos = (IWPos.Item1 + dx[i], IWPos.Item2 + dy[i]);
+            var tempPos = (IWPos.Item1 + dx[directionOrder[i]], IWPos.Item2 + dy[directionOrder[i]]);
             if (0 <= tempPos.Item1 && 0 <= tempPos.Item2 && tempPos.Item1 < maze.GetLength(1) && tempPos.Item2 < maze.GetLength(0))
             {
                 if (maze[tempPos.Item2, tempPos.Item1] == 0)
                 {
-                    rotation = Quaternion.Euler(0, (i + 1) * 90, 0);
+                    rotation = Quaternion.Euler(0, (directionOrder[i] + 1) * 90, 0);
                 }
             }
         }
 
         return rotation;
+    }
+
+    // Fisher-Yates Shuffle
+    private void ShuffleArray<T>(T[] array)
+    {
+        for (int i = 0; i < array.Length; i++)
+        {
+            var randomIndex = Random.Range(i, array.Length);
+            // Swap
+            var temp = array[i];
+            array[i] = array[randomIndex];
+            array[randomIndex] = temp;
+        }
     }
 }
