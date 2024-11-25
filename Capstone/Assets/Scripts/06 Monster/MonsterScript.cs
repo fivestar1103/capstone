@@ -24,26 +24,22 @@ public partial class MonsterScript : ObjectScript
             GetHit(PlayManager.PlayerAttack);   // 피흡량 조절 필요
             if (playerAttack != null)
             {
-                if(PlayManager.IsDrain)
+                if (PlayManager.IsDrain)
                 {
-                    playerAttack.Drain(PlayManager.PlayerAttack);
+                    PlayManager.Drain(PlayManager.PlayerAttack);
                 }
                 if ((int)playerAttack.StatusEffect >= 3 && (int)playerAttack.StatusEffect <= 6 && !IsDebuffed) // 상태이상인 경우
                 {
-                    StartCoroutine(ApplyCCType(playerAttack.StatusEffect));    
+                    StartCoroutine(ApplyCCType(playerAttack.StatusEffect));
                 }
             }
-            Destroy(_other.gameObject);
         }
     }
 
     private void Update()
     {
-        if(!IsDie)
-        {
-            CheckMonsterState();
-            MonsterAction();
-        }
+        CheckMonsterState();
+        MonsterAction();
     }
 
     public override void Start()
@@ -62,7 +58,7 @@ public partial class MonsterScript : ObjectScript
 
     private void OnEnable()
     {
-        GameManager.Inst.RegisterMonster(this);
+        GameManager.RegisterMonster(this);
 
         IsDie = false;
         HPbar.SetComps();   // 활성화 될 때마다 다시 MaxHP로
@@ -72,6 +68,6 @@ public partial class MonsterScript : ObjectScript
 
     private void OnDisable()
     {
-        GameManager.Inst.UnregisterMonster(this);
+        GameManager.UnregisterMonster(this);
     }
 }

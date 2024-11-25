@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Threading;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.InputSystem;
 
 public class GameManager : MonoBehaviour
@@ -23,44 +24,20 @@ public class GameManager : MonoBehaviour
     public static SkillManager SkillManager { get { return Inst.skillManager; } }
     public static PlayerAttack[] Skills { get { return SkillManager.Skills; } }
 
-    // 전투
-    private List<MonsterScript> monsters = new List<MonsterScript>();
-    private void HandlePlayerDeath()    // 플레이어가 죽었을 때 시스템에서 처리할 기능
-    {
-        Debug.Log("Death!!");
-        NotifyMonsters();
-    }
-    public void RegisterMonster(MonsterScript monster)
-    {
-        if (!monsters.Contains(monster))
-        {
-            monsters.Add(monster);
-            Debug.Log($"{monster.name} registered to GameManager.");
-        }
-    }
-    public void UnregisterMonster(MonsterScript monster)
-    {
-        if (monsters.Contains(monster))
-        {
-            monsters.Remove(monster);
-            Debug.Log($"{monster.name} unregistered from GameManager.");
-        }
-    }
-    public void NotifyMonsters()    // 플레이어가 죽었을 때 몬스터 단에서 처리할 기능
-    {
-        Debug.Log("Notifying all monsters about player's death...");
-        foreach (var monster in monsters)
-        {
-            monster.ReactToPlayerDeath();
-        }
-    }
-
     // 오브젝트 풀
     private PoolManager poolManager;
     public static PoolManager PoolManager { get { return Inst.poolManager; } }
     public static List<GameObject> PoolObjects { get { return PoolManager.poolObjects; } }
     public static int ObjectNum { get { return PoolManager.ObjectNum; } }
     public static GameObject GetPooledObject() { return PoolManager.GetPooledObject(); }
+
+    // 이벤트
+    private EventManager eventManager;
+    public static EventManager EventManager { get { return Inst.eventManager; } }
+    public static void HandlePlayerDeath() { EventManager.HandlePlayerDeath(); }
+    public static void RegisterMonster(MonsterScript _monster) { EventManager.RegisterMonster(_monster); }
+    public static void UnregisterMonster(MonsterScript _monster) { EventManager.UnregisterMonster(_monster); }
+    public static void NotifyMonsters() { EventManager.NotifyMonsters(); }
 
     private void SetSubManagers()
     {
@@ -70,6 +47,7 @@ public class GameManager : MonoBehaviour
         skillManager.SetManager();
         poolManager = GetComponent<PoolManager>();
         poolManager.SetManager();
+        eventManager = GetComponent<EventManager>();
     }
 
     private void Awake()
@@ -80,13 +58,5 @@ public class GameManager : MonoBehaviour
         SetSubManagers();
     }
 
-    private void OnEnable()
-    {
-        PlayerController.OnPlayerDeath += HandlePlayerDeath;
-    }
 
-    private void OnDisable()
-    {
-        PlayerController.OnPlayerDeath -= HandlePlayerDeath;
-    }
 }

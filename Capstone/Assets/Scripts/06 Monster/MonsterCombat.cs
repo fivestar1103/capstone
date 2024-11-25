@@ -20,7 +20,11 @@ public partial class MonsterScript
 
         if (curHP <= 0)
         {
-            Destroy(this.gameObject);
+            state = EMonsterState.DIE;
+
+            // 죽음 상태 즉시 처리
+            MonsterAction();
+
             PlayManager.MonsterNum++;   // 퇴치한 몬스터 수 증가
             PlayManager.SetMonsterNum();
         }
@@ -113,6 +117,7 @@ public partial class MonsterScript
         while(IsDotted)
         {
             curHP -= dottedDamage;
+            HPbar.SetHPValue(curHP);
             yield return new WaitForSeconds(1.0f);
         }
     }

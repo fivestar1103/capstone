@@ -42,10 +42,5 @@ public partial class PlayerAttack
     {
         Skill = _skill;
     }
-
-    public void Drain(float _hp)
-    {
-        if(IsDrained) PlayManager.Drain(_hp);
-    }
 }
 

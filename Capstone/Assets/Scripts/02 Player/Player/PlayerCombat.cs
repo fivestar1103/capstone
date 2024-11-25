@@ -27,7 +27,7 @@ public partial class PlayerController
         if (AttackTrigger && canAttack)
         {
             // Test Calling
-            PrepareSkill(ValueDefinition.SPELL1, EEmotion.EHappy);
+            PrepareSkill(ValueDefinition.SPELL1, EEmotion.ENeutral);
             StartCoroutine(UseSkill());
         }
     }
@@ -124,10 +124,10 @@ public partial class PlayerController
 
         if (curHP <= 0 && !isDead)
         {
-            isDead = true;
-            PlayerDie();
+            PlayerDie(); 
         }
     }
+
 
     public void Drain(float _hp)
     {
@@ -138,6 +138,7 @@ public partial class PlayerController
             {
                 curHP = PlayManager.MaxHP;
             }
+            PlayManager.SetPlayerCurHP(curHP);
         }
     }
 }

@@ -27,16 +27,20 @@ public partial class PlayerController : ObjectScript
 
     public void PlayerDie()
     {
-        if (isDead)
-            return;
+        if (isDead) return; // 중복 처리 방지
         isDead = true;
-        
-        OnPlayerDeath?.Invoke();
-        // 사망 애니메이션
-        // 기타 사망 로직
 
-        PlayerInput.Disable();
+        // 사망 이벤트 호출
+        OnPlayerDeath?.Invoke();
+
+        // 사망 시 비활성화 되는 컴포넌트들
+        // PlayerInput.Disable();
+        playerRB.isKinematic = true;
+        GetComponent<CapsuleCollider>().enabled = false;
         this.enabled = false;
+
+        Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.None;
     }
 
     private void UpdateInputs()

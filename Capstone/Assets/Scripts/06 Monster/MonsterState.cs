@@ -30,24 +30,26 @@ public partial class MonsterScript
 
     private void CheckMonsterState()
     {
+        if (state == EMonsterState.DIE)
+            return; 
+
         float distance = Vector3.Distance(PlayManager.PlayerPos, transform.position);
 
         if (GameManager.ControlMode == EControlMode.UI_CONTROL)
         {
             state = EMonsterState.PAUSED;
         }
-        else if(GameManager.ControlMode == EControlMode.FIRST_PERSON)
+        else if (GameManager.ControlMode == EControlMode.FIRST_PERSON)
         {
             if (distance <= attackDist)
                 state = EMonsterState.ATTACK;
             else if (distance <= traceDist)
                 state = EMonsterState.TRACE;
-            else if (curHP <= 0)
-                state = EMonsterState.DIE;
             else
                 state = EMonsterState.PATROL;
         }
     }
+
 
     private void MonsterAction()
     {
@@ -57,6 +59,7 @@ public partial class MonsterScript
                 monsterNav.isStopped = true;
                 StopAllCoroutines();
                 return;
+
             case EMonsterState.PATROL:
                 if (!monsterNav.hasPath || monsterNav.remainingDistance < 0.1f)
                 {
@@ -64,20 +67,26 @@ public partial class MonsterScript
                     monsterNav.SetDestination(randomPos);
                 }
                 break;
+
             case EMonsterState.TRACE:
                 monsterNav.SetDestination(PlayManager.PlayerPos);
                 MaintainDistance();
                 break;
+
             case EMonsterState.ATTACK:
-                if(!IsAttack) StartCoroutine(TempAttack());
+                if (!IsAttack) StartCoroutine(TempAttack());
                 break;
+
             case EMonsterState.DIE:
+                if (IsDie) return; // 중복 처리 방지
                 IsDie = true;
+
                 monsterNav.isStopped = true;
                 GetComponent<CapsuleCollider>().enabled = false;
+
                 // Die Animation
                 this.gameObject.SetActive(false);
-                GameManager.PoolObjects.Add(this.gameObject);   // 풀에 반환
+                GameManager.PoolObjects.Add(this.gameObject); // 풀에 반환
                 break;
         }
     }
@@ -118,5 +127,7 @@ public partial class MonsterScript
     public void ReactToPlayerDeath()
     {
         state = EMonsterState.PATROL;
+        Debug.Log(state);
+        MonsterAction();
     }
 }

@@ -52,8 +52,6 @@ public class InputManager : MonoBehaviour
                 PlayerInputs.Disable();
                 break;
         }
-
-        // if (PlayManager.IsPlaying) { PlayManager.SetCameraMode(_mode); }
     }
 
     private void Update()
