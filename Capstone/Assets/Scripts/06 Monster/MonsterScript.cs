@@ -42,12 +42,6 @@ public partial class MonsterScript : ObjectScript
         MonsterAction();
     }
 
-    public override void Start()
-    {
-        base.Start();
-
-    }
-
     private void Awake()
     {
         HPbar = GetComponentInChildren<MonsterHPbar>();
@@ -56,8 +50,9 @@ public partial class MonsterScript : ObjectScript
         monsterNav.speed = Speed;
     }
 
-    private void OnEnable()
+    public override void OnEnable()
     {
+        base.OnEnable();
         GameManager.RegisterMonster(this);
 
         IsDie = false;

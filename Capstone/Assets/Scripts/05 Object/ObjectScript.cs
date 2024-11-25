@@ -47,7 +47,7 @@ public abstract class ObjectScript : MonoBehaviour, IHittable
     }
 
 
-    public bool IsDead { get; protected set; }                          // 죽음 상태
+    public bool IsDead { get; set; }                          // 죽음 상태
     public virtual bool IsUnstoppable { get; } = true;                  // 히트 상태 가능 여부
 
     public virtual bool IsPlayer { get { return false; } }
@@ -58,7 +58,7 @@ public abstract class ObjectScript : MonoBehaviour, IHittable
 
     }
 
-    public virtual void Start()
+    public virtual void OnEnable()
     {
         curHP = maxHP;
     }

@@ -7,12 +7,26 @@ public class EventManager : MonoBehaviour
 {
     [SerializeField]
     private Image DieFrame;
-    private List<MonsterScript> monsters = new List<MonsterScript>();
+    [SerializeField]
+    private PlayerController Player;
+
+    private List<MonsterScript> monsters;
 
     public void HandlePlayerDeath()    // 플레이어가 죽었을 때 시스템에서 처리할 기능
     {
         DieFrame.gameObject.SetActive(true);
         NotifyMonsters();
+    }
+    public void PlayerRespawn()
+    {
+        Player.IsDead = false;
+        DieFrame.gameObject.SetActive(false);
+
+        Player.PlayerRB.isKinematic = false;
+        Player.GetComponent<CapsuleCollider>().enabled = true;
+        Player.enabled = true;
+        GameManager.SetControlMode(EControlMode.FIRST_PERSON);
+        Player.transform.position = new Vector3(0f, 0f, 0f);       // 리스폰 위치
     }
     public void RegisterMonster(MonsterScript monster)
     {
@@ -38,7 +52,7 @@ public class EventManager : MonoBehaviour
 
     public void SetManager()
     {
-
+        monsters = new List<MonsterScript>();
     }
 
     private void OnEnable()

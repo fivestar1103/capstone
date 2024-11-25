@@ -10,6 +10,7 @@ public partial class PlayerController : ObjectScript
 {
     private PlayerCamera playerCam;     // 플레이어 카메라
     private Rigidbody playerRB;         // 플레이어 리지드바디      
+    public Rigidbody PlayerRB { get { return playerRB; } }
 
     public static event Action OnPlayerDeath; // 플레이어의 죽음을 알리는 이벤트
 
@@ -42,7 +43,6 @@ public partial class PlayerController : ObjectScript
         Cursor.visible = true;
         Cursor.lockState = CursorLockMode.None;
     }
-
     private void UpdateInputs()
     {
         PlayerInteract();       // 상호작용 물체 탐색
@@ -57,14 +57,17 @@ public partial class PlayerController : ObjectScript
         UpdateInputs();         // 기타 조작
     }
 
-    public override void Start()
+    public void Start()
     {
-        base.Start();
+        playerRB = GetComponent<Rigidbody>();
+        playerCam = GetComponentInChildren<PlayerCamera>();
+    }
+
+    public override void OnEnable()
+    {
+        base.OnEnable();
 
         PlayManager.SetCurPlayer(this);
         PlayManager.SetPlayerMaxHP(MaxHP);
-
-        playerRB = GetComponent<Rigidbody>();
-        playerCam = GetComponentInChildren<PlayerCamera>();
     }
 }

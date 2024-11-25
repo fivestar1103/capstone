@@ -8,7 +8,7 @@ public class PoolManager : MonoBehaviour
     private int objectNum;
     public int ObjectNum { get { return objectNum; } }
     public GameObject poolObject;
-    public List<GameObject> poolObjects;
+    public List<GameObject> poolObjects = new List<GameObject>();
 
     public void SetManager()
     {

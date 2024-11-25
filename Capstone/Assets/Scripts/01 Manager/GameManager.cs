@@ -45,9 +45,10 @@ public class GameManager : MonoBehaviour
         inputManager.SetManager();
         skillManager = GetComponent<SkillManager>();
         skillManager.SetManager();
+        eventManager = GetComponent<EventManager>();
+        eventManager.SetManager();
         poolManager = GetComponent<PoolManager>();
         poolManager.SetManager();
-        eventManager = GetComponent<EventManager>();
     }
 
     private void Awake()
@@ -57,6 +58,4 @@ public class GameManager : MonoBehaviour
         DontDestroyOnLoad(gameObject);
         SetSubManagers();
     }
-
-
 }
