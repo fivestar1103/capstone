@@ -14,4 +14,9 @@ public class Map
             for (var x = 0; x < Width; x++)
                 Cells[y, x] = new Cell(x, y);
     }
+    
+    public void DeleteCell(Cell cell)
+    {
+        Cells[cell.Y, cell.X].Type = CellType.Blank; 
+    }
 }

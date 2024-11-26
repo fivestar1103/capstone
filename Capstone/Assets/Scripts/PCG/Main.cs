@@ -13,9 +13,12 @@ public class Main : MonoBehaviour
     [Tooltip("Click to generate minimum spanning tree")] public bool vertexByVertex;
     
     public GameObject cellsParent;
-    public GameObject cellPrototypePrefab;
+    public GameObject groundPrototypePrefab;
+    public GameObject midpointPrototypePrefab;
     public GameObject roomInfoPanelParent;
     public GameObject roomInfoPanelPrefab;
+    public GameObject wallPrototypePrefab;
+    public GameObject corridorPrototypePrefab;
     public GameObject edgesParent;
     
     public TextMeshProUGUI generationText;
@@ -36,7 +39,10 @@ public class Main : MonoBehaviour
     DelaunayTriangulation delaunayTriangulation;
     HashSet<Edge> delaunayEdges;
 
+    private List<Edge> minimumSpanningTreeEdges;
     private bool isMinimumSpanningTreeDone;
+
+    private readonly PathFinder pathFinder = new PathFinder();
     
     /*
      * 100, 100, 0.15, 6, 3, 1, 30
@@ -90,7 +96,7 @@ public class Main : MonoBehaviour
             if (delaunayTriangulation.isDone && !vertexByVertex)
             {
                 var minimumSpanningTree = new MinimumSpanningTree();
-                var minimumSpanningTreeEdges = minimumSpanningTree.GenerateMinimumSpanningTree(
+                minimumSpanningTreeEdges = minimumSpanningTree.GenerateMinimumSpanningTree(
                     delaunayEdges, delaunayTriangulation.MidPoints);
                 delaunayTriangulation.DeleteNonMinimumSpanningTreeEdges(minimumSpanningTreeEdges,
                     edgesParent.transform);
@@ -105,16 +111,20 @@ public class Main : MonoBehaviour
                 !isMinimumSpanningTreeDone)
             {
                 var minimumSpanningTree = new MinimumSpanningTree();
-                var minimumSpanningTreeEdges = minimumSpanningTree.GenerateMinimumSpanningTree(
+                minimumSpanningTreeEdges = minimumSpanningTree.GenerateMinimumSpanningTree(
                     delaunayEdges, delaunayTriangulation.MidPoints);
                 delaunayTriangulation.DeleteNonMinimumSpanningTreeEdges(minimumSpanningTreeEdges,
                     edgesParent.transform);
                 isMinimumSpanningTreeDone = true;
             }
         }
+        else if (Input.GetKeyDown(KeyCode.P))
+        {
+            var paths = pathFinder.CreatePath(minimumSpanningTreeEdges);
+        }
     }
 
-    private void InstantlyGenerateMap()
+    private IEnumerator InstantlyGenerateMapCoroutine()
     {
         isMinimumSpanningTreeDone = false;
         (mapGenerator, map) = InitiateMap();
@@ -124,15 +134,27 @@ public class Main : MonoBehaviour
         var (wallMap, roomsWithWalls) = PostProcessMap();
         map = wallMap;
         DisplayMap(roomsWithWalls);
-        
+    
         delaunayTriangulation.DisplayDelaunayEdges(delaunayEdges, edgesParent.transform);
 
-        if (vertexByVertex) return;
-        
+        if (vertexByVertex) yield break;
+    
         var minimumSpanningTree = new MinimumSpanningTree();
-        var minimumSpanningTreeEdges = minimumSpanningTree.GenerateMinimumSpanningTree(delaunayEdges,
+        minimumSpanningTreeEdges = minimumSpanningTree.GenerateMinimumSpanningTree(delaunayEdges,
             delaunayTriangulation.MidPoints);
         delaunayTriangulation.DeleteNonMinimumSpanningTreeEdges(minimumSpanningTreeEdges, edgesParent.transform);
+    
+        // Wait for one frame to ensure walls are properly initialized
+        yield return null;
+    
+        var paths = pathFinder.CreatePath(minimumSpanningTreeEdges);
+        map = pathFinder.FindPath(map, paths);
+        mapDisplayer.DisplayCorridors(map);
+    }
+
+    private void InstantlyGenerateMap()
+    {
+        StartCoroutine(InstantlyGenerateMapCoroutine());
     }
 
     private (MapGenerator, Map) InitiateMap()
@@ -177,9 +199,12 @@ public class Main : MonoBehaviour
         mapDisplayer = new MapDisplayer(mapGenerator.Width,
             mapGenerator.Height,
             cellsParent,
-            cellPrototypePrefab,
+            groundPrototypePrefab,
+            midpointPrototypePrefab,
             roomInfoPanelParent,
             roomInfoPanelPrefab,
+            wallPrototypePrefab,
+            corridorPrototypePrefab,
             generationText);
         mapDisplayer.RemoveRoomInfoAndCells();
 

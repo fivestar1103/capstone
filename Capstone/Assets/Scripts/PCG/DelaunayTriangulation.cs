@@ -181,9 +181,8 @@ public class DelaunayTriangulation
     {
         var Width = 100;
         var Height = 100;
-        var cellSize = 2;
-        var xOffset = 40;
-        var zOffset = 179;
+        var cellSize = 4;
+        var offset = new Vector3(0, 0, 0);
         var screenTopLeft = new Vector3(-Width * cellSize / 2, Height * cellSize / 2, 0);
 
         if (delaunayEdges == null || !parentTransform) return;
@@ -192,10 +191,8 @@ public class DelaunayTriangulation
         
         foreach (var edge in delaunayEdges)
         {
-            var startPosition = screenTopLeft +
-                                new Vector3(xOffset + edge.A.X * cellSize, -edge.A.Y * cellSize, zOffset);
-            var endPosition = screenTopLeft +
-                              new Vector3(xOffset + edge.B.X * cellSize, -edge.B.Y * cellSize, zOffset);
+            var startPosition = offset + new Vector3(edge.A.X * cellSize, 0, -edge.A.Y * cellSize);
+            var endPosition = offset + new Vector3(edge.B.X * cellSize, 0, -edge.B.Y * cellSize);
 
             var lineObject = new GameObject($"Line_{edge.A}_{edge.B}");
             lineObject.transform.parent = parentTransform;
