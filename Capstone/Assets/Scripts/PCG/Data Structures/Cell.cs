@@ -1,3 +1,5 @@
+using System;
+
 public enum CellType
 {
     Blank,
@@ -18,4 +20,24 @@ public class Cell
         Y = y;
         Type = type;
     }
+
+    public override string ToString()
+    {
+        return $"({X}, {Y})";
+    }
+    
+    public override bool Equals(object obj)
+    {
+        if (obj == null || GetType() != obj.GetType())
+            return false;
+
+        Cell other = (Cell)obj;
+        return X == other.X && Y == other.Y;
+    }
+
+    public override int GetHashCode()
+    {
+        return HashCode.Combine(X, Y);
+    }
+
 }

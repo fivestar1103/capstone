@@ -8,6 +8,7 @@ TagManager:
   - Monster
   - PlayerAttack
   - MonsterAttack
+  - Wall
   layers:
   - Default
   - TransparentFX

@@ -7,7 +7,10 @@ using UnityEngine;
 public class Room
 {
     public int RoomNumber { get; set; }
-    public List<RoomCell> RoomCells { get; set; }
+    public List<RoomCell> RoomCells { get; private set; }
+    public List<Cell> WallCells { get; private set; }
+    public List<RoomCell> RoomCellsRelative { get; set; }
+    public List<Cell> WallCellsRelative { get; set; }
     public int X { get; set; } // top left corner including walls
     public int Y { get; set; } // top left corner including walls
     public int Width { get; set; } // width including walls
@@ -18,16 +21,44 @@ public class Room
     {
         RoomNumber = roomNumber;
         RoomCells = new List<RoomCell>();
+        WallCells = new List<Cell>();
+        RoomCellsRelative = new List<RoomCell>();
+        WallCellsRelative = new List<Cell>();
     }
     
-    public void AddCell(RoomCell cell)
+    public void AddCell(Cell cell) // cell position should be absolute
     {
-        RoomCells.Add(cell);
+        switch (cell.Type)
+        {
+            case CellType.Wall:
+                WallCells.Add(cell);
+                WallCellsRelative.Add(new Cell(cell.X - X, cell.Y - Y, CellType.Wall));
+                break;
+            case CellType.Room:
+                RoomCells.Add((RoomCell)cell);
+                break;
+            case CellType.Blank:
+            case CellType.Corridor:
+            default:
+                break;
+        }
     }
     
-    public void DeleteCell(RoomCell cell)
+    public void DeleteCell(Cell cell)
     {
-        RoomCells.Remove(cell);
+        switch (cell.Type)
+        {
+            case CellType.Wall:
+                WallCells.Remove(cell);
+                break;
+            case CellType.Room:
+                RoomCells.Remove((RoomCell)cell);
+                break;
+            case CellType.Blank:
+            case CellType.Corridor:
+            default:
+                break;
+        }
     }
 
     public void CalculateRoomInfo()
@@ -57,15 +88,30 @@ public class Room
         
         X = leftMostIndex - 1;
         Y = topMostIndex - 1;
-        Width = rightMostIndex - leftMostIndex + 2;
-        Height = bottomMostIndex - topMostIndex + 2;
+        Width = rightMostIndex - leftMostIndex + 1;
+        Height = bottomMostIndex - topMostIndex + 1;
         
         var centerX = Mathf.FloorToInt((float)xSum / RoomCells.Count); 
         var centerY = Mathf.FloorToInt((float)ySum / RoomCells.Count);
         var centerCell = RoomCells.OrderBy(cell => Mathf.Abs(cell.X - centerX) + Mathf.Abs(cell.Y - centerY))
             .FirstOrDefault(); // get the cell closest to the center of the room
 
-        CenterCell = centerCell;
         centerCell.IsCenter = true;
+        CenterCell = centerCell;
+        
+        CalculateRoomCellsRelative();
+    }
+    
+    public void CalculateRoomCellsRelative()
+    {
+        foreach (var roomCell in RoomCells)
+        {
+            var relativeX = roomCell.X - X;
+            var relativeY = roomCell.Y - Y;
+            RoomCellsRelative.Add(new RoomCell(relativeX,
+                relativeY,
+                roomNumber: roomCell.RoomNumber,
+                isCenter: roomCell.IsCenter));
+        }
     }
 }
