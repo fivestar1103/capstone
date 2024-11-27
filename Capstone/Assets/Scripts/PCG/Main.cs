@@ -118,10 +118,6 @@ public class Main : MonoBehaviour
                 isMinimumSpanningTreeDone = true;
             }
         }
-        else if (Input.GetKeyDown(KeyCode.P))
-        {
-            var paths = pathFinder.CreatePath(minimumSpanningTreeEdges);
-        }
     }
 
     private IEnumerator InstantlyGenerateMapCoroutine()
@@ -146,8 +142,10 @@ public class Main : MonoBehaviour
     
         // Wait for one frame to ensure walls are properly initialized
         yield return null;
-    
-        var paths = pathFinder.CreatePath(minimumSpanningTreeEdges);
+
+        List<Path> paths;
+        (paths, roomsWithWalls) = pathFinder.CreatePath(minimumSpanningTreeEdges, roomsWithWalls);
+        
         map = pathFinder.FindPath(map, paths);
         mapDisplayer.DisplayCorridors(map);
     }

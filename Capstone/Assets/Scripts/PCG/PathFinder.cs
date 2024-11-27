@@ -1,4 +1,6 @@
 using System.Collections.Generic;
+using PCG.Data_Structures;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class PathFinder
@@ -7,7 +9,7 @@ public class PathFinder
     
     // receive the MST edges and shoot ray from the center of each room to the center of the other room for each edge
     // if the ray hits a wall, delete the wall
-    public List<Path> CreatePath(List<Edge> minimumSpanningTreeEdges)
+    public (List<Path>, List<Room>) CreatePath(List<Edge> minimumSpanningTreeEdges, List<Room> roomsWithWalls)
     {
         var paths = new List<Path>();
         foreach (var edge in minimumSpanningTreeEdges)
@@ -15,9 +17,45 @@ public class PathFinder
             var deletedVertexA = DeleteFirstWall(edge.A, edge.B);
             var deletedVertexB = DeleteFirstWall(edge.B, edge.A);
             paths.Add(new Path(deletedVertexA, deletedVertexB)); 
-        }
+            
+            // change the room type of the deleted cell to corridor
+            var centerCellA = new RoomCell((int)edge.A.X, (int)edge.A.Y);
+            var centerCellB = new RoomCell((int)edge.B.X, (int)edge.B.Y);
+            var deletedCellA = new RoomCell((int)deletedVertexA.X, (int)deletedVertexA.Y);
+            var deletedCellB = new RoomCell((int)deletedVertexB.X, (int)deletedVertexB.Y);
+            var flagA = false;
+            var flagB = false;
+            foreach (var room in roomsWithWalls)
+            {
+                // Debug.Log($"Room center cell: {room.CenterCell}\n" +
+                //           $"Center cell A: {centerCellA}\n" + 
+                //           $"Center cell B: {centerCellB}");
 
-        return paths;
+                if (flagA && flagB) break;
+                
+                if (!flagA && room.CenterCell.Equals(centerCellA))
+                {
+                    room.RoomCells.Remove(deletedCellA);
+                    room.CorridorCells.Add(deletedCellA);
+                    flagA = true;
+                    // Debug.Log($"deleted cell A: {deletedCellA}");
+                }
+                
+                if (!flagB && room.CenterCell.Equals(centerCellB))
+                {
+                    room.RoomCells.Remove(deletedCellB);
+                    flagB = true;
+                    // Debug.Log($"deleted cell B: {deletedCellB}");
+                }
+            }
+
+            foreach (var room in roomsWithWalls)
+            {
+                room.LogRoomInfo();
+            }
+        }
+        
+        return (paths, roomsWithWalls);
     }
 
     private Vertex DeleteFirstWall(Vertex a, Vertex b)
@@ -43,6 +81,8 @@ public class PathFinder
     // do an A* search between the vertices of each path
     public Map FindPath(Map map, List<Path> paths)
     {
+        List<Cell> pathCells = null;
+        
         foreach (var path in paths)
         {
             // first, remove the walls that were deleted in the previous step
@@ -55,13 +95,13 @@ public class PathFinder
             map.DeleteCell(endCell);
             
             // then, do an A* search between the vertices of each path
-            var pathCells = AStarSearch(map, startCell, endCell);
+            pathCells = AStarSearch(map, startCell, endCell);
             
-            Debug.Log($"Finding path between {startCell} and {endCell}");
+            // Debug.Log($"Finding path between {startCell} and {endCell}");
             foreach (var cell in pathCells)
             {
                 cell.Type = CellType.Corridor;
-                Debug.Log($"Path Cell: {cell}");
+                // Debug.Log($"Path Cell: {cell}");
             }
         }
 

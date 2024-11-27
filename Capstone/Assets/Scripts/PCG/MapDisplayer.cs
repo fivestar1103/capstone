@@ -87,53 +87,60 @@ public class MapDisplayer
             for (var x = 0; x < Width; x++)
             {
                 var cell = map.Cells[y, x];
-                var cellType = cell.Type;
-                GameObject cellObject = null;
-                
-                // Debug.Log($"Cell ({x}, {y}) Type: {cellType}");
-                switch (cellType)
-                {
-                    case CellType.Room:
-                    {
-                        if (cell is not RoomCell) continue;
-                        
-                        cellObject = GameObject.Instantiate(((RoomCell)cell).IsCenter
-                                ? MidPointPrototypePrefab
-                                : GroundPrototypePrefab,
-                            CellsParent.transform);
-                        // cellObject.GetComponent<SpriteRenderer>()
-                        //     .color = ((RoomCell)cell).IsCenter
-                        //     ? Color.yellow
-                        //     : Color.blue;
-                        var roomNumberText = cellObject.GetComponentInChildren<TextMeshPro>();
-                        roomNumberText.text = ((RoomCell)cell).RoomNumber.ToString();
-                        
-                        cellObject.name = $"Room ({x}, {y})";
-                        break;
-                    }
-                    case CellType.Wall:
-                    {
-                        cellObject = Object.Instantiate(WallPrototypePrefab, CellsParent.transform);
-                        cellObject.name = $"Wall ({x}, {y})";
-                        
-                        break;
-                    }
-                    case CellType.Corridor:
-                    case CellType.Blank:
-                    default:
-                        break;
-                }
-                if (!cellObject) continue;
-                
-                // var vector3 = new Vector3(x * cellSize, - y * cellSize, 0);
-                // var position = screenTopLeft + new Vector3(x * cellSize, -y * cellSize, 0);
-                var position = new Vector3(x * CellSize, 0, -y * CellSize);
-                cellObject.transform.localPosition = position;
-                var vertexMonoBehaviour = cellObject.AddComponent<VertexMonoBehaviour>();
-                vertexMonoBehaviour.vertex = new Vertex(x, y);
+                CreateCell(cell);
             }
         
         GenerationText.text = $"Generation {currentGeneration}";
+    }
+
+    public void CreateCell(Cell cell)
+    {
+        var cellType = cell.Type;
+        GameObject cellObject = null;
+        
+        switch (cellType)
+        {
+            case CellType.Room:
+            {
+                if (cell is not RoomCell) 
+                    return;
+                
+                cellObject = GameObject.Instantiate(((RoomCell)cell).IsCenter
+                        ? MidPointPrototypePrefab
+                        : GroundPrototypePrefab,
+                    CellsParent.transform);
+                
+                cellObject.name = $"Room ({cell.X}, {cell.Y})";
+                break;
+            }
+            
+            case CellType.Wall:
+            {
+                cellObject = Object.Instantiate(WallPrototypePrefab, CellsParent.transform);
+                cellObject.name = $"Wall ({cell.X}, {cell.Y})";
+                break;
+            }
+            
+            case CellType.Corridor:
+            {
+                cellObject = Object.Instantiate(CorridorPrototypePrefab, CellsParent.transform);
+                cellObject.name = $"Corridor ({cell.X}, {cell.Y})";
+                break;
+            }
+                
+            case CellType.Blank:
+            default:
+                break;
+        }
+        
+        if (!cellObject) 
+            return;
+                
+        var position = new Vector3(cell.X * CellSize, 0, -cell.Y * CellSize);
+        cellObject.transform.localPosition = position;
+        var vertexMonoBehaviour = cellObject.AddComponent<VertexMonoBehaviour>();
+        vertexMonoBehaviour.vertex = new Vertex(cell.X, cell.Y);
+
     }
     
     public void DisplayCorridors(Map map)
@@ -142,15 +149,8 @@ public class MapDisplayer
             for (var x = 0; x < Width; x++)
             {
                 var cell = map.Cells[y, x];
-                if (cell.Type != CellType.Corridor)
-                    continue;
-
-                var cellObject = GameObject.Instantiate(CorridorPrototypePrefab, CellsParent.transform);
-                cellObject.name = $"Corridor ({x}, {y})";
-                var position = new Vector3(x * CellSize, 0, -y * CellSize);
-                cellObject.transform.localPosition = position;
-                var vertexMonoBehaviour = cellObject.AddComponent<VertexMonoBehaviour>();
-                vertexMonoBehaviour.vertex = new Vertex(x, y);
+                if (cell.Type == CellType.Corridor)
+                    CreateCell(cell);
             }
     }
     
