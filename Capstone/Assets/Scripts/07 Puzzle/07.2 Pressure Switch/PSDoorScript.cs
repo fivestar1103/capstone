@@ -7,7 +7,6 @@ public class PSDoorScript : MonoBehaviour
 {
     [SerializeField] private GameObject doorObject;
 
-    private bool isOpen = false;
     private int needSwitchNumbers = 2;
     private List<PressureSwitchScript> pressureSwitches = new();
 
@@ -32,8 +31,6 @@ public class PSDoorScript : MonoBehaviour
 
     private void OpenDoor()
     {
-        isOpen = true;
-
         Debug.Log("문이 열림");
 
         doorObject.SetActive(false);
