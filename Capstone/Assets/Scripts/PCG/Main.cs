@@ -43,6 +43,8 @@ public class Main : MonoBehaviour
     private bool isMinimumSpanningTreeDone;
 
     private readonly PathFinder pathFinder = new PathFinder();
+
+    private BattleRoomSpawner battleRoomSpawner;
     
     /*
      * 100, 100, 0.15, 6, 3, 1, 30
@@ -54,6 +56,8 @@ public class Main : MonoBehaviour
         if (stepByStep) return;
         
         InstantlyGenerateMap();
+
+        battleRoomSpawner = GetComponent<BattleRoomSpawner>();
     }
     
     private void Update()
@@ -148,6 +152,8 @@ public class Main : MonoBehaviour
         
         map = pathFinder.FindPath(map, paths);
         mapDisplayer.DisplayCorridors(map);
+
+        battleRoomSpawner.SetRoomData(roomsWithWalls);
     }
 
     private void InstantlyGenerateMap()
