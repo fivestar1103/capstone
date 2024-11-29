@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -27,7 +28,7 @@ public class PlayManager : MonoBehaviour
     public static void StopPlayerInteract(InteractScript _interact) { Player.StopInteract(_interact); }
 
     // 전투 관련
-    
+    public static void PrepareSkill(string _spell, EEmotion _emotion) { Player.PrepareSkill(_spell, _emotion); }
     public static bool IsDrain { get { return Player.IsDrain; } }
     public static void Drain(float _hp) { Player.Drain(_hp); }
 
@@ -67,4 +68,5 @@ public class PlayManager : MonoBehaviour
     {
         StartPlay();
     }
+
 }

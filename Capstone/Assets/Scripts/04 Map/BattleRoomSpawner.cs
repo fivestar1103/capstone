@@ -58,13 +58,21 @@ public class BattleRoomSpawner : MonoBehaviour
                 room.Type = RoomType.Battle;
                 HashSet<Vector3> spawnerPosInfo = new HashSet<Vector3>();
 
+                #region Setting BattleRoomObjects
+                // 추가 예정
+                #endregion
+
+                #region Setting MonsterSpawner
                 foreach (var cell in room.RoomCells)
                 {
-                    Vector3 RealSpawnerPos = new Vector3(cell.X * 4, 0.01f, cell.Y * -4);
-                    spawnerPosInfo.Add(RealSpawnerPos);
+                    if(!cell.IsCenter)
+                    {
+                        Vector3 RealSpawnerPos = new Vector3(cell.X * 4, 0.01f, cell.Y * -4);
+                        spawnerPosInfo.Add(RealSpawnerPos);
+                    }
                 }
 
-                int count = 2; // 임의로 3개 값 선택(temp)
+                int count = 3; // 임의로 3개 값 선택(temp)
                 List<Vector3> randomPositions = SelectRandomPosition(spawnerPosInfo, count);
 
                 foreach (var position in randomPositions)
@@ -73,12 +81,11 @@ public class BattleRoomSpawner : MonoBehaviour
                     GameObject spawner = Instantiate(spawnPoint.gameObject, position, Quaternion.identity);
                     spawner.SetActive(false);
                 }
+                #endregion
             }
         }
 
-        // Visualization
-        // -------------------------------------------------------------------
-
+        #region Visualization
         foreach (var room in roomInfo)
         {
             // Create a 2D array representing the room including walls
@@ -150,17 +157,8 @@ public class BattleRoomSpawner : MonoBehaviour
                       "Room Layout (W=Wall, R=Room, M=Center, C=Corridor):\n" +
                       $"{roomLayout}");
         }
+        #endregion
 
-        // -------------------------------------------------------------------
-
-        //foreach(var room in roomInfo)
-        //{
-        //    List<RoomCell> roomCells = new List<RoomCell>();
-        //    foreach(var cell in room.RoomCells)
-        //    {
-        //        Debug.Log($"({cell.X}, {cell.Y}) ");
-        //    }
-        //}
     }
 
     private void Start()

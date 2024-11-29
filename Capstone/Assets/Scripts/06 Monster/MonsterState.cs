@@ -21,7 +21,7 @@ public partial class MonsterScript
     [SerializeField]
     private float traceDist = 20.0f;
     [SerializeField]
-    private float minMonsterDistance = 2.0f;
+    private float minMonsterDistance = 3.0f;
 
     private EMonsterState state = EMonsterState.PATROL;
 
@@ -69,8 +69,8 @@ public partial class MonsterScript
                 break;
 
             case EMonsterState.TRACE:
-                monsterNav.SetDestination(PlayManager.PlayerPos);
                 MaintainDistance();
+                monsterNav.SetDestination(PlayManager.PlayerPos);
                 break;
 
             case EMonsterState.ATTACK:
@@ -116,6 +116,7 @@ public partial class MonsterScript
 
                 if (distance < minMonsterDistance)
                 {
+                    Debug.Log(11);
                     // 가까워졌다면 반대 방향으로 이동하거나 NavMesh를 수정
                     Vector3 newDestination = transform.position + directionAway.normalized * minMonsterDistance;
                     monsterNav.SetDestination(newDestination);

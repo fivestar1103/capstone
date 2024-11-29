@@ -258,7 +258,6 @@ GameObject:
   - component: {fileID: 7522083563791449714}
   - component: {fileID: 1681218640425170630}
   - component: {fileID: 1423269096327289739}
-  - component: {fileID: 3507207039716105185}
   m_Layer: 0
   m_Name: TempPlayer
   m_TagString: Untagged
@@ -376,11 +375,10 @@ MonoBehaviour:
   speed: 0
   attackPos: {fileID: 0}
   attackObject: {fileID: 0}
-  duration: 10
+  buffDuration: 10
   interactableObject: {fileID: 0}
   moveSpeed: 5
   jumpHeight: 3
-  groundDistance: 0.1
 --- !u!54 &1423269096327289739
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -408,14 +406,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 80
   m_CollisionDetection: 0
---- !u!81 &3507207039716105185
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6368869818584420165}
-  m_Enabled: 1
 --- !u!1 &7138986328741058597
 GameObject:
   m_ObjectHideFlags: 0

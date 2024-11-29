@@ -47,6 +47,7 @@ public partial class MonsterScript : ObjectScript
         HPbar = GetComponentInChildren<MonsterHPbar>();
 
         monsterNav = GetComponent<NavMeshAgent>();
+        monsterNav.radius = 1.5f;
         monsterNav.speed = Speed;
     }
 

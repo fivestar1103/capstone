@@ -18,22 +18,29 @@ public partial class PlayerController
 
     public ESkill CurSkill { get; private set; }
 
-    private bool canAttack = true;
+    public bool CanAttack { get; private set; }
     public bool IsBuffApplied { get; private set; }
     public bool IsDrain { get; private set; }
 
     public void PlayerAttack()
     {
-        if (AttackTrigger && canAttack)
+        if(CanAttack)
         {
-            // Test Calling
-            PrepareSkill(ValueDefinition.SPELL1, EEmotion.ENeutral);
-            StartCoroutine(UseSkill());
+            if (AttackTrigger && preparedSkill == null)
+            {
+                // 평타 구현 
+            }
+            else if (AttackTrigger && preparedSkill != null)
+            {
+                // Test Calling
+                // PrepareSkill(ValueDefinition.SPELL1, EEmotion.ENeutral);
+                StartCoroutine(UseSkill());
+            }
         }
     }
 
     // 현재 구현 중인 부분
-    private void PrepareSkill(string _spell, EEmotion _emotion)
+    public void PrepareSkill(string _spell, EEmotion _emotion)
     {
         int idx;
         for (idx = 0; idx < (int)ESkill.LAST; idx++)
@@ -54,7 +61,7 @@ public partial class PlayerController
 
     IEnumerator UseSkill()
     {
-        canAttack = false;
+        CanAttack = false;
 
         Rigidbody rb = preparedSkill.GetComponent<Rigidbody>();
         if (rb != null)
@@ -67,7 +74,7 @@ public partial class PlayerController
             StartCoroutine(ApplyBuff(preparedSkill.StatusEffect));
 
         yield return new WaitForSeconds(AttackSpeed);
-        canAttack = true;
+        CanAttack = true;
     }
 
     IEnumerator ApplyBuff(EStatusEffect _buff)

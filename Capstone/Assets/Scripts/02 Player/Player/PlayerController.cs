@@ -52,8 +52,6 @@ public partial class PlayerController : ObjectScript
 
     private void Update()
     {
-        Debug.Log(playerRB);
-        Debug.Log(playerCam);
         playerCam.Rotate();     // 카메라 회전
         PlayerMove();           // 플레이어 이동
         UpdateInputs();         // 기타 조작
@@ -71,5 +69,7 @@ public partial class PlayerController : ObjectScript
 
         PlayManager.SetCurPlayer(this);
         PlayManager.SetPlayerMaxHP(MaxHP);
+
+        CanAttack = true;
     }
 }
