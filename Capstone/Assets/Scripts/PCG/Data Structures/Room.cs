@@ -23,6 +23,10 @@ public class Room
     public List<Cell> WallCellsRelative { get; set; }
     public List<Cell> CorridorCellsRelative { get; set; }
     
+    public Dictionary<RoomCell, GameObject> RoomCellObjectsDictionary { get; set; }
+    public Dictionary<Cell, GameObject> WallCellObjectsDictionary { get; set; }
+    public Dictionary<Cell, GameObject> CorridorCellObjectsDictionary { get; set; }
+    
     public int X { get; set; } // top left corner including walls
     public int Y { get; set; } // top left corner including walls
     public int Width { get; set; } // width including walls
@@ -33,12 +37,18 @@ public class Room
     public Room(int roomNumber)
     {
         RoomNumber = roomNumber;
+        
         RoomCells = new List<RoomCell>();
         WallCells = new List<Cell>();
         CorridorCells = new List<Cell>();
+        
         RoomCellsRelative = new List<RoomCell>();
         WallCellsRelative = new List<Cell>();
         CorridorCellsRelative = new List<Cell>();
+        
+        RoomCellObjectsDictionary = new Dictionary<RoomCell, GameObject>();
+        WallCellObjectsDictionary = new Dictionary<Cell, GameObject>();
+        CorridorCellObjectsDictionary = new Dictionary<Cell, GameObject>();
     }
     
     public void AddCell(Cell cell) // cell position should be absolute
@@ -84,6 +94,54 @@ public class Room
                 CorridorCells.Remove(cell);
                 break;
                 
+            default:
+                break;
+        }
+    }
+    
+    public void AddCellObject(Cell cell, GameObject cellObject)
+    {
+        switch (cell.Type)
+        {
+            case CellType.Wall:
+                WallCellObjectsDictionary.TryAdd(cell, cellObject);
+                break;
+            
+            case CellType.Room:
+                RoomCellObjectsDictionary.TryAdd((RoomCell)cell, cellObject);
+                break;
+            
+            case CellType.Blank:
+                break;
+            
+            case CellType.Corridor:
+                CorridorCellObjectsDictionary.TryAdd(cell, cellObject);
+                break;
+            
+            default:
+                break;
+        }
+    }
+    
+    public void DeleteCellObject(Cell cell)
+    {
+        switch (cell.Type)
+        {
+            case CellType.Wall:
+                WallCellObjectsDictionary.Remove(cell);
+                break;
+            
+            case CellType.Room:
+                RoomCellObjectsDictionary.Remove((RoomCell)cell);
+                break;
+            
+            case CellType.Blank:
+                break;
+            
+            case CellType.Corridor:
+                CorridorCellObjectsDictionary.Remove(cell);
+                break;
+            
             default:
                 break;
         }
@@ -224,9 +282,13 @@ public class Room
     
         // Print room information
         Debug.Log($"Room #{RoomNumber} - Type: {Type}\n" +
-                  $"Position: ({X}, {Y}), Size: {Width}x{Height}\n" +
-                  $"Center Cell: ({CenterCell.X}, {CenterCell.Y})\n" +
-                  "Room Layout (W=Wall, R=Room, M=Center, C=Corridor):\n" +
-                  $"{roomLayout}\n");
+                  $"\tPosition: ({X}, {Y}), Size: {Width}x{Height}\n" +
+                  $"\tCenter Cell: ({CenterCell.X}, {CenterCell.Y})\n\n" +
+                  "Room Layout (W=Wall, R=Room, M=Center, C=Corridor):" +
+                  $"{roomLayout}\n" +
+                  $"\tRoomCellGameObject count: {RoomCellObjectsDictionary.Count}\n" +
+                  $"\tWallCellGameObject count: {WallCellObjectsDictionary.Count}\n" +
+                  $"\tCorridorCellGameObject count: {CorridorCellObjectsDictionary.Count}"
+        );
     }
 }

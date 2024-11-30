@@ -9,7 +9,7 @@ public class PathFinder
     
     // receive the MST edges and shoot ray from the center of each room to the center of the other room for each edge
     // if the ray hits a wall, delete the wall
-    public (List<Path>, List<Room>) BreakWalls(List<Edge> minimumSpanningTreeEdges, List<Room> roomsWithWalls)
+    public List<Path> BreakWalls(List<Edge> minimumSpanningTreeEdges, List<Room> roomsWithWalls)
     {
         var paths = new List<Path>();
         foreach (var edge in minimumSpanningTreeEdges)
@@ -36,6 +36,8 @@ public class PathFinder
                     deletedCellA.Type = CellType.Corridor;
                     room.AddCell(deletedCellA);
                     flagA = true;
+                    
+                    Debug.Log($"Deleted wall A: {deletedCellA}");
                 }
 
                 if (!flagB && room.CenterCell.Equals(centerCellB))
@@ -44,11 +46,13 @@ public class PathFinder
                     deletedCellB.Type = CellType.Corridor;
                     room.AddCell(deletedCellB);
                     flagB = true;
+                    
+                    Debug.Log($"Deleted wall B: {deletedCellB}");
                 }
             }
         }
         
-        return (paths, roomsWithWalls);
+        return paths;
     }
 
     private Vertex DeleteFirstWall(Vertex a, Vertex b)
@@ -68,6 +72,7 @@ public class PathFinder
             deletedVertex = hit.transform.GetComponent<VertexMonoBehaviour>().vertex;
         }
 
+        Debug.Log($"Deleted vertex: {deletedVertex}");
         return deletedVertex;
     }
     
@@ -89,6 +94,12 @@ public class PathFinder
             
             // then, do an A* search between the vertices of each path
             pathCells = AStarSearch(map, startCell, endCell);
+            
+            if (pathCells.Count == 0)
+            {
+                Debug.LogWarning($"No path found between {startCell} and {endCell}!");
+                continue;
+            }
             
             // Debug.Log($"Finding path between {startCell} and {endCell}");
             foreach (var cell in pathCells)

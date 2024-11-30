@@ -46,6 +46,37 @@ public class MapDisplayer
         GenerationText = generationText;
     }
 
+    public void AddRoomCellObject(Room room)
+    {
+        foreach (var roomCell in room.RoomCells)
+        {
+            var roomCellObject = CellsParent.transform.Find($"Room ({roomCell.X}, {roomCell.Y})").gameObject;
+            if (roomCellObject)
+                room.AddCellObject(roomCell, roomCellObject);
+        }
+        
+        foreach (var wallCell in room.WallCells)
+        {
+            var wallCellObject = CellsParent.transform.Find($"Wall ({wallCell.X}, {wallCell.Y})").gameObject;
+            if (wallCellObject)
+                room.AddCellObject(wallCell, wallCellObject);
+        }
+        
+        foreach (var corridorCell in room.CorridorCells)
+        {
+            try
+            {
+                var corridorCellObject = CellsParent.transform.Find($"Corridor ({corridorCell.X}, {corridorCell.Y})").gameObject;
+                if (corridorCellObject)
+                    room.AddCellObject(corridorCell, corridorCellObject);
+            }
+            catch (Exception e)
+            {
+                Debug.LogWarning(e);
+            }
+        }
+    }
+
     public void RemoveRoomInfoAndCells()
     {
         foreach (Transform child in RoomInfoPanelParent.transform)
@@ -102,7 +133,7 @@ public class MapDisplayer
         {
             case CellType.Room:
             {
-                if (cell is not RoomCell) 
+                if (cell is not RoomCell)
                     return;
                 
                 cellObject = GameObject.Instantiate(((RoomCell)cell).IsCenter
@@ -140,7 +171,6 @@ public class MapDisplayer
         cellObject.transform.localPosition = position;
         var vertexMonoBehaviour = cellObject.AddComponent<VertexMonoBehaviour>();
         vertexMonoBehaviour.vertex = new Vertex(cell.X, cell.Y);
-
     }
     
     public void DisplayCorridors(Map map)

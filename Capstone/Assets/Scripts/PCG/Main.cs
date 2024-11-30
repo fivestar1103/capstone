@@ -25,11 +25,11 @@ public class Main : MonoBehaviour
 
     [Range(10, 200)] public int width = 100;
     [Range(10, 200)] public int height = 100;
-    [Range(0f, 1f)] public float roomPercentage = 0.35f;
-    [Range(1, 20)] public int generations = 3;
+    [Range(0f, 1f)] public float roomPercentage = 0.15f;
+    [Range(1, 20)] public int generations = 6;
     [Range(0, 8)] public int birthLimit = 3;
-    [Range(0, 8)] public int deathLimit = 4;
-    [Range(0, 100)] public int roomThreshold = 25;
+    [Range(0, 8)] public int deathLimit = 1;
+    [Range(0, 100)] public int roomThreshold = 30;
     
     private MapGenerator mapGenerator;
     private MapDisplayer mapDisplayer;
@@ -45,6 +45,7 @@ public class Main : MonoBehaviour
     private readonly PathFinder pathFinder = new PathFinder();
     
     /*
+     * 100, 100, 0.35, 3, 3, 4, 25
      * 100, 100, 0.15, 6, 3, 1, 30
      * 100, 100, 0.35, 5, 4, 3, 20
      */
@@ -144,16 +145,17 @@ public class Main : MonoBehaviour
         yield return null;
 
         List<Path> paths;
-        (paths, roomsWithWalls) = pathFinder.BreakWalls(minimumSpanningTreeEdges, roomsWithWalls);
-        
-        foreach (var room in roomsWithWalls)
-        {
-            room.CalculateRelativeCoordinates();
-            room.LogRoomInfo();
-        }
+        paths = pathFinder.BreakWalls(minimumSpanningTreeEdges, roomsWithWalls);
         
         map = pathFinder.FindPath(map, paths);
         mapDisplayer.DisplayCorridors(map);
+        
+        foreach (var room in roomsWithWalls)
+        {
+            mapDisplayer.AddRoomCellObject(room);
+            room.CalculateRelativeCoordinates();
+            room.LogRoomInfo();
+        }
     }
 
     private void InstantlyGenerateMap()
