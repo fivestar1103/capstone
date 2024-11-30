@@ -146,6 +146,12 @@ public class Main : MonoBehaviour
         List<Path> paths;
         (paths, roomsWithWalls) = pathFinder.CreatePath(minimumSpanningTreeEdges, roomsWithWalls);
         
+        foreach (var room in roomsWithWalls)
+        {
+            room.CalculateRelativeCoordinates();
+            room.LogRoomInfo();
+        }
+        
         map = pathFinder.FindPath(map, paths);
         mapDisplayer.DisplayCorridors(map);
     }

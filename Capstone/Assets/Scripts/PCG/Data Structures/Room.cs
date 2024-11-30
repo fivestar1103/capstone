@@ -47,13 +47,19 @@ public class Room
         {
             case CellType.Wall:
                 WallCells.Add(cell);
-                WallCellsRelative.Add(new Cell(cell.X - X, cell.Y - Y, CellType.Wall));
                 break;
+            
             case CellType.Room:
                 RoomCells.Add((RoomCell)cell);
                 break;
+            
             case CellType.Blank:
+                break;
+            
             case CellType.Corridor:
+                CorridorCells.Add(cell);
+                break;
+            
             default:
                 break;
         }
@@ -66,11 +72,18 @@ public class Room
             case CellType.Wall:
                 WallCells.Remove(cell);
                 break;
+            
             case CellType.Room:
                 RoomCells.Remove((RoomCell)cell);
                 break;
+            
             case CellType.Blank:
+                break;
+            
             case CellType.Corridor:
+                CorridorCells.Remove(cell);
+                break;
+                
             default:
                 break;
         }
@@ -114,11 +127,20 @@ public class Room
         centerCell.IsCenter = true;
         CenterCell = centerCell;
         
-        CalculateRoomCellsRelative();
+        CalculateRelativeCoordinates();
     }
     
-    public void CalculateRoomCellsRelative()
+    public void CalculateRelativeCoordinates()
     {
+        CalculateRelativeRoomCells();
+        CalculateRelativeWallCells();
+        CalculateRelativeCorridorCells();
+    }
+    
+    public void CalculateRelativeRoomCells()
+    {
+        RoomCellsRelative.Clear();
+        
         foreach (var roomCell in RoomCells)
         {
             var relativeX = roomCell.X - X;
@@ -130,46 +152,55 @@ public class Room
         }
     }
     
+    public void CalculateRelativeWallCells()
+    {
+        WallCellsRelative.Clear();
+        
+        foreach (var wallCell in WallCells)
+        {
+            var relativeX = wallCell.X - X;
+            var relativeY = wallCell.Y - Y;
+            WallCellsRelative.Add(new Cell(relativeX, relativeY, CellType.Wall));
+        }
+    }
+    
+    public void CalculateRelativeCorridorCells()
+    {
+        CorridorCellsRelative.Clear();
+        
+        foreach (var corridorCell in CorridorCells)
+        {
+            var relativeX = corridorCell.X - X;
+            var relativeY = corridorCell.Y - Y;
+            CorridorCellsRelative.Add(new Cell(relativeX, relativeY, CellType.Corridor));
+        }
+    }
+    
     public void LogRoomInfo()
     {
         // Create a 2D array representing the room including walls
-        var display = new char[Height + 2, Width + 2];
-    
+        var display = new char[Height + 2][];
+        for (int index = 0; index < Height + 2; index++)
+            display[index] = new char[Width + 2];
+
         // Initialize with empty spaces
         for (int y = 0; y < Height + 2; y++)
-        {
             for (int x = 0; x < Width + 2; x++)
-            {
-                display[y, x] = ' ';
-            }
-        }
+                display[y][x] = ' ';
     
         // Add room cells
-        foreach (var cell in RoomCells)
-        {
-            var relativeX = cell.X - X;
-            var relativeY = cell.Y - Y;
-            display[relativeY, relativeX] = cell.IsCenter ? 'M' : 'R';
-        }
+        foreach (var cell in RoomCellsRelative)
+            display[cell.Y][cell.X] = cell.IsCenter ? 'M' : 'R';
     
         // Add wall cells
-        foreach (var cell in WallCells)
-        {
-            var relativeX = cell.X - X;
-            var relativeY = cell.Y - Y;
-            display[relativeY, relativeX] = 'W';
-        }
-    
+        foreach (var cell in WallCellsRelative)
+            display[cell.Y][cell.X] = 'W';
+
         // Add corridor cells
-        foreach (var cell in CorridorCells)
-        {
-            var relativeX = cell.X - X;
-            var relativeY = cell.Y - Y;
-            display[relativeY, relativeX] = 'C';
-        }
+        foreach (var cell in CorridorCellsRelative)
+            display[cell.Y][cell.X] = 'C';
         
         var roomLayout = "\n";
-    
         // Add top border
         roomLayout += "+";
         for (int x = 0; x < Width + 2; x++)
@@ -181,9 +212,7 @@ public class Room
         {
             roomLayout += "|";
             for (int x = 0; x < Width + 2; x++)
-            {
-                roomLayout += display[y, x];
-            }
+                roomLayout += display[y][x];
             roomLayout += "|\n";
         }
     
@@ -197,7 +226,7 @@ public class Room
         Debug.Log($"Room #{RoomNumber} - Type: {Type}\n" +
                   $"Position: ({X}, {Y}), Size: {Width}x{Height}\n" +
                   $"Center Cell: ({CenterCell.X}, {CenterCell.Y})\n" +
-                  "Room Layout (W=Wall, R=Room, M=Center, C=Corridor):\n" + 
-                  $"{roomLayout}");
+                  "Room Layout (W=Wall, R=Room, M=Center, C=Corridor):\n" +
+                  $"{roomLayout}\n");
     }
 }

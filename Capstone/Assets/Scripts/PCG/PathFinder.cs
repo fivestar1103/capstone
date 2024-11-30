@@ -21,37 +21,30 @@ public class PathFinder
             // change the room type of the deleted cell to corridor
             var centerCellA = new RoomCell((int)edge.A.X, (int)edge.A.Y);
             var centerCellB = new RoomCell((int)edge.B.X, (int)edge.B.Y);
-            var deletedCellA = new RoomCell((int)deletedVertexA.X, (int)deletedVertexA.Y);
-            var deletedCellB = new RoomCell((int)deletedVertexB.X, (int)deletedVertexB.Y);
+            var deletedCellA = new Cell((int)deletedVertexA.X, (int)deletedVertexA.Y, CellType.Wall);
+            var deletedCellB = new Cell((int)deletedVertexB.X, (int)deletedVertexB.Y, CellType.Wall);
+            
             var flagA = false;
             var flagB = false;
             foreach (var room in roomsWithWalls)
             {
-                // Debug.Log($"Room center cell: {room.CenterCell}\n" +
-                //           $"Center cell A: {centerCellA}\n" + 
-                //           $"Center cell B: {centerCellB}");
-
                 if (flagA && flagB) break;
-                
+
                 if (!flagA && room.CenterCell.Equals(centerCellA))
                 {
-                    room.RoomCells.Remove(deletedCellA);
-                    room.CorridorCells.Add(deletedCellA);
+                    room.DeleteCell(deletedCellA);
+                    deletedCellA.Type = CellType.Corridor;
+                    room.AddCell(deletedCellA);
                     flagA = true;
-                    // Debug.Log($"deleted cell A: {deletedCellA}");
                 }
-                
+
                 if (!flagB && room.CenterCell.Equals(centerCellB))
                 {
-                    room.RoomCells.Remove(deletedCellB);
+                    room.DeleteCell(deletedCellB);
+                    deletedCellB.Type = CellType.Corridor;
+                    room.AddCell(deletedCellB);
                     flagB = true;
-                    // Debug.Log($"deleted cell B: {deletedCellB}");
                 }
-            }
-
-            foreach (var room in roomsWithWalls)
-            {
-                room.LogRoomInfo();
             }
         }
         
