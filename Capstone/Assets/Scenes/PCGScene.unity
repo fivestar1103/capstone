@@ -1493,6 +1493,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 70d69c1b97e1c824ab535ce28517f0a8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cells: {fileID: 1508945198}
   spawnPoint: {fileID: 6078000082019906450, guid: a47551b123f4af7409fc92fbaf809d20, type: 3}
   battleRoomCount: 10
 --- !u!1 &1899175909

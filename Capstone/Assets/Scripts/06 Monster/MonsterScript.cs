@@ -9,7 +9,7 @@ public partial class MonsterScript : ObjectScript
     [SerializeField]
     private GameObject monsterBullet;
     [SerializeField]
-    private Transform attackPoint;
+    private GameObject attackPoint;
 
     private NavMeshAgent monsterNav;
     private MonsterHPbar HPbar;

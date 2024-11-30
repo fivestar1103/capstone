@@ -194,10 +194,10 @@ public class Room
         roomLayout += "+\n";
     
         // Print room information
-        Debug.Log($"Room #{RoomNumber} - Type: {Type}\n" +
-                  $"Position: ({X}, {Y}), Size: {Width}x{Height}\n" +
-                  $"Center Cell: ({CenterCell.X}, {CenterCell.Y})\n" +
-                  "Room Layout (W=Wall, R=Room, M=Center, C=Corridor):\n" + 
-                  $"{roomLayout}");
+        //Debug.Log($"Room #{RoomNumber} - Type: {Type}\n" +
+        //          $"Position: ({X}, {Y}), Size: {Width}x{Height}\n" +
+        //          $"Center Cell: ({CenterCell.X}, {CenterCell.Y})\n" +
+        //          "Room Layout (W=Wall, R=Room, M=Center, C=Corridor):\n" + 
+        //          $"{roomLayout}");
     }
 }

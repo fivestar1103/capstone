@@ -36,13 +36,13 @@ public partial class MonsterScript
 
         IsAttack = true;
 
-        GameObject bullet = Instantiate(monsterBullet, attackPoint.position, attackPoint.rotation);
+        GameObject bullet = Instantiate(monsterBullet, attackPoint.transform.position, attackPoint.transform.rotation);
 
         MonsterAttack monsterAttack = bullet.GetComponent<MonsterAttack>();
         if (monsterAttack != null) monsterAttack.attack = this.Attack;
 
         Rigidbody rb = bullet.GetComponent<Rigidbody>();
-        if (rb != null) rb.velocity = attackPoint.forward * 20;
+        if (rb != null) rb.velocity = attackPoint.transform.forward * 20;
 
         yield return new WaitForSeconds(1.0f);
 

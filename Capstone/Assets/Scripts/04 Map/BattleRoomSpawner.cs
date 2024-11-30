@@ -9,6 +9,8 @@ using Random = UnityEngine.Random;
 public class BattleRoomSpawner : MonoBehaviour
 {
     [SerializeField]
+    private GameObject cells;
+    [SerializeField]
     private MonsterSpawnPoint spawnPoint;   // 몬스터 스포너 프리팹
     [SerializeField]
     private int battleRoomCount = 10;       // 전투방 갯수
@@ -16,7 +18,7 @@ public class BattleRoomSpawner : MonoBehaviour
     private int maxRoomNumber;              // 방 번호 중 가장 큰 수
 
     private HashSet<int> battleRoomNumber = new HashSet<int>();           // 전투방으로 사용될 방 번호들
-    private List<Room> roomInfo = new List<Room>();
+    private List<Room> roomInfo = new List<Room>();                       // 전투방 list
 
     private List<Vector3> SelectRandomPosition(HashSet<Vector3> set, int count)
     {
@@ -58,10 +60,6 @@ public class BattleRoomSpawner : MonoBehaviour
                 room.Type = RoomType.Battle;
                 HashSet<Vector3> spawnerPosInfo = new HashSet<Vector3>();
 
-                #region Setting BattleRoomObjects
-                // 추가 예정
-                #endregion
-
                 #region Setting MonsterSpawner
                 foreach (var cell in room.RoomCells)
                 {
@@ -77,10 +75,15 @@ public class BattleRoomSpawner : MonoBehaviour
 
                 foreach (var position in randomPositions)
                 {
-                    // Debug.Log(position);
                     GameObject spawner = Instantiate(spawnPoint.gameObject, position, Quaternion.identity);
                     spawner.SetActive(false);
                 }
+                #endregion
+
+                #region Setting BattleRoomObjects
+                // 1. NavmeshSurface 설정
+
+
                 #endregion
             }
         }

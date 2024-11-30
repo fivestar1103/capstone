@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using PCG.Data_Structures;
 using TMPro;
+using Unity.AI.Navigation;
 using Unity.VisualScripting;
 using UnityEngine;
 using Debug = UnityEngine.Debug;
