@@ -23,6 +23,10 @@ public class Room
     public List<Cell> WallCellsRelative { get; set; }
     public List<Cell> CorridorCellsRelative { get; set; }
     
+    public Dictionary<RoomCell, GameObject> RoomCellObjectsDictionary { get; set; }
+    public Dictionary<Cell, GameObject> WallCellObjectsDictionary { get; set; }
+    public Dictionary<Cell, GameObject> CorridorCellObjectsDictionary { get; set; }
+    
     public int X { get; set; } // top left corner including walls
     public int Y { get; set; } // top left corner including walls
     public int Width { get; set; } // width including walls
@@ -33,12 +37,18 @@ public class Room
     public Room(int roomNumber)
     {
         RoomNumber = roomNumber;
+        
         RoomCells = new List<RoomCell>();
         WallCells = new List<Cell>();
         CorridorCells = new List<Cell>();
+        
         RoomCellsRelative = new List<RoomCell>();
         WallCellsRelative = new List<Cell>();
         CorridorCellsRelative = new List<Cell>();
+        
+        RoomCellObjectsDictionary = new Dictionary<RoomCell, GameObject>();
+        WallCellObjectsDictionary = new Dictionary<Cell, GameObject>();
+        CorridorCellObjectsDictionary = new Dictionary<Cell, GameObject>();
     }
     
     public void AddCell(Cell cell) // cell position should be absolute
@@ -47,13 +57,19 @@ public class Room
         {
             case CellType.Wall:
                 WallCells.Add(cell);
-                WallCellsRelative.Add(new Cell(cell.X - X, cell.Y - Y, CellType.Wall));
                 break;
+            
             case CellType.Room:
                 RoomCells.Add((RoomCell)cell);
                 break;
+            
             case CellType.Blank:
+                break;
+            
             case CellType.Corridor:
+                CorridorCells.Add(cell);
+                break;
+            
             default:
                 break;
         }
@@ -66,11 +82,66 @@ public class Room
             case CellType.Wall:
                 WallCells.Remove(cell);
                 break;
+            
             case CellType.Room:
                 RoomCells.Remove((RoomCell)cell);
                 break;
+            
             case CellType.Blank:
+                break;
+            
             case CellType.Corridor:
+                CorridorCells.Remove(cell);
+                break;
+                
+            default:
+                break;
+        }
+    }
+    
+    public void AddCellObject(Cell cell, GameObject cellObject)
+    {
+        switch (cell.Type)
+        {
+            case CellType.Wall:
+                WallCellObjectsDictionary.TryAdd(cell, cellObject);
+                break;
+            
+            case CellType.Room:
+                RoomCellObjectsDictionary.TryAdd((RoomCell)cell, cellObject);
+                break;
+            
+            case CellType.Blank:
+                break;
+            
+            case CellType.Corridor:
+                CorridorCellObjectsDictionary.TryAdd(cell, cellObject);
+                break;
+            
+            default:
+                break;
+        }
+    }
+    
+    public void DeleteCellObject(Cell cell)
+    {
+        switch (cell.Type)
+        {
+            case CellType.Wall:
+                WallCellObjectsDictionary.Remove(cell);
+                break;
+            
+            case CellType.Room:
+                RoomCellObjectsDictionary.Remove((RoomCell)cell);
+                break;
+            
+            case CellType.Blank:
+                break;
+            
+            case CellType.Corridor:
+                CorridorCellObjectsDictionary.Remove(cell);
+                break;
+            
             default:
                 break;
         }
@@ -114,11 +185,20 @@ public class Room
         centerCell.IsCenter = true;
         CenterCell = centerCell;
         
-        CalculateRoomCellsRelative();
+        CalculateRelativeCoordinates();
     }
     
-    public void CalculateRoomCellsRelative()
+    public void CalculateRelativeCoordinates()
     {
+        CalculateRelativeRoomCells();
+        CalculateRelativeWallCells();
+        CalculateRelativeCorridorCells();
+    }
+    
+    public void CalculateRelativeRoomCells()
+    {
+        RoomCellsRelative.Clear();
+        
         foreach (var roomCell in RoomCells)
         {
             var relativeX = roomCell.X - X;
@@ -130,46 +210,55 @@ public class Room
         }
     }
     
+    public void CalculateRelativeWallCells()
+    {
+        WallCellsRelative.Clear();
+        
+        foreach (var wallCell in WallCells)
+        {
+            var relativeX = wallCell.X - X;
+            var relativeY = wallCell.Y - Y;
+            WallCellsRelative.Add(new Cell(relativeX, relativeY, CellType.Wall));
+        }
+    }
+    
+    public void CalculateRelativeCorridorCells()
+    {
+        CorridorCellsRelative.Clear();
+        
+        foreach (var corridorCell in CorridorCells)
+        {
+            var relativeX = corridorCell.X - X;
+            var relativeY = corridorCell.Y - Y;
+            CorridorCellsRelative.Add(new Cell(relativeX, relativeY, CellType.Corridor));
+        }
+    }
+    
     public void LogRoomInfo()
     {
         // Create a 2D array representing the room including walls
-        var display = new char[Height + 2, Width + 2];
-    
+        var display = new char[Height + 2][];
+        for (int index = 0; index < Height + 2; index++)
+            display[index] = new char[Width + 2];
+
         // Initialize with empty spaces
         for (int y = 0; y < Height + 2; y++)
-        {
             for (int x = 0; x < Width + 2; x++)
-            {
-                display[y, x] = ' ';
-            }
-        }
+                display[y][x] = ' ';
     
         // Add room cells
-        foreach (var cell in RoomCells)
-        {
-            var relativeX = cell.X - X;
-            var relativeY = cell.Y - Y;
-            display[relativeY, relativeX] = cell.IsCenter ? 'M' : 'R';
-        }
+        foreach (var cell in RoomCellsRelative)
+            display[cell.Y][cell.X] = cell.IsCenter ? 'M' : 'R';
     
         // Add wall cells
-        foreach (var cell in WallCells)
-        {
-            var relativeX = cell.X - X;
-            var relativeY = cell.Y - Y;
-            display[relativeY, relativeX] = 'W';
-        }
-    
+        foreach (var cell in WallCellsRelative)
+            display[cell.Y][cell.X] = 'W';
+
         // Add corridor cells
-        foreach (var cell in CorridorCells)
-        {
-            var relativeX = cell.X - X;
-            var relativeY = cell.Y - Y;
-            display[relativeY, relativeX] = 'C';
-        }
+        foreach (var cell in CorridorCellsRelative)
+            display[cell.Y][cell.X] = 'C';
         
         var roomLayout = "\n";
-    
         // Add top border
         roomLayout += "+";
         for (int x = 0; x < Width + 2; x++)
@@ -181,9 +270,7 @@ public class Room
         {
             roomLayout += "|";
             for (int x = 0; x < Width + 2; x++)
-            {
-                roomLayout += display[y, x];
-            }
+                roomLayout += display[y][x];
             roomLayout += "|\n";
         }
     
@@ -194,10 +281,14 @@ public class Room
         roomLayout += "+\n";
     
         // Print room information
-        //Debug.Log($"Room #{RoomNumber} - Type: {Type}\n" +
-        //          $"Position: ({X}, {Y}), Size: {Width}x{Height}\n" +
-        //          $"Center Cell: ({CenterCell.X}, {CenterCell.Y})\n" +
-        //          "Room Layout (W=Wall, R=Room, M=Center, C=Corridor):\n" + 
-        //          $"{roomLayout}");
+        Debug.Log($"Room #{RoomNumber} - Type: {Type}\n" +
+                  $"\tPosition: ({X}, {Y}), Size: {Width}x{Height}\n" +
+                  $"\tCenter Cell: ({CenterCell.X}, {CenterCell.Y})\n\n" +
+                  "Room Layout (W=Wall, R=Room, M=Center, C=Corridor):" +
+                  $"{roomLayout}\n" +
+                  $"\tRoomCellGameObject count: {RoomCellObjectsDictionary.Count}\n" +
+                  $"\tWallCellGameObject count: {WallCellObjectsDictionary.Count}\n" +
+                  $"\tCorridorCellGameObject count: {CorridorCellObjectsDictionary.Count}"
+        );
     }
 }
