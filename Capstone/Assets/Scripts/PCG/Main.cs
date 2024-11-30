@@ -144,7 +144,7 @@ public class Main : MonoBehaviour
         yield return null;
 
         List<Path> paths;
-        (paths, roomsWithWalls) = pathFinder.CreatePath(minimumSpanningTreeEdges, roomsWithWalls);
+        (paths, roomsWithWalls) = pathFinder.BreakWalls(minimumSpanningTreeEdges, roomsWithWalls);
         
         foreach (var room in roomsWithWalls)
         {

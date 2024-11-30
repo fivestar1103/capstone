@@ -9,7 +9,7 @@ public class PathFinder
     
     // receive the MST edges and shoot ray from the center of each room to the center of the other room for each edge
     // if the ray hits a wall, delete the wall
-    public (List<Path>, List<Room>) CreatePath(List<Edge> minimumSpanningTreeEdges, List<Room> roomsWithWalls)
+    public (List<Path>, List<Room>) BreakWalls(List<Edge> minimumSpanningTreeEdges, List<Room> roomsWithWalls)
     {
         var paths = new List<Path>();
         foreach (var edge in minimumSpanningTreeEdges)
