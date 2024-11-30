@@ -273,7 +273,7 @@ MonoBehaviour:
   duration: 3
   dottedDamage: 5
   monsterBullet: {fileID: 1141520411253339737, guid: f157c532793f65a438c8301664fe9b28, type: 3}
-  attackPoint: {fileID: 3657797133176654351}
+  attackPoint: {fileID: 687328536388666555}
   PATROLRadius: 4
   attackDist: 2
   traceDist: 10

@@ -24,19 +24,25 @@ public partial class PlayerController
 
     public void PlayerAttack()
     {
-        if(CanAttack)
+        if(CanAttack && AttackTrigger)
         {
-            if (AttackTrigger && preparedSkill == null)
-            {
-                // 평타 구현 
-            }
-            else if (AttackTrigger && preparedSkill != null)
-            {
-                // Test Calling
-                // PrepareSkill(ValueDefinition.SPELL1, EEmotion.ENeutral);
-                StartCoroutine(UseSkill());
-            }
+            PrepareSkill(ValueDefinition.SPELL1, EEmotion.ENeutral);
+            StartCoroutine(UseSkill());
         }
+
+        //if(CanAttack)
+        //{
+        //    if (AttackTrigger && preparedSkill == null)
+        //    {
+        //        // 평타 구현 
+        //    }
+        //    else if (AttackTrigger && preparedSkill != null)
+        //    {
+        //        // Test Calling
+        //        PrepareSkill(ValueDefinition.SPELL1, EEmotion.ENeutral);
+        //        StartCoroutine(UseSkill());
+        //    }
+        //}
     }
 
     // 현재 구현 중인 부분

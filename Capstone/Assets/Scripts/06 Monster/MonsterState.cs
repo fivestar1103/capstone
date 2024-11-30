@@ -86,7 +86,10 @@ public partial class MonsterScript
 
                 // Die Animation
                 this.gameObject.SetActive(false);
-                GameManager.PoolObjects.Add(this.gameObject); // 풀에 반환
+                if (!GameManager.PoolObjects.Contains(this.gameObject))
+                {
+                    GameManager.PoolObjects.Add(this.gameObject); // 풀에 반환
+                }
                 break;
         }
     }

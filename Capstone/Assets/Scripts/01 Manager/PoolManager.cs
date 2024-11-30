@@ -25,15 +25,11 @@ public class PoolManager : MonoBehaviour
     {
         foreach(GameObject gameObject in poolObjects) 
         {
-            if(!gameObject.activeInHierarchy)
+            if(gameObject != null && !gameObject.activeInHierarchy)
             {
                 return gameObject;
             }
         }
-
-        GameObject poolObj = Instantiate(poolObject);
-        poolObj.SetActive(false);
-        poolObjects.Add(poolObj);
-        return poolObj;
+        return null;
     }
 }

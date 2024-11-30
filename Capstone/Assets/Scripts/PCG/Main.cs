@@ -153,8 +153,6 @@ public class Main : MonoBehaviour
         
         map = pathFinder.FindPath(map, paths);
         mapDisplayer.DisplayCorridors(map);
-
-        battleRoomSpawner.SetRoomData(roomsWithWalls);
         
         foreach (var room in roomsWithWalls)
         {
@@ -162,6 +160,7 @@ public class Main : MonoBehaviour
             room.CalculateRelativeCoordinates();
             room.LogRoomInfo();
         }
+        battleRoomSpawner.SetRoomData(roomsWithWalls);
     }
 
     private void InstantlyGenerateMap()

@@ -120,5 +120,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   monster: {fileID: 6934064716396171524, guid: 86f77feb81b3fa642a959efda09f56dd, type: 3}
-  spawnTime: 1.5
+  spawnTime: 0.8
   spawnRadius: 3.5
