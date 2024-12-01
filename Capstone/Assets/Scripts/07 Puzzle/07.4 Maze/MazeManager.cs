@@ -8,20 +8,30 @@ public class MazeManager : MonoBehaviour
     [SerializeField] private GameObject playerPrefab;
     private MazeGenerate mazeGenerate;
     private GameObject player;
+    private ConvertToMap convertToMap;
 
+    // public static Action<int[,], Room> mapGenerate;
     public static Action<int[,]> mapGenerate;
 
-    int[,] maze;
-    (int, int)[] doors;
-    int mazeWidth;
-    int mazeHeight;
+    // we need to select room for maze & bring it here
+    // private Room mazeRoom;
+    // ---------------------------------------------------
+    private int[,] maze;
+    private List<(int x, int y)> entrances;
+    private int mazeWidth;
+    private int mazeHeight;
 
     private void Awake()
     {
+        convertToMap = new ConvertToMap();
         mazeGenerate = new MazeGenerate();
         mazeWidth = 12;
         mazeHeight = 15;
 
+        // we need to select room for maze & bring it here
+        // mazeRoom = GetComponent<Room>();
+        // convertToMap.ConvertDataStructure(mazeRoom, ref maze);
+        // ---------------------------------------------------
         player = Instantiate(playerPrefab);
     }
 
@@ -30,12 +40,10 @@ public class MazeManager : MonoBehaviour
         // 15 x 12 (행 x 열) -> C/C++이랑 순서 같음
         // maze = new int[mazeHeight, mazeWidth];
 
-
-        mazeWidth = 12;
-        mazeHeight = 15;
+        // 15 x 12 (행 x 열) -> C/C++이랑 순서 같음
         maze = new int[,]
         {
-            { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1, -1 },
+            { 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1, -1 },
             { -1, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1, -1 },
             { -1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
             { -1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
@@ -43,19 +51,43 @@ public class MazeManager : MonoBehaviour
             { -1, -1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
             { -1, -1, -1, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
             { -1, -1, -1, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-            { -1, -1, -1, 0, 0, 0, 0, 0, -1, -1, 0, 0 },
+            { -1, -1, -1, 0, 0, 0, 0, 0, -1, -1, 0, 3 },
             { -1, -1, -1, 0, 0, 0, 0, 0, -1, -1, 0, 0 },
             { -1, -1, 0, 0, 0, 0, 0, 0, -1, -1, -1, -1 },
             { -1, -1, 0, 0, 0, 0, 0, 0, -1, -1, -1, -1 },
             { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
             { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-            { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 },
+            { 0, 0, 0, 0, 0, 3, 0, 0, 0, 0, 0, 1 },
         };
+        mazeWidth = maze.GetLength(1);
+        mazeHeight = maze.GetLength(0);
 
-        doors = new (int, int)[3];
-        doors[0] = (5, 0);
-        doors[1] = (mazeWidth - 1, 9);
-        doors[2] = (5, mazeHeight - 1);
+        //// 현재 반례
+        //maze = new int[,]
+        //{
+        //    { 3, 0, -1, 0, 0, 0, 0, 0, 0, 0, -1, -1 },
+        //    { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1, -1 },
+        //    { -1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+        //    { -1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+        //    { -1, -1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+        //    { -1, -1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+        //    { -1, -1, -1, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+        //    { -1, -1, -1, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+        //    { -1, -1, -1, 0, 0, 0, 0, 0, -1, -1, 0, 3 },
+        //    { -1, -1, -1, 0, 0, 0, 0, 0, -1, -1, 0, 0 },
+        //    { -1, -1, 0, 0, 0, 0, 0, 0, -1, -1, -1, -1 },
+        //    { -1, -1, 0, 0, 0, 0, 0, 0, -1, -1, -1, -1 },
+        //    { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+        //    { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+        //    { 0, 0, 0, 0, 0, 3, 0, 0, 0, 0, 0, 1 },
+        //};
+        //mazeWidth = maze.GetLength(1);
+        //mazeHeight = maze.GetLength(0);
+
+        entrances = new List<(int x, int y)>();
+        FindDoors(maze);
+
+        convertToMap.DebugPrintMap(maze);
     }
 
     private void Update()
@@ -65,24 +97,27 @@ public class MazeManager : MonoBehaviour
             InitializeMaze();
 
             Debug.Log("GenerateMaze!");
-            maze = mazeGenerate.GenerateMaze(maze, doors);
+            maze = mazeGenerate.GenerateMaze(maze, entrances);
             mazeGenerate.SelectInteractiveWalls(ref maze);
-            
+
+            // mapGenerate(maze, mazeRoom);
             mapGenerate(maze);
 
             // GameObject player = GameObject.FindGameObjectWithTag("Player");
-            player.transform.position = new Vector3(1 + doors[0].Item2 * 2, 1.5f, 1 + doors[0].Item1 * 2);
+            player.transform.position = new Vector3(1 + entrances[0].y * 2, 1.5f, 1 + entrances[0].x * 2);
+
+            convertToMap.DebugPrintMap(maze);
         }
     }
 
     private void InitializeMaze()
     {
-        // 직사각형
         for (int i = 0; i < mazeHeight; i++)
         {
             for (int j = 0; j < mazeWidth; j++)
             {
-                if (maze[i, j] != -1)
+                // Floor인 경우에만
+                if (maze[i, j] == 0)
                 {
                     // 행과 열마다 홀수 인덱스 칸만 벽으로 변경
                     if (i % 2 == 0 && j % 2 == 0)
@@ -90,6 +125,18 @@ public class MazeManager : MonoBehaviour
                     else
                         maze[i, j] = 1;
                 }
+            }
+        }
+    }
+
+    private void FindDoors(int[,] maze)
+    {
+        for (int h = 0;  h < mazeHeight; h++)
+        {
+            for (int w = 0;  w < mazeWidth; w++)
+            {
+                if (maze[h, w] == 3)
+                    entrances.Add((x: w, y: h));
             }
         }
     }

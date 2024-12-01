@@ -43,7 +43,10 @@ public class Main : MonoBehaviour
     private bool isMinimumSpanningTreeDone;
 
     private readonly PathFinder pathFinder = new PathFinder();
-    
+
+    // chi - 테스트를 위한 추가
+    private ConvertToMap convertToMap;
+
     /*
      * 100, 100, 0.15, 6, 3, 1, 30
      * 100, 100, 0.35, 5, 4, 3, 20
@@ -148,6 +151,24 @@ public class Main : MonoBehaviour
         
         map = pathFinder.FindPath(map, paths);
         mapDisplayer.DisplayCorridors(map);
+
+
+
+        // chihoon - for testing to convert data structure
+        convertToMap = new ConvertToMap();
+        // temporary selected room
+        var room = roomsWithWalls[0];
+        int[,] roomCellsArray = new int[room.Height + 2, room.Width + 2];
+        for (int h = 0; h < roomCellsArray.GetLength(0); h++)
+        {
+            for (int w = 0; w < roomCellsArray.GetLength(1); w++)
+            {
+                roomCellsArray[h, w] = -1;
+            }
+        }
+
+        convertToMap.ConvertDataStructure(room, ref roomCellsArray);
+        convertToMap.DebugPrintMap(roomCellsArray);
     }
 
     private void InstantlyGenerateMap()

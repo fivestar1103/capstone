@@ -2,21 +2,21 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PressureSwitchScript : MonoBehaviour
+public class PressureSwitch : MonoBehaviour, IPuzzleTrigger
 {
-    [SerializeField] private PSDoorScript Door;
+    [SerializeField] private DoorScript Door;
 
     private void OnCollisionEnter(Collision collision)
     {
         Debug.Log(collision.gameObject.name);
         Debug.Log("¹â´Â Áß!");
-        Door.AddPressureSwitch(this);
+        Door.AddTriggerObject(this);
     }
 
     private void OnCollisionExit(Collision collision)
     {
         Debug.Log(collision.gameObject.name);
         Debug.Log("¶¼´Â Áß!");
-        Door.RemovePressureSwitch(this);
+        Door.RemoveTriggerObject(this);
     }
 }

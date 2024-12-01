@@ -7,13 +7,14 @@ public class TileMapGenerate : MonoBehaviour
     [SerializeField] private GameObject TileMap;
     [SerializeField] private List<GameObject> prefabList;
 
-    enum Blocks { NONE = -1, FLOOR = 0, WALL, INTERACTIVE, DOOR }
+    enum Blocks { NONE = -1, FLOOR = 0, WALL, INTERACTIVE, ENTRANCE }
 
     private void Awake()
     {
         MazeManager.mapGenerate += GenerateMap;
     }
 
+    // public void GenerateMap(int[,] maze, Room mazeRoom)
     public void GenerateMap(int[,] maze)
     {
         foreach (Transform child in TileMap.transform)
@@ -23,6 +24,10 @@ public class TileMapGenerate : MonoBehaviour
 
         GameObject prefab;
         var nowPos = Blocks.NONE;
+        //int absolutePosX = mazeRoom.X;
+        //int absolutePosY = mazeRoom.Y;
+        int absolutePosX = 0;
+        int absolutePosY = 0;
 
         for (int height = 0;  height < maze.GetLength(0); height++)
         {
@@ -36,15 +41,15 @@ public class TileMapGenerate : MonoBehaviour
                         break;
                     case Blocks.FLOOR:
                         prefab = Instantiate(prefabList[(int)nowPos], TileMap.transform);
-                        prefab.transform.localPosition = new Vector3(1 + height * 2, -0.5f, 1 + width * 2);
+                        prefab.transform.localPosition = new Vector3(absolutePosY + height * 4, 0, absolutePosX + width * 4);
                         break;
                     case Blocks.WALL:
                         prefab = Instantiate(prefabList[(int)nowPos], TileMap.transform);
-                        prefab.transform.localPosition = new Vector3(1 + height * 2, 3, 1 + width * 2);
+                        prefab.transform.localPosition = new Vector3(absolutePosY + height * 4, 0, absolutePosX + width * 4);
                         break;
                     case Blocks.INTERACTIVE:
                         prefab = Instantiate(prefabList[(int)nowPos], TileMap.transform);
-                        prefab.transform.localPosition = new Vector3(1 + height * 2, 3, 1 + width * 2);
+                        prefab.transform.localPosition = new Vector3(absolutePosY + height * 4, 0, absolutePosX + width * 4);
 
                         Debug.Log(prefab.transform.localPosition);
                         Debug.Log(maze[height + 1, width]);
@@ -55,9 +60,9 @@ public class TileMapGenerate : MonoBehaviour
                         }
                         Debug.Log(prefab.transform.rotation);
                         break;
-                    case Blocks.DOOR:
+                    case Blocks.ENTRANCE:
                         prefab = Instantiate(prefabList[(int)nowPos], TileMap.transform);
-                        prefab.transform.localPosition = new Vector3(1 + height * 2, 3, 1 + width * 2);
+                        prefab.transform.localPosition = new Vector3(height * 4, 0, width * 4);
                         break;
                 }
                 
