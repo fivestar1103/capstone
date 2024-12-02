@@ -9,6 +9,7 @@ TagManager:
   - PlayerAttack
   - MonsterAttack
   - Wall
+  - NPC
   layers:
   - Default
   - TransparentFX

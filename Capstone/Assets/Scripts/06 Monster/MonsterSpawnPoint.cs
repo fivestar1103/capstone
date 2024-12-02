@@ -13,28 +13,24 @@ public class MonsterSpawnPoint : MonoBehaviour
 
     IEnumerator MonsterSpawn()
     {
-        while (PlayManager.CurMonsterNum < PlayManager.TotalMonsterNum)
+        while (true) // 계속 실행
         {
-            Vector3 spawnPosition = GetRandomPositionWithinRadius();
-
-            // int idx = Random.Range(0, monster.Length);
-            // MonsterScript mob = monster[idx];
-
-            // Instantiate(mob, transform.position, Quaternion.identity);
-
-            //Instantiate(monster, spawnPosition, Quaternion.identity);
-
-            GameObject monster = GameManager.GetPooledObject();
-            if (monster != null)
+            if (PlayManager.CurMonsterNum < PlayManager.TotalMonsterNum)
             {
-                monster.transform.position = spawnPosition;
-                monster.transform.rotation = Quaternion.identity;
-                monster.SetActive(true);
+                GameObject monster = GameManager.GetPooledObject();
 
-                PlayManager.CurMonsterNum++;
+                if (monster != null)
+                {
+                    // 몬스터 활성화
+                    monster.transform.position = GetRandomPositionWithinRadius();
+                    monster.transform.rotation = Quaternion.identity;
+                    monster.SetActive(true);
+
+                    PlayManager.CurMonsterNum++;
+                }
             }
 
-            yield return new WaitForSeconds(spawnTime);
+            yield return new WaitForSeconds(spawnTime); // 매 프레임마다 확인
         }
     }
 

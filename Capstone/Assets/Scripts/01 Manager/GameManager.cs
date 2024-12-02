@@ -27,9 +27,9 @@ public class GameManager : MonoBehaviour
     // 오브젝트 풀
     private PoolManager poolManager;
     public static PoolManager PoolManager { get { return Inst.poolManager; } }
-    public static List<GameObject> PoolObjects { get { return PoolManager.poolObjects; } }
-    public static int ObjectNum { get { return PoolManager.ObjectNum; } }
+    public static List<GameObject> PoolObjects { get { return PoolManager.PoolObjects; } }
     public static GameObject GetPooledObject() { return PoolManager.GetPooledObject(); }
+    public static void ReturnObjectToPool(GameObject _obj) { PoolManager.ReturnObjectToPool(_obj); }
 
     // 이벤트
     private EventManager eventManager;

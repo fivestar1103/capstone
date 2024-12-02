@@ -56,6 +56,7 @@ public partial class MonsterScript : ObjectScript
         base.OnEnable();
         GameManager.RegisterMonster(this);
 
+        state = EMonsterState.PATROL;
         IsDie = false;
         HPbar.SetComps();   // 활성화 될 때마다 다시 MaxHP로
         monsterNav.isStopped = false;

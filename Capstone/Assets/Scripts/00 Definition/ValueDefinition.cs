@@ -8,10 +8,13 @@ public static class ValueDefinition
     public const string MONSTER_TAG = "Monster";
     public const string MONSTER_ATTACK_TAG = "MonsterAttack";
 
+    public const string NPC_TAG = "NPC";
     public const string PLAYER_TAG = "Player";
     public const string PLAYER_ATTACK_TAG = "PlayerAttack";
 
     public const string GROUND_TAG = "Ground";
+
+
 
     // 레이어
     // public const int GROUND_LAYER = 1 << 6;   // 땅 레이어

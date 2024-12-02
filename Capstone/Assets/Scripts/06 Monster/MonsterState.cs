@@ -85,11 +85,11 @@ public partial class MonsterScript
                 GetComponent<CapsuleCollider>().enabled = false;
 
                 // Die Animation
-                this.gameObject.SetActive(false);
-                if (!GameManager.PoolObjects.Contains(this.gameObject))
-                {
-                    GameManager.PoolObjects.Add(this.gameObject); // 풀에 반환
-                }
+
+                PlayManager.MonsterNum++;   // 퇴치한 몬스터 수 증가
+                PlayManager.SetMonsterNum();
+                GameManager.ReturnObjectToPool(this.gameObject); // 풀로 반환
+                
                 break;
         }
     }
@@ -119,7 +119,6 @@ public partial class MonsterScript
 
                 if (distance < minMonsterDistance)
                 {
-                    Debug.Log(11);
                     // 가까워졌다면 반대 방향으로 이동하거나 NavMesh를 수정
                     Vector3 newDestination = transform.position + directionAway.normalized * minMonsterDistance;
                     monsterNav.SetDestination(newDestination);
@@ -131,7 +130,6 @@ public partial class MonsterScript
     public void ReactToPlayerDeath()
     {
         state = EMonsterState.PATROL;
-        Debug.Log(state);
         MonsterAction();
     }
 }

@@ -13,12 +13,10 @@ public class DialogueUI : MonoBehaviour
 
         IsOpened = true;
         gameObject.SetActive(true);
-        GameManager.SetControlMode(EControlMode.UI_CONTROL);
     }
 
     public void CloseDialogue()
     {
-        curNPC.StopInteract();
         gameObject.SetActive(false);
     }
 

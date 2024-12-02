@@ -4,13 +4,18 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using TMPro;
 using Unity.AI.Navigation;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.UIElements;
 using Random = UnityEngine.Random;
 
 public class BattleRoomSpawner : MonoBehaviour
 {
+    [SerializeField]
+    private GameObject monster;
+
     [SerializeField]
     private MonsterSpawnPoint spawnPoint;   // 몬스터 스포너 프리팹
     [SerializeField]
@@ -84,18 +89,22 @@ public class BattleRoomSpawner : MonoBehaviour
                 #region Setting BattleRoom
                 foreach (var tile in room.RoomCellObjectsDictionary)
                 {
-                    GameObject tileObject = tile.Value.gameObject;
+                    GameObject tileObject = tile.Value;
 
                     NavMeshSurface navMeshSurface = tileObject.AddComponent<NavMeshSurface>();
                     navMeshSurface.collectObjects = CollectObjects.Children;
-                    navMeshSurface.BuildNavMesh();
 
                     NavMeshLink link = tileObject.AddComponent<NavMeshLink>();
                     link.startPoint = new Vector3(-2.0f, 0, 0); // 시작점 (타일 경계)
                     link.endPoint = new Vector3(2.0f, 0, 0);   // 종료점 (다음 타일 경계)
                     link.width = 4.0f; // 링크 폭
+
+                    navMeshSurface.BuildNavMesh();
                 }
                 #endregion
+
+
+
             }
         }
 

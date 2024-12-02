@@ -5604,7 +5604,7 @@ GameObject:
   - component: {fileID: 1517141967}
   m_Layer: 7
   m_Name: TempNPC1
-  m_TagString: Untagged
+  m_TagString: NPC
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -5811,7 +5811,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   objectNum: 5
   poolObject: {fileID: 4462867712295837045, guid: 86f77feb81b3fa642a959efda09f56dd, type: 3}
-  poolObjects: []
 --- !u!114 &1556337245
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8019,6 +8018,14 @@ PrefabInstance:
     - target: {fileID: 5553848370378379196, guid: a47551b123f4af7409fc92fbaf809d20, type: 3}
       propertyPath: m_Name
       value: Point1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6078000082019906450, guid: a47551b123f4af7409fc92fbaf809d20, type: 3}
+      propertyPath: monster
+      value: 
+      objectReference: {fileID: 6934064716396171524, guid: 86f77feb81b3fa642a959efda09f56dd, type: 3}
+    - target: {fileID: 6078000082019906450, guid: a47551b123f4af7409fc92fbaf809d20, type: 3}
+      propertyPath: spawnTime
+      value: 2.5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

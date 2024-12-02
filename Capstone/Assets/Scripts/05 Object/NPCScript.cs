@@ -17,15 +17,17 @@ public class NPCScript : MonoBehaviour, IInteractable
 
     public virtual void StartInteract()
     {
-        Debug.Log(this.name + " 상호작용 시작");
+        GameManager.SetControlMode(EControlMode.UI_CONTROL);
+        // if(this.CompareTag(ValueDefinition.NPC_TAG))
         PlayManager.OpenDialogue(this);
+        Debug.Log(this.name + " 상호작용 시작");
     }
 
     public virtual void StopInteract()
     {
-        Debug.Log(this.name + " 상호작용 종료");
-        PlayManager.StopPlayerInteract();
         GameManager.SetControlMode(EControlMode.FIRST_PERSON);
+        PlayManager.CloseDialogue();
+        Debug.Log(this.name + " 상호작용 종료");
     }
 
     private void Start()

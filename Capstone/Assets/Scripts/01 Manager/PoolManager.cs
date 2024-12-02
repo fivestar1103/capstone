@@ -5,31 +5,42 @@ using UnityEngine;
 public class PoolManager : MonoBehaviour
 {
     [SerializeField]
-    private int objectNum;
-    public int ObjectNum { get { return objectNum; } }
+    private int objectNum = 5; // 풀 크기 설정
+
+    private List<GameObject> poolObjects = new List<GameObject>();
+    public List<GameObject> PoolObjects { get { return poolObjects; } }
+
     public GameObject poolObject;
-    public List<GameObject> poolObjects = new List<GameObject>();
 
     public void SetManager()
     {
-        poolObjects = new List<GameObject>();
-        for(int i = 0; i < objectNum; i++)
+        for (int i = 0; i < objectNum; i++)
         {
-            GameObject gameObject = Instantiate(poolObject);
-            gameObject.SetActive(false);
-            poolObjects.Add(gameObject);
+            GameObject obj = Instantiate(poolObject);
+            obj.SetActive(false); // 비활성화된 상태로 초기화
+            poolObjects.Add(obj);
         }
     }
 
     public GameObject GetPooledObject()
     {
-        foreach(GameObject gameObject in poolObjects) 
+        foreach (GameObject poolObject in poolObjects)
         {
-            if(gameObject != null && !gameObject.activeInHierarchy)
+            if (poolObject.activeSelf == false) // 비활성화된 오브젝트 반환
             {
-                return gameObject;
+                return poolObject;
             }
         }
-        return null;
+        return null; // 비활성화된 오브젝트가 없는 경우
+    }
+
+    public void ReturnObjectToPool(GameObject _obj)
+    {
+        if (_obj.activeSelf)
+        {
+            _obj.SetActive(false); // 반드시 비활성화
+            PoolObjects.Add(_obj);
+        }
     }
 }
+

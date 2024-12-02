@@ -34,8 +34,8 @@ public class PlayManager : MonoBehaviour
 
     // 몬스터 관련
     public static MonsterSpawnPoint[] spawnPoints;      // 몬스터 스폰 포인트
-    public static int TotalMonsterNum { get { return GameManager.ObjectNum; } }             // 사냥해야 하는 몬스터 수
-    public static int CurMonsterNum;                    // 현재 소환된 몬스터 수
+    public static int TotalMonsterNum = 10;             // 사냥해야 하는 몬스터 수
+    public static int CurMonsterNum;                    // 소환이 이루어진 몬스터 수
     public static int MonsterNum;                       // 사냥당한 몬스터 수
 
     // UI
