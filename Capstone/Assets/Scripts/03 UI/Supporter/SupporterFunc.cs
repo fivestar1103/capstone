@@ -35,7 +35,6 @@ public class SupporterFunc : MonoBehaviour
         switch (index)
         {
             case 0:
-                Debug.Log(111);
                 chatFrame.SetActive(!chatFrame.activeSelf);
                 break;
             case 1:

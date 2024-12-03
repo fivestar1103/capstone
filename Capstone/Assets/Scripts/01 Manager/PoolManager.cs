@@ -10,15 +10,18 @@ public class PoolManager : MonoBehaviour
     private List<GameObject> poolObjects = new List<GameObject>();
     public List<GameObject> PoolObjects { get { return poolObjects; } }
 
-    public GameObject poolObject;
+    public GameObject[] poolObject;
 
     public void SetManager()
     {
         for (int i = 0; i < objectNum; i++)
         {
-            GameObject obj = Instantiate(poolObject);
+            // 배열에서 랜덤한 오브젝트 선택
+            int randomIndex = Random.Range(0, poolObject.Length);
+            GameObject obj = Instantiate(poolObject[randomIndex]);
+
             obj.SetActive(false); // 비활성화된 상태로 초기화
-            poolObjects.Add(obj);
+            poolObjects.Add(obj); // 리스트에 추가
         }
     }
 

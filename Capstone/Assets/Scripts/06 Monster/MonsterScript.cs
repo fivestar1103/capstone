@@ -33,6 +33,7 @@ public partial class MonsterScript : ObjectScript
                     StartCoroutine(ApplyCCType(playerAttack.StatusEffect));
                 }
             }
+            Destroy(playerAttack.gameObject);
         }
     }
 

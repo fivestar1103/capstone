@@ -5,7 +5,8 @@ using UnityEngine;
 
 public partial class PlayerAttack : MonoBehaviour
 {
-    private Renderer renderer;
+    [SerializeField]
+    private float lifeTime = 2f;
 
     public string Spell { get; set; }
     public ESkill Skill { get; set; }
@@ -19,6 +20,6 @@ public partial class PlayerAttack : MonoBehaviour
 
     private void Start()
     {
-        // Destroy(this.gameObject, lifeTime);
+        Destroy(this.gameObject, lifeTime);
     }
 }
