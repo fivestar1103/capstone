@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TileMapGenerate : MonoBehaviour
+public class MazeTileMapGenerate : MonoBehaviour
 {
     [SerializeField] private GameObject TileMap;
     [SerializeField] private List<GameObject> prefabList;

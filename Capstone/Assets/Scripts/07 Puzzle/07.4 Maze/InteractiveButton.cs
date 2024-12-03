@@ -2,10 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class InteractiveButton : MonoBehaviour, IInteractable, IPuzzleTrigger
+public class InteractiveButton : PuzzleTrigger, IInteractable
 {
     [SerializeField] private DoorScript Door;
     public InteractScript InteractManager { get; private set;  }
+    public int buttonNumber { get; }
 
     public void SetInteractScript(InteractScript _script)
     {

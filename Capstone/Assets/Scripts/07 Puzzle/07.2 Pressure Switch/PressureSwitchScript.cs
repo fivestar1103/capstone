@@ -2,10 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PressureSwitch : MonoBehaviour, IPuzzleTrigger
+public class PressureSwitch : PuzzleTrigger
 {
-    [SerializeField] private DoorScript Door;
-
+    [SerializeField] private OrderDoorScript Door;
+    public int switchNumber { get { return base.switchNum; } }
+    
     private void OnCollisionEnter(Collision collision)
     {
         Debug.Log(collision.gameObject.name);
@@ -13,10 +14,10 @@ public class PressureSwitch : MonoBehaviour, IPuzzleTrigger
         Door.AddTriggerObject(this);
     }
 
-    private void OnCollisionExit(Collision collision)
-    {
-        Debug.Log(collision.gameObject.name);
-        Debug.Log("¶¼´Â Áß!");
-        Door.RemoveTriggerObject(this);
-    }
+    //private void OnCollisionExit(Collision collision)
+    //{
+    //    Debug.Log(collision.gameObject.name);
+    //    Debug.Log("¶¼´Â Áß!");
+    //    Door.RemoveTriggerObject(this);
+    //}
 }

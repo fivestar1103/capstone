@@ -4,26 +4,26 @@ using UnityEngine;
 
 public class DoorScript : MonoBehaviour
 {
-    [SerializeField] private GameObject doorObject;
+    [SerializeField] private GameObject[] doorObjects;
     [SerializeField] private int needTriggerNumbers;
-    private List<IPuzzleTrigger> pressureTriggers = new();
+    private List<PuzzleTrigger> puzzleTriggers = new();
 
-    public void AddTriggerObject(IPuzzleTrigger triggerObject)
+    public void AddTriggerObject(PuzzleTrigger triggerObject)
     {
-        if (!pressureTriggers.Contains(triggerObject))
+        if (!puzzleTriggers.Contains(triggerObject))
         {
-            pressureTriggers.Add(triggerObject);
+            puzzleTriggers.Add(triggerObject);
 
-            if (pressureTriggers.Count == needTriggerNumbers)
+            if (puzzleTriggers.Count == needTriggerNumbers)
                 OpenDoor();
         }
     }
 
-    public void RemoveTriggerObject(IPuzzleTrigger triggerObject)
+    public void RemoveTriggerObject(PuzzleTrigger triggerObject)
     {
-        if (pressureTriggers.Contains(triggerObject))
+        if (puzzleTriggers.Contains(triggerObject))
         {
-            pressureTriggers.Remove(triggerObject);
+            puzzleTriggers.Remove(triggerObject);
         }
     }
 
@@ -31,6 +31,7 @@ public class DoorScript : MonoBehaviour
     {
         Debug.Log("문이 열림");
 
-        doorObject.SetActive(false);
+        foreach (var doorObject in doorObjects)
+            doorObject.SetActive(false);
     }
 }

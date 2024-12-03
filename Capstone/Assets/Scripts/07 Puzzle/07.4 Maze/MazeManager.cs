@@ -7,7 +7,6 @@ public class MazeManager : MonoBehaviour
 {
     [SerializeField] private GameObject playerPrefab;
     private MazeGenerate mazeGenerate;
-    private GameObject player;
     private ConvertToMap convertToMap;
 
     // public static Action<int[,], Room> mapGenerate;
@@ -16,6 +15,7 @@ public class MazeManager : MonoBehaviour
     // we need to select room for maze & bring it here
     // private Room mazeRoom;
     // ---------------------------------------------------
+    private GameObject player;
     private int[,] maze;
     private List<(int x, int y)> entrances;
     private int mazeWidth;
