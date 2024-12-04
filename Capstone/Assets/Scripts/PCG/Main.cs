@@ -59,6 +59,7 @@ public class Main : MonoBehaviour
         RoomsWithWalls = new List<Room>();
 
         InstantlyGenerateMap();
+        PlayManager.PlayerSpawn();
 
         battleRoomSpawner = GetComponent<BattleRoomSpawner>();
     }
@@ -162,7 +163,7 @@ public class Main : MonoBehaviour
             room.CalculateRelativeCoordinates();
             room.LogRoomInfo();
         }
-        
+
         battleRoomSpawner.SetRoomData(roomsWithWalls);
     }
 

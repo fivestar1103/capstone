@@ -96,8 +96,6 @@ public class BattleRoomSpawner : MonoBehaviour
             triggerInstance.SetBattleRoom(this, room.RoomNumber);
         }
         #endregion
-
-
     }
 
     public void ActivateBattleObject(int _roomNumber)

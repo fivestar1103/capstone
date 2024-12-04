@@ -11,7 +11,6 @@ public class PlayManager : MonoBehaviour
     // 게임 시작 관련 함수
     private void StartPlay()
     {
-        PlayerSpawn();
         GameManager.SetControlMode(EControlMode.FIRST_PERSON);
     }
 
@@ -75,7 +74,6 @@ public class PlayManager : MonoBehaviour
 
     private BattleRoomSpawner battleRoomSpawner;
     public static BattleRoomSpawner BattleRoomSpawner { get { return Inst.battleRoomSpawner; } }
-    public static Room ActiveBattleRoom { get { return BattleRoomSpawner.ActiveBattleRoom; } }
 
 
     private void SetSubManagers()
@@ -97,5 +95,4 @@ public class PlayManager : MonoBehaviour
     {
         StartPlay();
     }
-
 }
