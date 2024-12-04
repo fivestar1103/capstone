@@ -39,11 +39,6 @@ public class GameManager : MonoBehaviour
     public static void UnregisterMonster(MonsterScript _monster) { EventManager.UnregisterMonster(_monster); }
     public static void NotifyMonsters() { EventManager.NotifyMonsters(); }
 
-    // ¸Ê
-    private Main mapMaker;
-    public static Main MapMaker { get { return Inst.mapMaker; } }
-    public static List<Room> RoomWithWalls { get { return MapMaker.RoomsWithWalls; } }
-
     private void SetSubManagers()
     {
         inputManager = GetComponent<InputManager>();
@@ -54,7 +49,6 @@ public class GameManager : MonoBehaviour
         eventManager.SetManager();
         poolManager = GetComponent<PoolManager>();
         poolManager.SetManager();
-        mapMaker = GetComponent<Main>();
     }
 
     private void Awake()

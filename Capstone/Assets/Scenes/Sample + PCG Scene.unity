@@ -3114,6 +3114,8 @@ GameObject:
   - component: {fileID: 701910200}
   - component: {fileID: 701910201}
   - component: {fileID: 701910202}
+  - component: {fileID: 701910203}
+  - component: {fileID: 701910205}
   m_Layer: 0
   m_Name: System
   m_TagString: Untagged
@@ -3164,6 +3166,53 @@ MonoBehaviour:
   dialogue: {fileID: 1499026758}
   support: {fileID: 1820672298}
   huntingInfo: {fileID: 1301843066}
+--- !u!114 &701910203
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 701910199}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b4200f50cf41b477a8d5a28547c4d398, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  stepByStep: 0
+  pointByPoint: 0
+  vertexByVertex: 0
+  cellsParent: {fileID: 1832684998}
+  groundPrototypePrefab: {fileID: 916917378494744782, guid: d6c747dfa96e4464391017639f515590, type: 3}
+  midpointPrototypePrefab: {fileID: 916917378494744782, guid: 000e3912b630f48e087e45247e60fd13, type: 3}
+  roomInfoPanelParent: {fileID: 896002819}
+  roomInfoPanelPrefab: {fileID: 1995145927975632663, guid: aede9188cb28c440f93ff16d29c8be50, type: 3}
+  wallPrototypePrefab: {fileID: 4364684078978983698, guid: 66044fe1fc587407e8c81600bf1e3a08, type: 3}
+  corridorPrototypePrefab: {fileID: 916917378494744782, guid: d430bf434ef4645818825b76ac54ebf5, type: 3}
+  edgesParent: {fileID: 543416291}
+  generationText: {fileID: 930505286}
+  width: 100
+  height: 100
+  roomPercentage: 0.35
+  generations: 5
+  birthLimit: 4
+  deathLimit: 3
+  roomThreshold: 30
+--- !u!114 &701910205
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 701910199}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 70d69c1b97e1c824ab535ce28517f0a8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  monster: {fileID: 7949327730568203911, guid: 2d3ec8b596699c74aa6d793cbf895ced, type: 3}
+  spawnPoint: {fileID: 6078000082019906450, guid: a47551b123f4af7409fc92fbaf809d20, type: 3}
+  battleRoomCount: 10
+  battleTrigger: {fileID: -156359747914550400, guid: 597a47d1b4eca8049b48f758345b6d05, type: 3}
 --- !u!1 &705507993
 GameObject:
   m_ObjectHideFlags: 0
@@ -7985,8 +8034,6 @@ GameObject:
   - component: {fileID: 1556337243}
   - component: {fileID: 1556337244}
   - component: {fileID: 1556337245}
-  - component: {fileID: 1556337246}
-  - component: {fileID: 1556337247}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -8080,52 +8127,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   DieFrame: {fileID: 1613884833}
   Player: {fileID: 1298071670}
---- !u!114 &1556337246
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1556337239}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b4200f50cf41b477a8d5a28547c4d398, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  stepByStep: 0
-  pointByPoint: 0
-  vertexByVertex: 0
-  cellsParent: {fileID: 1832684998}
-  groundPrototypePrefab: {fileID: 916917378494744782, guid: d6c747dfa96e4464391017639f515590, type: 3}
-  midpointPrototypePrefab: {fileID: 916917378494744782, guid: 000e3912b630f48e087e45247e60fd13, type: 3}
-  roomInfoPanelParent: {fileID: 896002819}
-  roomInfoPanelPrefab: {fileID: 1995145927975632663, guid: aede9188cb28c440f93ff16d29c8be50, type: 3}
-  wallPrototypePrefab: {fileID: 4364684078978983698, guid: 66044fe1fc587407e8c81600bf1e3a08, type: 3}
-  corridorPrototypePrefab: {fileID: 916917378494744782, guid: d430bf434ef4645818825b76ac54ebf5, type: 3}
-  edgesParent: {fileID: 543416291}
-  generationText: {fileID: 930505286}
-  width: 100
-  height: 100
-  roomPercentage: 0.35
-  generations: 5
-  birthLimit: 4
-  deathLimit: 3
-  roomThreshold: 30
---- !u!114 &1556337247
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1556337239}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 70d69c1b97e1c824ab535ce28517f0a8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  monster: {fileID: 7949327730568203911, guid: 2d3ec8b596699c74aa6d793cbf895ced, type: 3}
-  spawnPoint: {fileID: 6078000082019906450, guid: a47551b123f4af7409fc92fbaf809d20, type: 3}
-  battleRoomCount: 10
 --- !u!1 &1588335540
 GameObject:
   m_ObjectHideFlags: 0

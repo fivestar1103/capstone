@@ -25,10 +25,14 @@ public class BattleRoomSpawner : MonoBehaviour
 
     private HashSet<int> battleRoomNumber = new HashSet<int>();           // 전투방으로 사용될 방 번호들
     private List<Room> roomInfo = new List<Room>();                       // 전투방 list
+    public Room ActiveBattleRoom { get; private set; }                    // 현재 활성화 중인 전투 방
+
+
+    // 플레이어가 방에 들어갈 때 활성화되는 오브젝트들
+    [SerializeField]
+    private BattleTriggerScript battleTrigger;
     private GameObject roomObject;                                        // navigation 담당 오브젝트
     private NavMeshSurface navMeshSurface;                                // navigation 담당 오브젝트2
-
-    // 플레이어가 ? 호출 -> 몬스터 생성
 
     private List<Vector3> SelectRandomPosition(HashSet<Vector3> set, int count)
     {
@@ -51,16 +55,17 @@ public class BattleRoomSpawner : MonoBehaviour
     public void SpawnBattleRoom(Room room)
     {
         HashSet<Vector3> spawnerPosInfo = new HashSet<Vector3>();
+        ActiveBattleRoom = room;
 
-        #region Setting MonsterSpawner
+        #region Setting BattleObject
         foreach (var cell in room.RoomCells)
         {
-            if(!cell.IsCenter)
+            if (!cell.IsCenter)
             {
-                Vector3 RealSpawnerPos = new Vector3(cell.X * 4, 0.01f, cell.Y * -4);
-                spawnerPosInfo.Add(RealSpawnerPos);
+                Vector3 realSpawnerPos = new Vector3(cell.X * 4, 0.01f, cell.Y * -4);
+                spawnerPosInfo.Add(realSpawnerPos);
             }
-            else
+            else // 중앙에는 NavMeshSurface 담당 오브젝트 배치
             {
                 roomObject = new GameObject("Room" + room.RoomNumber);
                 roomObject.transform.position = new Vector3(cell.X * 4, 1.0f, cell.Y * -4);
@@ -76,27 +81,53 @@ public class BattleRoomSpawner : MonoBehaviour
         foreach (var position in randomPositions)
         {
             GameObject spawner = Instantiate(spawnPoint.gameObject, position, Quaternion.identity);
-            spawner.SetActive(true);
+            spawner.SetActive(false);
+            room.MonsterSpawners.Add(spawner);
         }
-        #endregion
 
-        #region Setting BattleRoom
-        foreach (var tile in room.RoomCellObjectsDictionary)
+        foreach (var corridor in room.CorridorCells)
         {
-            GameObject tileObject = tile.Value;
-            tileObject.transform.parent = roomObject.transform;
+            Vector3 triggerPos = new Vector3(corridor.X * 4, 1f, corridor.Y * -4);
 
-            // 3. 타일 간 연결을 위한 NavMeshLink 추가
-            NavMeshLink link = tileObject.AddComponent<NavMeshLink>();
-
-            // 경계 설정 (가로 방향 예제)
-            link.startPoint = new Vector3(-2.0f, 0, 0); // 타일 왼쪽 경계
-            link.endPoint = new Vector3(2.0f, 0, 0);   // 타일 오른쪽 경계
-            link.width = 4.0f; // 링크 폭
-            link.bidirectional = true; // 양방향 이동 허용
+            BattleTriggerScript triggerInstance = Instantiate(battleTrigger, triggerPos, Quaternion.identity);
+            triggerInstance.transform.SetParent(roomObject.transform); 
+            triggerInstance.GetComponent<Collider>().isTrigger = true;
+            
+            triggerInstance.SetBattleRoom(this, room.RoomNumber);
         }
-        navMeshSurface.BuildNavMesh();
         #endregion
+
+
+    }
+
+    public void ActivateBattleObject(int _roomNumber)
+    {
+        foreach(var room in PlayManager.RoomWithWalls)
+        {
+            if(_roomNumber == room.RoomNumber && room.MonsterSpawners.Count > 0)
+            {
+                foreach(var spawner in room.MonsterSpawners)
+                {
+                    spawner.SetActive(true);
+                }
+
+                #region Setting BattleRoom Navigation
+                foreach (var tile in room.RoomCellObjectsDictionary)
+                {
+                    GameObject tileObject = tile.Value;
+                    tileObject.transform.parent = roomObject.transform;
+
+                    NavMeshLink link = tileObject.AddComponent<NavMeshLink>();
+
+                    link.startPoint = new Vector3(-2.0f, 0, 0);
+                    link.endPoint = new Vector3(2.0f, 0, 0);
+                    link.width = 4.0f;
+                    link.bidirectional = true;
+                }
+                navMeshSurface.BuildNavMesh();
+                #endregion
+            }
+        }
     }
 
     public void SetRoomData(List<Room> roomsWithWalls)
@@ -202,6 +233,6 @@ public class BattleRoomSpawner : MonoBehaviour
 
     private void Start()
     {
-
+        
     }
 }

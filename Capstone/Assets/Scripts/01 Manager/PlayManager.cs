@@ -17,7 +17,7 @@ public class PlayManager : MonoBehaviour
 
     public static void PlayerSpawn()
     {
-        foreach(var room in GameManager.RoomWithWalls)
+        foreach(var room in RoomWithWalls)
         {
             if(room.RoomNumber == 0)    // 0번 방이 스폰 방
             {
@@ -26,7 +26,6 @@ public class PlayManager : MonoBehaviour
                     if (cell.IsCenter)
                     {
                         Player.transform.position = new Vector3((cell.X * 4 + 3), 1f, (cell.Y * -4 + 3));
-                        Debug.Log($"This room is  no.{room.RoomNumber} room");
                     }
                 }
             }
@@ -69,11 +68,22 @@ public class PlayManager : MonoBehaviour
     public static void SetPlayerMaxHP(float _hp) { UIManager.SetMaxHP(_hp); }    // 체력바 최대 체력
     public static void SetPlayerCurHP(float _hp) { UIManager.SetCurHP(_hp); }    // 체력바 현재 체력
 
+    // 맵
+    private Main mapMaker;
+    public static Main MapMaker { get { return Inst.mapMaker; } }
+    public static List<Room> RoomWithWalls { get { return MapMaker.RoomsWithWalls; } }
+
+    private BattleRoomSpawner battleRoomSpawner;
+    public static BattleRoomSpawner BattleRoomSpawner { get { return Inst.battleRoomSpawner; } }
+    public static Room ActiveBattleRoom { get { return BattleRoomSpawner.ActiveBattleRoom; } }
+
 
     private void SetSubManagers()
     {
         playerUI = GetComponent<UIManager>();
         playerUI.SetManager();
+        mapMaker = GetComponent<Main>();
+        battleRoomSpawner = GetComponent<BattleRoomSpawner>();
     }
 
     private void Awake()

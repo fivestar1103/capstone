@@ -26,7 +26,9 @@ public class Room
     public Dictionary<RoomCell, GameObject> RoomCellObjectsDictionary { get; set; }
     public Dictionary<Cell, GameObject> WallCellObjectsDictionary { get; set; }
     public Dictionary<Cell, GameObject> CorridorCellObjectsDictionary { get; set; }
-    
+
+    public List<GameObject> MonsterSpawners;
+
     public int X { get; set; } // top left corner including walls
     public int Y { get; set; } // top left corner including walls
     public int Width { get; set; } // width including walls
@@ -49,6 +51,8 @@ public class Room
         RoomCellObjectsDictionary = new Dictionary<RoomCell, GameObject>();
         WallCellObjectsDictionary = new Dictionary<Cell, GameObject>();
         CorridorCellObjectsDictionary = new Dictionary<Cell, GameObject>();
+
+        MonsterSpawners = new List<GameObject>();
     }
     
     public void AddCell(Cell cell) // cell position should be absolute
