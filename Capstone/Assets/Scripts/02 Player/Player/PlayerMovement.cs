@@ -10,10 +10,17 @@ public partial class PlayerController
     private float moveSpeed = 5f;         // 움직임 속도
     [SerializeField]
     private float jumpHeight = 3f;        // 점프 세기
+    [SerializeField]
+    private float runSpeed = 1.8f;        // 달리기 속도  
+
+    private Vector3 moveDirection;
+    private Vector3 moveVelocity;
 
     public bool IsGround { get; private set; }
+    public bool IsMove { get; private set; }
+    public bool IsRun { get; private set; }
 
-    public void PlayerJump()
+    private void PlayerJump()
     {
         if (JumpTrigger && IsGround)
         {
@@ -25,9 +32,21 @@ public partial class PlayerController
 
     private void PlayerMove()
     {
-        Vector3 moveDirection = transform.forward * MoveInput.y + transform.right * MoveInput.x;
-        Vector3 moveVelocity = moveDirection * moveSpeed;
+        moveDirection = transform.forward * MoveInput.y + transform.right * MoveInput.x;
+        moveVelocity = moveDirection * moveSpeed;
 
         playerRB.velocity = new Vector3(moveVelocity.x, playerRB.velocity.y, moveVelocity.z);
+
+        IsMove = true;
+    }
+
+    private void PlayerRun()
+    {
+        if(RunTrigger)
+        {
+            playerRB.velocity = new Vector3(moveVelocity.x, playerRB.velocity.y, moveVelocity.z) * runSpeed;
+
+            IsRun = true;
+        }
     }
 }

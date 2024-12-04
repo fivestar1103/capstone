@@ -25,7 +25,6 @@ public class BattleRoomSpawner : MonoBehaviour
 
     private HashSet<int> battleRoomNumber = new HashSet<int>();           // 전투방으로 사용될 방 번호들
     private List<Room> roomInfo = new List<Room>();                       // 전투방 list
-    public Room ActiveBattleRoom { get; private set; }                    // 현재 활성화 중인 전투 방
 
 
     // 플레이어가 방에 들어갈 때 활성화되는 오브젝트들
@@ -55,7 +54,6 @@ public class BattleRoomSpawner : MonoBehaviour
     public void SpawnBattleRoom(Room room)
     {
         HashSet<Vector3> spawnerPosInfo = new HashSet<Vector3>();
-        ActiveBattleRoom = room;
 
         #region Setting BattleObject
         foreach (var cell in room.RoomCells)

@@ -21,7 +21,8 @@ public partial class PlayerController : ObjectScript
     public Vector3 MoveInput { get { return PlayerInput.Movement.ReadValue<Vector2>(); } }      // wasd 입력
     public Vector2 MouseDelta { get { return PlayerInput.Look.ReadValue<Vector2>(); } }         // 마우스 좌표
     public bool AttackTrigger { get { return PlayerInput.Attack.triggered; } }                  // 공격
-    public bool JumpTrigger { get { return PlayerInput.Jump.triggered; } }                      // 점프                                                                                
+    public bool JumpTrigger { get { return PlayerInput.Jump.triggered; } }                      // 점프
+    public bool RunTrigger { get { return PlayerInput.Run.triggered; } }                                                                                            // 달리기
     public bool InteractTrigger { get { return PlayerInput.Interact.triggered; } }              // 상호작용
     public bool SupportUITrigger { get { return PlayerInput.SupportUI.triggered; } }            // AI 대화창
 

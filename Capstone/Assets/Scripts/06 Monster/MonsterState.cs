@@ -87,7 +87,7 @@ public partial class MonsterScript
                 // Die Animation
 
                 PlayManager.MonsterNum++;   // 퇴치한 몬스터 수 증가
-                PlayManager.SetMonsterNum();
+                PlayManager.SetBattleInfo();
                 GameManager.ReturnObjectToPool(this.gameObject); // 풀로 반환
                 
                 break;

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -19,7 +20,7 @@ public class UIManager : MonoBehaviour
 
     [SerializeField]
     private HuntingUI huntingInfo;
-    public void SetMonsterNum() { huntingInfo.SetMonsterNum(); }
+    public void SetBattleInfo() { huntingInfo.SetBattleInfo(); }
 
     private HPbar hpBar;
     public void SetMaxHP(float _hp) { hpBar.SetMaxHP(_hp); }

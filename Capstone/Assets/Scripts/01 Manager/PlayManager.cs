@@ -61,11 +61,12 @@ public class PlayManager : MonoBehaviour
     public static bool IsDialogueOpened { get { return UIManager.IsDialogueOpened; } }   // 대화창 열렸는지
     public static void OpenDialogue(NPCScript _npc) { UIManager.OpenDialogue(_npc); }    // 대화창 열기
     public static void CloseDialogue() { UIManager.CloseDialogue(); }                    // 대화창 닫기
-    public static void SetMonsterNum() { UIManager.SetMonsterNum(); }                    // 전투 시 몬스터 수 정보 
+    public static void SetBattleInfo() { UIManager.SetBattleInfo(); }                    // 전투 시 몬스터 수 정보 
 
     public static void ToggleSupporterUI(bool _toggle) { UIManager.ToggleSupporterUI(_toggle); }
     public static void SetPlayerMaxHP(float _hp) { UIManager.SetMaxHP(_hp); }    // 체력바 최대 체력
     public static void SetPlayerCurHP(float _hp) { UIManager.SetCurHP(_hp); }    // 체력바 현재 체력
+
 
     // 맵
     private Main mapMaker;
