@@ -25,9 +25,11 @@ public class BattleRoomSpawner : MonoBehaviour
 
     private HashSet<int> battleRoomNumber = new HashSet<int>();           // 전투방으로 사용될 방 번호들
     private List<Room> roomInfo = new List<Room>();                       // 전투방 list
+    private GameObject roomObject;                                        // navigation 담당 오브젝트
+    private NavMeshSurface navMeshSurface;                                // navigation 담당 오브젝트2
 
     // 플레이어가 ? 호출 -> 몬스터 생성
-    
+
     private List<Vector3> SelectRandomPosition(HashSet<Vector3> set, int count)
     {
         // HashSet을 List로 변환
@@ -58,6 +60,14 @@ public class BattleRoomSpawner : MonoBehaviour
                 Vector3 RealSpawnerPos = new Vector3(cell.X * 4, 0.01f, cell.Y * -4);
                 spawnerPosInfo.Add(RealSpawnerPos);
             }
+            else
+            {
+                roomObject = new GameObject("Room" + room.RoomNumber);
+                roomObject.transform.position = new Vector3(cell.X * 4, 1.0f, cell.Y * -4);
+
+                navMeshSurface = roomObject.AddComponent<NavMeshSurface>();
+                navMeshSurface.collectObjects = CollectObjects.Children; // 자식 오브젝트만 NavMesh로 포함
+            }
         }
 
         int count = 3; // 임의로 3개 값 선택(temp)
@@ -66,7 +76,7 @@ public class BattleRoomSpawner : MonoBehaviour
         foreach (var position in randomPositions)
         {
             GameObject spawner = Instantiate(spawnPoint.gameObject, position, Quaternion.identity);
-            spawner.SetActive(false);
+            spawner.SetActive(true);
         }
         #endregion
 
@@ -74,17 +84,18 @@ public class BattleRoomSpawner : MonoBehaviour
         foreach (var tile in room.RoomCellObjectsDictionary)
         {
             GameObject tileObject = tile.Value;
+            tileObject.transform.parent = roomObject.transform;
 
-            NavMeshSurface navMeshSurface = tileObject.AddComponent<NavMeshSurface>();
-            navMeshSurface.collectObjects = CollectObjects.Children;
-
+            // 3. 타일 간 연결을 위한 NavMeshLink 추가
             NavMeshLink link = tileObject.AddComponent<NavMeshLink>();
-            link.startPoint = new Vector3(-2.0f, 0, 0); // 시작점 (타일 경계)
-            link.endPoint = new Vector3(2.0f, 0, 0);   // 종료점 (다음 타일 경계)
-            link.width = 4.0f; // 링크 폭
 
-            navMeshSurface.BuildNavMesh();
+            // 경계 설정 (가로 방향 예제)
+            link.startPoint = new Vector3(-2.0f, 0, 0); // 타일 왼쪽 경계
+            link.endPoint = new Vector3(2.0f, 0, 0);   // 타일 오른쪽 경계
+            link.width = 4.0f; // 링크 폭
+            link.bidirectional = true; // 양방향 이동 허용
         }
+        navMeshSurface.BuildNavMesh();
         #endregion
     }
 
@@ -100,6 +111,7 @@ public class BattleRoomSpawner : MonoBehaviour
         while (battleRoomNumber.Count < battleRoomCount)
         {
             int randomRoomValue = Random.Range(0, maxRoomNumber + 1);
+            if (randomRoomValue == 0) continue;
             battleRoomNumber.Add(randomRoomValue);
         }
 

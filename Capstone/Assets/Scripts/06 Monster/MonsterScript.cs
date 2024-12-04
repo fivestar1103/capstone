@@ -61,6 +61,7 @@ public partial class MonsterScript : ObjectScript
         IsDie = false;
         HPbar.SetComps();   // 활성화 될 때마다 다시 MaxHP로
         monsterNav.isStopped = false;
+        monsterNav.autoTraverseOffMeshLink = true; // 링크 자동 탐색 활성화
         GetComponent<CapsuleCollider>().enabled = true;
     }
 

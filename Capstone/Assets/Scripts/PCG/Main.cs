@@ -44,6 +44,7 @@ public class Main : MonoBehaviour
 
     private readonly PathFinder pathFinder = new PathFinder();
 
+    public List<Room> RoomsWithWalls { get; private set; }
     private BattleRoomSpawner battleRoomSpawner;
     
     /*
@@ -55,7 +56,8 @@ public class Main : MonoBehaviour
     private void Start()
     {
         if (stepByStep) return;
-        
+        RoomsWithWalls = new List<Room>();
+
         InstantlyGenerateMap();
 
         battleRoomSpawner = GetComponent<BattleRoomSpawner>();
@@ -196,6 +198,7 @@ public class Main : MonoBehaviour
         delaunayTriangulation = new DelaunayTriangulation(roomsWithWalls);
         GetDelaunayEdges();
 
+        RoomsWithWalls = roomsWithWalls;
         return (wallMap, roomsWithWalls);
     }
     

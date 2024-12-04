@@ -11,7 +11,26 @@ public class PlayManager : MonoBehaviour
     // 게임 시작 관련 함수
     private void StartPlay()
     {
+        PlayerSpawn();
         GameManager.SetControlMode(EControlMode.FIRST_PERSON);
+    }
+
+    public static void PlayerSpawn()
+    {
+        foreach(var room in GameManager.RoomWithWalls)
+        {
+            if(room.RoomNumber == 0)    // 0번 방이 스폰 방
+            {
+                foreach (var cell in room.RoomCells)
+                {
+                    if (cell.IsCenter)
+                    {
+                        Player.transform.position = new Vector3((cell.X * 4 + 3), 1f, (cell.Y * -4 + 3));
+                        Debug.Log($"This room is  no.{room.RoomNumber} room");
+                    }
+                }
+            }
+        }
     }
 
     // 플레이어

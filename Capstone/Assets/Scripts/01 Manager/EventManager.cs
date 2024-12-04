@@ -26,7 +26,7 @@ public class EventManager : MonoBehaviour
         Player.GetComponent<CapsuleCollider>().enabled = true;
         Player.enabled = true;
         GameManager.SetControlMode(EControlMode.FIRST_PERSON);
-        Player.transform.position = new Vector3(0f, 0f, 0f);       // 리스폰 위치
+        PlayManager.PlayerSpawn();
     }
     public void RegisterMonster(MonsterScript monster)
     {
