@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="Encoding">
+    <file url="file://$PROJECT_DIR$/Assets/Scripts/01 Manager/GameManager.cs" charset="EUC-KR" />
+    <file url="file://$PROJECT_DIR$/Assets/Scripts/01 Manager/PoolManager.cs" charset="EUC-KR" />
+    <file url="file://$PROJECT_DIR$/Assets/Scripts/02 Player/Player/PlayerCamera.cs" charset="EUC-KR" />
+    <file url="file://$PROJECT_DIR$/Assets/Scripts/02 Player/Player/PlayerController.cs" charset="EUC-KR" />
+    <file url="file://$PROJECT_DIR$/Assets/Scripts/04 Map/BattleRoomSpawner.cs" charset="EUC-KR" />
+    <file url="file://$PROJECT_DIR$/Assets/Scripts/06 Monster/MonsterSpawnPoint.cs" charset="EUC-KR" />
     <file url="file://$PROJECT_DIR$/Assets/Scripts/06 Monster/MonsterState.cs" charset="EUC-KR" />
   </component>
 </project>

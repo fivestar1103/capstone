@@ -160,6 +160,7 @@ public class Main : MonoBehaviour
             room.CalculateRelativeCoordinates();
             room.LogRoomInfo();
         }
+        
         battleRoomSpawner.SetRoomData(roomsWithWalls);
     }
 
