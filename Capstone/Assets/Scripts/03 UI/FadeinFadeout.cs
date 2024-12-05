@@ -44,8 +44,22 @@ public class FadeinFadeout : MonoBehaviour
         fadeImage.color = color;
     }
 
+    IEnumerator FadeBattleUI()
+    {
+        gameObject.SetActive(true); // 오브젝트를 활성화하고 페이드 인 진행
+        yield return StartCoroutine(FadeIn());
+        yield return new WaitForSeconds(2.5f);
+        yield return StartCoroutine(FadeOut());
+        gameObject.SetActive(false); // 페이드 아웃 후 오브젝트를 다시 비활성화
+    }
+
+    public void ShowBattleUI()
+    {
+      
+    }
+
     private void Start()
     {
-        fadeImage = GetComponent<Image>();
+       
     }
 }

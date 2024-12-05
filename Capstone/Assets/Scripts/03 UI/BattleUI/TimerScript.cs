@@ -11,12 +11,6 @@ public class TimerScript : MonoBehaviour
     private float currentTime;
     private bool isTimerRunning = false;
 
-
-    private void OnEnable()
-    {
-        StartTimer();
-    }
-
     private void Start()
     {
         timerText = GetComponentInChildren<TextMeshProUGUI>();
@@ -39,6 +33,8 @@ public class TimerScript : MonoBehaviour
 
     public void StartTimer()
     {
+        this.gameObject.SetActive(true);
+
         timerDuration = Random.Range(60, 91);  // 1분부터 1분 30초까지 랜덤
 
         currentTime = timerDuration;
@@ -61,6 +57,7 @@ public class TimerScript : MonoBehaviour
 
     private void OnTimerEnd()
     {
+        this.gameObject.SetActive(false);
         // 플레이어 죽음
     }
 }

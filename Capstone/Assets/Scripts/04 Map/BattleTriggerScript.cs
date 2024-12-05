@@ -9,14 +9,6 @@ public class BattleTriggerScript : MonoBehaviour
     private int roomNumber;
     public bool IsBattleStarted { get; private set; }
 
-    //[SerializeField]
-    //private GameObject battleStartUI;
-    //[SerializeField]
-    //private GameObject battleTimer;
-
-    //private FadeinFadeout fade;
-    //private TimerScript timer;
-
     private void OnTriggerEnter(Collider _other)
     {
         if(_other.CompareTag(ValueDefinition.PLAYER_TAG) && !IsBattleStarted)
@@ -35,22 +27,9 @@ public class BattleTriggerScript : MonoBehaviour
     public void StartBattle()
     {
         PlayManager.SetBattleInfo();
-        //StartCoroutine(UIFade());
-        //battleTimer.SetActive(true);
+        PlayManager.ShowBattleUI();
+        PlayManager.StartTimer();
         IsBattleStarted = true;
     }
-
-    //IEnumerator UIFade()
-    //{
-    //    yield return StartCoroutine(fade.FadeIn());
-    //    yield return new WaitForSeconds(2.5f);
-    //    yield return StartCoroutine(fade.FadeOut());
-    //}
-
-    //private void Start()
-    //{
-    //    fade = battleStartUI.GetComponent<FadeinFadeout>();
-    //    timer = battleTimer.GetComponent<TimerScript>();
-    //}
 
 }

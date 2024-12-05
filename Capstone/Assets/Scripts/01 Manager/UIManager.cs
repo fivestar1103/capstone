@@ -26,6 +26,14 @@ public class UIManager : MonoBehaviour
     public void SetMaxHP(float _hp) { hpBar.SetMaxHP(_hp); }
     public void SetCurHP(float _hp) { hpBar.SetCurHP(_hp); }
 
+    [SerializeField]
+    private FadeinFadeout battleUI;
+    public void ShowBattleUI() { battleUI.ShowBattleUI(); }
+
+    [SerializeField]
+    private TimerScript timer;
+    public void StartTimer() { timer.StartTimer(); }
+
     public void SetManager()
     {
         hpBar = playerUICanvas.GetComponentInChildren<HPbar>();

@@ -26,7 +26,7 @@ public partial class MonsterScript
         }
     }
 
-    IEnumerator TempAttack()
+    protected IEnumerator TempAttack()
     {
         this.transform.LookAt(PlayManager.PlayerPos);
 
@@ -46,7 +46,7 @@ public partial class MonsterScript
     }
 
     // 지속시간 동안 상태이상 적용
-    IEnumerator ApplyCCType(EStatusEffect _ccType)
+    protected IEnumerator ApplyCCType(EStatusEffect _ccType)
     {
         IsDebuffed = true; 
 
@@ -84,7 +84,7 @@ public partial class MonsterScript
     }
 
     // 스탯 원상 복구
-    private void RemoveCC(EStatusEffect _ccType)
+    protected void RemoveCC(EStatusEffect _ccType)
     {
         switch(_ccType)
         {
@@ -108,7 +108,7 @@ public partial class MonsterScript
         }
     }
 
-    IEnumerator DottedDamage()
+    protected IEnumerator DottedDamage()
     {
         while(IsDotted)
         {

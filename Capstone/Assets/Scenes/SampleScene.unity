@@ -3107,6 +3107,8 @@ MonoBehaviour:
   dialogue: {fileID: 1499026758}
   support: {fileID: 1820672298}
   huntingInfo: {fileID: 1301843066}
+  battleUI: {fileID: 2044980903}
+  timer: {fileID: 1095030143}
 --- !u!1 &705507993
 GameObject:
   m_ObjectHideFlags: 0
@@ -4883,7 +4885,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 1.2360001, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -5275,7 +5277,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1095030140
 RectTransform:
   m_ObjectHideFlags: 0
@@ -7489,9 +7491,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Skills:
-  - {fileID: -276868028453579308, guid: 17ec6180e2fd06c448ecd75d6ebef9c9, type: 3}
-  - {fileID: 1397699686804967851, guid: 1cca33a8ecef9e246b200a252292f96a, type: 3}
-  - {fileID: -1293087041092030131, guid: 32be1e2d221bda14ea8a7746aacd0ee2, type: 3}
+  - {fileID: 3699720400830963398, guid: 744310e6543043641a557b9251d23e39, type: 3}
+  - {fileID: 2849162538547345671, guid: af6a5e69a4e41fc479b73e0a04c90aff, type: 3}
+  - {fileID: 6605719743788314364, guid: 610a52eda0d37c14da3269727fd79519, type: 3}
 --- !u!114 &1556337244
 MonoBehaviour:
   m_ObjectHideFlags: 0

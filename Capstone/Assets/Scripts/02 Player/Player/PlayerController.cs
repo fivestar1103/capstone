@@ -14,6 +14,9 @@ public partial class PlayerController : ObjectScript
 
     public static event Action OnPlayerDeath; // 플레이어의 죽음을 알리는 이벤트
 
+    public GameObject leftArm;
+    public GameObject rightArm;
+
     private bool isDead;
 
     // 입력 관련

@@ -29,6 +29,10 @@ public class PlayerCamera : MonoBehaviour
         verticalRotation = Mathf.Clamp(verticalRotation, -90f, 90f);                 // 상하 회전을 -90도에서 90도로 제한
 
         transform.localRotation = Quaternion.Euler(verticalRotation, 0f, 0f);        // 카메라 상하 회전 적용 (X축 회전)
+
         player.transform.rotation = Quaternion.Euler(0f, horizontalRotation, 0f);    // 플레이어 좌우 회전
+        
+        player.leftArm.transform.rotation = Quaternion.Euler(verticalRotation, horizontalRotation, 0f);
+        player.rightArm.transform.rotation = Quaternion.Euler(verticalRotation, horizontalRotation, 0f);
     }
 }

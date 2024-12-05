@@ -312,7 +312,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 0, y: 3}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!223 &3171695629076738114
@@ -476,7 +476,7 @@ PrefabInstance:
       addedObject: {fileID: 4160553165605841582}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: b91187a9debded54988c89438ac8b3f6, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 381074498361835440}
+      addedObject: {fileID: 9063192439928829225}
   m_SourcePrefab: {fileID: 100100000, guid: b91187a9debded54988c89438ac8b3f6, type: 3}
 --- !u!1 &7035340801813807993 stripped
 GameObject:
@@ -493,7 +493,7 @@ Animator:
   m_GameObject: {fileID: 7035340801813807993}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 8d97b0c2149f8b64eb6dfc2cd5090b16, type: 2}
+  m_Controller: {fileID: 9100000, guid: 59fd10455d8e8a442a4d274fc4523db9, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -526,7 +526,7 @@ CapsuleCollider:
   m_Radius: 0.45
   m_Height: 1
   m_Direction: 1
-  m_Center: {x: 0, y: 0.5, z: 0.1}
+  m_Center: {x: 0, y: 2, z: 0}
 --- !u!195 &4160553165605841582
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -549,7 +549,7 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
---- !u!114 &381074498361835440
+--- !u!114 &9063192439928829225
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -558,7 +558,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 7035340801813807993}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2f2a33f78387cd04181cbe78f9a85601, type: 3}
+  m_Script: {fileID: 11500000, guid: 4eb340aaa39a89046a5285521b81ab9c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   maxHP: 50
@@ -568,7 +568,7 @@ MonoBehaviour:
   speed: 3
   duration: 3
   dottedDamage: 5
-  monsterBullet: {fileID: 1141520411253339737, guid: f157c532793f65a438c8301664fe9b28, type: 3}
+  monsterBullet: {fileID: 0}
   attackPoint: {fileID: 0}
   PATROLRadius: 4
   attackDist: 2
