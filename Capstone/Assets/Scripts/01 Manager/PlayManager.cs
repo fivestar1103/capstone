@@ -33,6 +33,7 @@ public class PlayManager : MonoBehaviour
 
     // 플레이어
     private static PlayerController Player { get; set; }
+    public static Transform PlayerTransform { get { return Player.transform; } }
     public static float MaxHP { get { return Player.MaxHP; } }                                                                              // 플레이어 최대 체력
     public static float PlayerAttack { get { return Player.Attack; } }                                                                      // 플레이어 공격력
     public static void SetCurPlayer(PlayerController _player) { Player = _player; }                                                         // 플레이어 등록
@@ -41,6 +42,7 @@ public class PlayManager : MonoBehaviour
     public static Vector2 PlayerPos2 { get { if (IsPlayerSet) return Player.Position2; return ValueDefinition.NULL_VECTOR; } }              // 플레이어 평면 위치
     public static bool IsPlayerSet { get { return Player != null; } }                                                                       // 플레이어 등록 여부
     public static float GetDistToPlayer(Vector2 _pos) { if (!IsPlayerSet) return -1; return (PlayerPos2 - _pos).magnitude; }                // 플레이어와의 거리
+    public static void PlayerHit(float _hp) { Player.GetHit(_hp); }                                                                         // 플레이어 피격
     public static void StopPlayerInteract() { Player.StopInteract(); }                                                                      // 상호작용 종료
     public static void StopPlayerInteract(InteractScript _interact) { Player.StopInteract(_interact); }
 

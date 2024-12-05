@@ -26,12 +26,14 @@ public class BattleRoomSpawner : MonoBehaviour
     private HashSet<int> battleRoomNumber = new HashSet<int>();           // 전투방으로 사용될 방 번호들
     private List<Room> roomInfo = new List<Room>();                       // 전투방 list
 
-
     // 플레이어가 방에 들어갈 때 활성화되는 오브젝트들
     [SerializeField]
     private BattleTriggerScript battleTrigger;
     private GameObject roomObject;                                        // navigation 담당 오브젝트
     private NavMeshSurface navMeshSurface;                                // navigation 담당 오브젝트2
+
+    private int monsterSpawnCount;
+    public int MonsterSpawnCount { get { return monsterSpawnCount; } }
 
     private List<Vector3> SelectRandomPosition(HashSet<Vector3> set, int count)
     {
@@ -73,7 +75,7 @@ public class BattleRoomSpawner : MonoBehaviour
             }
         }
 
-        int count = 3; // 임의로 3개 값 선택(temp)
+        int count = room.RoomCells.Count / 10;
         List<Vector3> randomPositions = SelectRandomPosition(spawnerPosInfo, count);
 
         foreach (var position in randomPositions)

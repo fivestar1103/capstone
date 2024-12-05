@@ -11,6 +11,9 @@ public class TimerScript : MonoBehaviour
     private float currentTime;
     private bool isTimerRunning = false;
 
+    [SerializeField]
+    private GameObject explosionEffect; // 플레이어 폭발 이펙트
+
     private void Start()
     {
         timerText = GetComponentInChildren<TextMeshProUGUI>();
@@ -35,7 +38,7 @@ public class TimerScript : MonoBehaviour
     {
         this.gameObject.SetActive(true);
 
-        timerDuration = Random.Range(60, 91);  // 1분부터 1분 30초까지 랜덤
+        timerDuration = Random.Range(3, 11);  // 1분부터 1분 30초까지 랜덤
 
         currentTime = timerDuration;
         isTimerRunning = true;
@@ -57,7 +60,16 @@ public class TimerScript : MonoBehaviour
 
     private void OnTimerEnd()
     {
-        this.gameObject.SetActive(false);
-        // 플레이어 죽음
+        // 몬스터가 모두 퇴치되지 않은 채로 시간이 지나면 플레이어 사망
+        // 정상적인 클리어는 구현 예정
+        StartCoroutine(PlayerExplosion());
+    }
+
+    IEnumerator PlayerExplosion()
+    {
+        GameObject explosion = Instantiate(explosionEffect, PlayManager.PlayerPos, Quaternion.identity, PlayManager.PlayerTransform);
+        yield return new WaitForSeconds(6.5f);  // 파티클 재생시간
+        PlayManager.PlayerHit(PlayManager.MaxHP);
+        Destroy(explosion);
     }
 }
