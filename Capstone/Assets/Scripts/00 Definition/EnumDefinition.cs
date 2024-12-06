@@ -36,3 +36,11 @@ public enum ESkill
     TempSkill3,
     LAST
 }
+
+public enum ESkillType
+{
+    SHOOT,
+    TELEPORT,
+    WIDE,
+    LAST
+}

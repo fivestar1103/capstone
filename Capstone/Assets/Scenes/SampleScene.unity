@@ -2972,7 +2972,7 @@ MonoBehaviour:
   dialogue: {fileID: 1499026758}
   support: {fileID: 1820672298}
   huntingInfo: {fileID: 1301843066}
-  battleUI: {fileID: 0}
+  battleUI: {fileID: 731558337}
   timer: {fileID: 1095030143}
 --- !u!1 &705507993
 GameObject:
@@ -4968,7 +4968,7 @@ Camera:
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 215
+    m_Bits: 471
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
@@ -5451,6 +5451,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c11ca3a1f6619064a818814a48903925, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  explosionEffect: {fileID: 0}
 --- !u!1 &1136542063
 GameObject:
   m_ObjectHideFlags: 0
@@ -7594,9 +7595,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Skills:
-  - {fileID: 3699720400830963398, guid: 744310e6543043641a557b9251d23e39, type: 3}
-  - {fileID: 2849162538547345671, guid: af6a5e69a4e41fc479b73e0a04c90aff, type: 3}
-  - {fileID: 6605719743788314364, guid: 610a52eda0d37c14da3269727fd79519, type: 3}
+  - {fileID: -279395974798736846, guid: 52d340ed9c2714c4f8aabf1f82df1b58, type: 3}
+  - {fileID: -713838980646073741, guid: c74429f1fef62b5449528def1750880a, type: 3}
+  - {fileID: 5596177825148415518, guid: d71f519110101504fb22992b32da2f77, type: 3}
 --- !u!114 &1556337244
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9740,7 +9741,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &2069737126
 Transform:
   m_ObjectHideFlags: 0

@@ -26,7 +26,7 @@ public partial class PlayerController
     {
         if(CanAttack && AttackTrigger)
         {
-            PrepareSkill(ValueDefinition.SPELL1, EEmotion.ENeutral);
+            PrepareSkill(ValueDefinition.SPELL3, EEmotion.ENeutral);
             StartCoroutine(UseSkill());
         }
 
@@ -57,29 +57,49 @@ public partial class PlayerController
                 break;
             }
         }
-        preparedSkill = Instantiate(GameManager.Skills[(int)CurSkill], attackPos.position, attackPos.rotation, attackPos);
-        preparedSkill.SetSkill(CurSkill, _emotion);
 
-        /* 생성된 스킬 오브젝트를 보정하는 부분 */
-        preparedSkill.transform.localPosition = new Vector3(0, 0, 0.5f); // 약간 앞쪽으로 위치 보정
+        preparedSkill = Instantiate(GameManager.Skills[(int)CurSkill], attackPos.position, attackPos.rotation, PlayManager.PlayerTransform);
+        if (preparedSkill.SkillType != ESkillType.TELEPORT)
+        {
+            preparedSkill.transform.SetParent(attackPos);
+            preparedSkill.transform.localPosition = new Vector3(0, 0, 0.5f); // 약간 앞쪽으로 위치 보정
+        }
+        else
+            preparedSkill.transform.localPosition = Vector3.zero;
+       
         preparedSkill.transform.localRotation = Quaternion.identity;
     }
 
     IEnumerator UseSkill()
     {
         CanAttack = false;
-
-        Rigidbody rb = preparedSkill.GetComponent<Rigidbody>();
-        if (rb != null)
+   
+        switch(preparedSkill.SkillType)
         {
-            preparedSkill.transform.SetParent(null);
-            rb.isKinematic = false;
-            rb.velocity = attackPos.forward * 10;   // 수치 조정 필요
+            case ESkillType.SHOOT:
+                Rigidbody rb = preparedSkill.GetComponent<Rigidbody>();
+                if (rb != null)
+                {
+                    preparedSkill.transform.SetParent(null);
+                    rb.isKinematic = false;
+                    rb.velocity = attackPos.forward * 20;   // 수치 조정 필요
+                }
+                break;
+            case ESkillType.TELEPORT:
+                PlayManager.PlayerRigidBody.AddForce(PlayManager.PlayerTransform.forward * 150, ForceMode.Impulse);  // 수치 조정필요2
+                Destroy(preparedSkill);
+                break;
+            case ESkillType.WIDE:
+                WideSkill wideskill = preparedSkill as WideSkill;
+                wideskill.ControlSkill();
+                Destroy(preparedSkill);
+                break;
         }
-        if (((int)preparedSkill.StatusEffect >= 0 && (int)preparedSkill.StatusEffect <= 2) && !IsBuffApplied) 
+        if ((int)preparedSkill.StatusEffect >= 0 && (int)preparedSkill.StatusEffect <= 2 && !IsBuffApplied)
             StartCoroutine(ApplyBuff(preparedSkill.StatusEffect));
 
         yield return new WaitForSeconds(AttackSpeed);
+
         CanAttack = true;
     }
 

@@ -34,6 +34,7 @@ public class PlayManager : MonoBehaviour
     // 플레이어
     private static PlayerController Player { get; set; }
     public static Transform PlayerTransform { get { return Player.transform; } }
+    public static Rigidbody PlayerRigidBody { get { return Player.PlayerRB; } }
     public static float MaxHP { get { return Player.MaxHP; } }                                                                              // 플레이어 최대 체력
     public static float PlayerAttack { get { return Player.Attack; } }                                                                      // 플레이어 공격력
     public static void SetCurPlayer(PlayerController _player) { Player = _player; }                                                         // 플레이어 등록

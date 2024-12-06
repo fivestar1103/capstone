@@ -17,7 +17,26 @@ public partial class MonsterScript : ObjectScript
 
     public virtual void OnCollisionEnter(Collision _other)
     {
-        
+        if (_other.gameObject.CompareTag(ValueDefinition.PLAYER_ATTACK_TAG))
+        {
+            PlayerAttack playerAttack = _other.gameObject.GetComponent<PlayerAttack>();
+
+            GetHit(playerAttack.skillDamage);   // 피흡량 조절 필요
+            if (playerAttack != null)
+            {
+                // 피흡이 세팅된 경우 적용
+                if (PlayManager.IsDrain)        
+                {
+                    PlayManager.Drain(playerAttack.skillDamage);
+                }
+                // 상태이상인 경우 적용
+                if ((int)playerAttack.StatusEffect >= 3 && (int)playerAttack.StatusEffect <= 6 && !IsDebuffed) 
+                {
+                    StartCoroutine(ApplyCCType(playerAttack.StatusEffect));
+                }
+            }
+            Destroy(playerAttack.gameObject);
+        }
     }
 
     public virtual void Update()
