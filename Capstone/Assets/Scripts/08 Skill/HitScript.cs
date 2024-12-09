@@ -8,7 +8,7 @@ public class HitScript : PlayerAttack
     private GameObject HitEffect;
     private MonsterScript monster;
 
-    public void OnCollisionEnter(Collision _other)
+    public void OnTriggerEnter(Collider _other)
     {
         if (_other.gameObject.CompareTag(ValueDefinition.MONSTER_TAG))
         {

@@ -14695,7 +14695,7 @@ GameObject:
   - component: {fileID: 2879862325604266200}
   - component: {fileID: 7581078855352146083}
   - component: {fileID: -5039165524283531834}
-  - component: {fileID: 6118812356712584244}
+  - component: {fileID: -806413474774241748}
   m_Layer: 0
   m_Name: Skill2_Effect
   m_TagString: PlayerAttack
@@ -19592,7 +19592,7 @@ CapsuleCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
@@ -19616,7 +19616,7 @@ MonoBehaviour:
   skillType: 2
   skillDamage: 10
   HitEffect: {fileID: 7275548786892498063, guid: f69b0d4e59c98ef43b8532cd97a8eee6, type: 3}
---- !u!54 &6118812356712584244
+--- !u!54 &-806413474774241748
 Rigidbody:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

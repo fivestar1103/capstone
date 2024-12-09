@@ -15,12 +15,10 @@ public partial class MonsterScript : ObjectScript
     protected MonsterHPbar HPbar;
     public float MonsterAttack { get { return Attack; } }
 
-
-    public virtual void OnCollisionEnter(Collision _other)
+    public virtual void OnTriggerEnter(Collider _other)
     {
         if (_other.gameObject.CompareTag(ValueDefinition.PLAYER_ATTACK_TAG))
         {
-            Debug.Log("스킬2");
             PlayerAttack playerAttack = _other.gameObject.GetComponent<PlayerAttack>();
 
             GetHit(playerAttack.skillDamage);
@@ -37,7 +35,6 @@ public partial class MonsterScript : ObjectScript
                     StartCoroutine(ApplyCCType(playerAttack.StatusEffect));
                 }
             }
-            Destroy(playerAttack.gameObject);
         }
     }
 

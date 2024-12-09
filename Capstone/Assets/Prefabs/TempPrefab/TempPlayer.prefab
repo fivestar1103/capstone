@@ -406,7 +406,7 @@ MonoBehaviour:
   defense: 0
   speed: 0
   attackPos: {fileID: 0}
-  attackObject: {fileID: 0}
+  attackObject: {fileID: 2732741230357401279, guid: fe0ac62666cc58a499e1d3430354d257, type: 3}
   buffDuration: 10
   leftArm: {fileID: 4417596056673200728}
   rightArm: {fileID: 9102879973440460365}

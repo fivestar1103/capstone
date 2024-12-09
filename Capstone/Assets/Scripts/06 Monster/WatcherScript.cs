@@ -34,9 +34,9 @@ public class WatcherScript : MonsterScript
         MonsterAction();
     }
 
-    public override void OnCollisionEnter(Collision _other)
+    public override void OnTriggerEnter(Collider _other)
     {
-        base.OnCollisionEnter(_other);
+        base.OnTriggerEnter(_other);
         if (_other.gameObject.CompareTag(ValueDefinition.PLAYER_ATTACK_TAG))
             animator.SetTrigger(hashDamage);
     }

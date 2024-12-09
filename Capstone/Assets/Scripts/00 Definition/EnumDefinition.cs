@@ -39,6 +39,7 @@ public enum ESkill
 
 public enum ESkillType
 {
+    NORMAL,
     SHOOT,
     TELEPORT,
     WIDE,

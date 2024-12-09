@@ -24,25 +24,47 @@ public partial class PlayerController
 
     public void PlayerAttack()
     {
-        if(CanAttack && AttackTrigger)
-        {
-            PrepareSkill(ValueDefinition.SPELL2, EEmotion.ENeutral);
-            StartCoroutine(UseSkill());
-        }
-
-        //if(CanAttack)
+        //if(CanAttack && AttackTrigger)
         //{
-        //    if (AttackTrigger && preparedSkill == null)
-        //    {
-        //        // 평타 구현 
-        //    }
-        //    else if (AttackTrigger && preparedSkill != null)
-        //    {
-        //        // Test Calling
-        //        PrepareSkill(ValueDefinition.SPELL1, EEmotion.ENeutral);
-        //        StartCoroutine(UseSkill());
-        //    }
+        //    PrepareSkill(ValueDefinition.SPELL2, EEmotion.ENeutral);
+        //    StartCoroutine(UseSkill());
         //}
+
+        if (CanAttack)
+        {
+            if (AttackTrigger && preparedSkill == null)
+            {
+                // 평타 구현 
+                StartCoroutine(NormalAttack());
+            }
+            else if (AttackTrigger && preparedSkill != null)
+            {
+                // Test Calling
+                PrepareSkill(ValueDefinition.SPELL1, EEmotion.ENeutral);
+                StartCoroutine(UseSkill());
+            }
+        }
+    }
+
+    IEnumerator NormalAttack()
+    {
+        CanAttack = false;
+
+        GameObject attack = Instantiate(attackObject, attackPos.position, attackPos.rotation, PlayManager.PlayerTransform);
+
+        attack.transform.SetParent(attackPos);
+        attack.transform.localPosition = new Vector3(0, 0, 0.5f); // 약간 앞쪽으로 위치 보정
+        attack.transform.localRotation = Quaternion.identity;
+
+        Rigidbody rb = attack.GetComponent<Rigidbody>();
+        if (rb != null)
+        {
+            attack.transform.SetParent(null);
+            rb.isKinematic = false;
+            rb.velocity = attackPos.forward * 20;   // 수치 조정 필요
+        }
+        yield return new WaitForSeconds(AttackSpeed);
+        CanAttack = true;
     }
 
     // 현재 구현 중인 부분
@@ -87,7 +109,6 @@ public partial class PlayerController
                 break;
             case ESkillType.TELEPORT:
                 PlayManager.PlayerRigidBody.AddForce(PlayManager.PlayerTransform.forward * 150, ForceMode.Impulse);  // 수치 조정필요2
-                Debug.Log(preparedSkill.name);
                 Destroy(preparedSkill.gameObject);
                 break;
             case ESkillType.WIDE:
@@ -99,6 +120,7 @@ public partial class PlayerController
         if ((int)preparedSkill.StatusEffect >= 0 && (int)preparedSkill.StatusEffect <= 2 && !IsBuffApplied)
             StartCoroutine(ApplyBuff(preparedSkill.StatusEffect));
 
+        preparedSkill = null;
         yield return new WaitForSeconds(AttackSpeed);
 
         CanAttack = true;

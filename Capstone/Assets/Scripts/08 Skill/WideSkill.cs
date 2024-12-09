@@ -7,8 +7,6 @@ using UnityEngine.Rendering.PostProcessing;
 public class WideSkill : PlayerAttack
 {
     [SerializeField]
-    private GameObject preparedEffect;
-    [SerializeField]
     private GameObject SkillEffect;
 
     [SerializeField]
@@ -26,7 +24,6 @@ public class WideSkill : PlayerAttack
 
         foreach (Collider hitCollider in hitColliders)
         {
-            // 몬스터 스크립트를 가져옴
             MonsterScript monster = hitCollider.GetComponent<MonsterScript>();
 
             if (monster != null)
@@ -38,7 +35,7 @@ public class WideSkill : PlayerAttack
     }
 
     IEnumerator SkillHit(GameObject _skillEffect)
-    {       
+    {
         yield return new WaitForSeconds(2.0f);
         Destroy(_skillEffect);
     }

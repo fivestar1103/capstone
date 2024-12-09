@@ -11,7 +11,7 @@ public class FireSkill : PlayerAttack
 
     private MonsterScript monster;
 
-    public void OnCollisionEnter(Collision _other)
+    public void OnTriggerEnter(Collider _other)
     {
         if (_other.gameObject.CompareTag(ValueDefinition.MONSTER_TAG))
         {
