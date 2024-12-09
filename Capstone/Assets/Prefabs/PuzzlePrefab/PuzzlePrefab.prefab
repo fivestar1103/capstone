@@ -44,4 +44,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 92d43d48d773efe458d7f1b2185133e2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pressureSwitch: {fileID: 5306272863172192508, guid: e07da64b0f85ed9489de3d0a8cc8b6ac, type: 3}
+  pressureSwitch: {fileID: 1449289494835332354, guid: f4ab18b4286052448831c739dc60d85f, type: 3}
