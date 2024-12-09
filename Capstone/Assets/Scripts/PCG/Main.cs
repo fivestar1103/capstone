@@ -168,20 +168,24 @@ public class Main : MonoBehaviour
         MazeManager mazeManager = new MazeManager();
         foreach (var room in roomsWithWalls)
         {
+            if (room.RoomNumber > 10)
+                continue;
+            
+            // choose half of the rooms to spawn maze
+            room.Type = Random.Range(0, 2) == 0 ? RoomType.Battle : RoomType.Puzzle; 
+                
             mapDisplayer.AddRoomCellObject(room);
             room.CalculateRelativeCoordinates();
             room.LogRoomInfo();
 
-            // spawn maze
-            mazeManager.SpawnMaze(room);
-
-            // spawn pressure switch puzzle
-            // pressurePuzzleManager.SpawnPuzzle(room);
+            if (room.Type == RoomType.Puzzle && room.RoomNumber != 0)
+            {
+                // mazeManager.SpawnMaze(room);
+            }
+            else
+                battleRoomSpawner.SpawnBattleRoom(room);
         }
-
-        battleRoomSpawner.SetRoomData(roomsWithWalls);
         
-        // isMapGenerated = true;
         PlayManager.PlayerSpawn();
     }
 

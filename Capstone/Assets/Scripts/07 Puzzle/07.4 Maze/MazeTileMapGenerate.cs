@@ -36,7 +36,7 @@ public class MazeTileMapGenerate : MonoBehaviour
                 continue;
 
             nowCell = maze[nowPos.y][nowPos.x];
-            roomObject = GameObject.Instantiate(prefabList[prefabIndex], tileMap.transform);
+            roomObject = Instantiate(prefabList[prefabIndex], tileMap.transform);
             roomObject.transform.rotation = prefabQuaternion;
             roomObject.transform.localPosition = new Vector3(roomCell.X * 4, 0, -roomCell.Y * 4);
 

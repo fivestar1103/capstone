@@ -6,18 +6,13 @@ using UnityEngine;
 public class TimerScript : MonoBehaviour
 {
     private float timerDuration;
-    private TextMeshProUGUI timerText; // UI에 표시할 타이머 텍스트
+    public TextMeshProUGUI timerText; // UI에 표시할 타이머 텍스트
 
     private float currentTime;
     private bool isTimerRunning = false;
 
     [SerializeField]
     private GameObject explosionEffect; // 플레이어 폭발 이펙트
-
-    private void Start()
-    {
-        timerText = GetComponentInChildren<TextMeshProUGUI>();
-    }
 
     private void Update()
     {
@@ -47,14 +42,11 @@ public class TimerScript : MonoBehaviour
 
     private void UpdateTimerDisplay()
     {
-        if (timerText != null)
+        if (timerText)
         {
-            if (timerText != null)
-            {
-                int minutes = Mathf.FloorToInt(currentTime / 60);
-                int seconds = Mathf.FloorToInt(currentTime % 60);
-                timerText.text = string.Format("남은 시간  {0:00} : {1:00}", minutes, seconds); // 분:초 형식으로 표시
-            }
+            int minutes = Mathf.FloorToInt(currentTime / 60);
+            int seconds = Mathf.FloorToInt(currentTime % 60);
+            timerText.text = $"{minutes:00}: {seconds:00}"; // 분:초 형식으로 표시
         }
     }
 
