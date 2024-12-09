@@ -1974,7 +1974,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e665472aa77115c4c887b00c035dcebc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speakerLanguage: 50264
+  speakerLanguage: 50259
 --- !u!82 &963194232
 AudioSource:
   m_ObjectHideFlags: 0
@@ -3166,9 +3166,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 59644ded18c62b4498023679a34fa2e5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Skills:
-  - {fileID: -276868028453579308, guid: 17ec6180e2fd06c448ecd75d6ebef9c9, type: 3}
-  - {fileID: 1397699686804967851, guid: 1cca33a8ecef9e246b200a252292f96a, type: 3}
+  skills:
+  - {fileID: -279395974798736846, guid: 52d340ed9c2714c4f8aabf1f82df1b58, type: 3}
+  - {fileID: -713838980646073741, guid: c74429f1fef62b5449528def1750880a, type: 3}
   - {fileID: 5596177825148415518, guid: d71f519110101504fb22992b32da2f77, type: 3}
 --- !u!114 &1556337244
 MonoBehaviour:

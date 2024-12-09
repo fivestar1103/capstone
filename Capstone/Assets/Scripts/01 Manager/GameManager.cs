@@ -22,7 +22,7 @@ public class GameManager : MonoBehaviour
     // 스킬
     private SkillManager skillManager;
     public static SkillManager SkillManager { get { return Inst.skillManager; } }
-    public static PlayerAttack[] Skills { get { return SkillManager.Skills; } }
+    public static PlayerAttack[] Skills { get { return SkillManager.skills; } }
 
     // 오브젝트 풀
     private PoolManager poolManager;

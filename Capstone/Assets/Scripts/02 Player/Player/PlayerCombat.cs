@@ -32,16 +32,16 @@ public partial class PlayerController
 
         if (CanAttack)
         {
-            if (AttackTrigger && preparedSkill == null)
+            if (AttackTrigger && !preparedSkill)
             {
                 // 평타 구현 
                 StartCoroutine(NormalAttack());
             }
-            else if (AttackTrigger && preparedSkill != null)
+            else if (AttackTrigger && preparedSkill)
             {
                 // Test Calling
                 // PrepareSkill(ValueDefinition.SPELL1, EEmotion.ENeutral);
-                StartCoroutine(UseSkill());
+                UseSkill();
             }
         }
     }
@@ -57,7 +57,7 @@ public partial class PlayerController
         attack.transform.localRotation = Quaternion.identity;
 
         Rigidbody rb = attack.GetComponent<Rigidbody>();
-        if (rb != null)
+        if (rb)
         {
             attack.transform.SetParent(null);
             rb.isKinematic = false;
@@ -70,17 +70,20 @@ public partial class PlayerController
     // 현재 구현 중인 부분
     public void PrepareSkill(string _spell, EEmotion _emotion)
     {
-        int idx;
-        for (idx = 0; idx < (int)ESkill.LAST; idx++)
-        {
+        for (var idx = 0; idx < (int)ESkill.LAST; idx++)
             if (_spell == GameManager.Skills[idx].Spell)
             {
                 CurSkill = (ESkill)idx;
                 break;
             }
-        }
 
-        preparedSkill = Instantiate(GameManager.Skills[(int)CurSkill], attackPos.position, attackPos.rotation, PlayManager.PlayerTransform);
+        preparedSkill = Instantiate(GameManager.Skills[(int)CurSkill],
+            attackPos.position,
+            attackPos.rotation,
+            PlayManager.PlayerTransform);
+        
+        Debug.Log($"preparedSkill : {preparedSkill.name}");
+        
         if (preparedSkill.SkillType != ESkillType.TELEPORT)
         {
             preparedSkill.transform.SetParent(attackPos);
@@ -92,15 +95,13 @@ public partial class PlayerController
         preparedSkill.transform.localRotation = Quaternion.identity;
     }
 
-    IEnumerator UseSkill()
+    public void UseSkill()
     {
-        CanAttack = false;
-   
         switch(preparedSkill.SkillType)
         {
             case ESkillType.SHOOT:
                 Rigidbody rb = preparedSkill.GetComponent<Rigidbody>();
-                if (rb != null)
+                if (rb)
                 {
                     preparedSkill.transform.SetParent(null);
                     rb.isKinematic = false;
@@ -121,9 +122,7 @@ public partial class PlayerController
             StartCoroutine(ApplyBuff(preparedSkill.StatusEffect));
 
         preparedSkill = null;
-        yield return new WaitForSeconds(AttackSpeed);
-
-        CanAttack = true;
+        
     }
 
     IEnumerator ApplyBuff(EStatusEffect _buff)
