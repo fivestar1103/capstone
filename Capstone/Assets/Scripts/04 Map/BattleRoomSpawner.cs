@@ -6,6 +6,7 @@ using System.Linq;
 using System.Net;
 using TMPro;
 using Unity.AI.Navigation;
+using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.UIElements;
@@ -33,7 +34,11 @@ public class BattleRoomSpawner : MonoBehaviour
     private NavMeshSurface navMeshSurface;                                // navigation 담당 오브젝트2
 
     private int monsterSpawnCount;
-    public int MonsterSpawnCount { get { return monsterSpawnCount; } }
+    public int MonsterSpawnCount
+    {
+        get { return monsterSpawnCount; } 
+        set { monsterSpawnCount = value; } 
+    }
 
     private List<Vector3> SelectRandomPosition(HashSet<Vector3> set, int count)
     {
@@ -75,15 +80,15 @@ public class BattleRoomSpawner : MonoBehaviour
             }
         }
 
-        monsterSpawnCount = Random.Range(room.RoomCells.Count / 10, room.RoomCells.Count / 5);
+        monsterSpawnCount = Random.Range(room.RoomCells.Count / 15, room.RoomCells.Count / 10);
         List<Vector3> randomPositions = SelectRandomPosition(spawnerPosInfo, monsterSpawnCount);
 
         foreach (var position in randomPositions)
         {
             GameObject spawner = Instantiate(spawnPoint.gameObject, position, Quaternion.identity);
+            spawner.transform.SetParent(roomObject.transform);
             spawner.SetActive(false);
             room.MonsterSpawners.Add(spawner);
-            Debug.Log(room.MonsterSpawners.Count);
         }
 
         foreach (var corridor in room.CorridorCells)
@@ -105,9 +110,11 @@ public class BattleRoomSpawner : MonoBehaviour
         {
             if(_roomNumber == room.RoomNumber && room.MonsterSpawners.Count > 0)
             {
-                foreach(var spawner in room.MonsterSpawners)
+                PlayManager.MonsterSpawnerCount = room.MonsterSpawners.Count;
+
+                foreach (var spawner in room.MonsterSpawners)
                 {
-                    spawner.SetActive(true);
+                    spawner.gameObject.SetActive(true);
                 }
 
                 #region Setting BattleRoom Navigation
@@ -129,7 +136,7 @@ public class BattleRoomSpawner : MonoBehaviour
         }
     }
 
-    /* public void SetRoomData(List<Room> roomsWithWalls)
+    public void SetRoomData(List<Room> roomsWithWalls)
     {
         foreach (var room in roomsWithWalls)
         {
@@ -155,80 +162,80 @@ public class BattleRoomSpawner : MonoBehaviour
         }
 
         #region Visualization
-        foreach (var room in roomInfo)
-        {
-            // Create a 2D array representing the room including walls
-            var display = new char[room.Height + 2, room.Width + 2];
+        //foreach (var room in roomInfo)
+        //{
+        //    // Create a 2D array representing the room including walls
+        //    var display = new char[room.Height + 2, room.Width + 2];
 
-            // Initialize with empty spaces
-            for (int y = 0; y < room.Height + 2; y++)
-            {
-                for (int x = 0; x < room.Width + 2; x++)
-                {
-                    display[y, x] = ' ';
-                }
-            }
+        //    // Initialize with empty spaces
+        //    for (int y = 0; y < room.Height + 2; y++)
+        //    {
+        //        for (int x = 0; x < room.Width + 2; x++)
+        //        {
+        //            display[y, x] = ' ';
+        //        }
+        //    }
 
-            // Add room cells
-            foreach (var cell in room.RoomCells)
-            {
-                var relativeX = cell.X - room.X;
-                var relativeY = cell.Y - room.Y;
-                display[relativeY, relativeX] = cell.IsCenter ? 'M' : 'R';
-            }
+        //    // Add room cells
+        //    foreach (var cell in room.RoomCells)
+        //    {
+        //        var relativeX = cell.X - room.X;
+        //        var relativeY = cell.Y - room.Y;
+        //        display[relativeY, relativeX] = cell.IsCenter ? 'M' : 'R';
+        //    }
 
-            // Add wall cells
-            foreach (var cell in room.WallCells)
-            {
-                var relativeX = cell.X - room.X;
-                var relativeY = cell.Y - room.Y;
-                display[relativeY, relativeX] = 'W';
-            }
+        //    // Add wall cells
+        //    foreach (var cell in room.WallCells)
+        //    {
+        //        var relativeX = cell.X - room.X;
+        //        var relativeY = cell.Y - room.Y;
+        //        display[relativeY, relativeX] = 'W';
+        //    }
 
-            // Add corridor cells
-            foreach (var cell in room.CorridorCells)
-            {
-                var relativeX = cell.X - room.X;
-                var relativeY = cell.Y - room.Y;
-                display[relativeY, relativeX] = 'C';
-            }
+        //    // Add corridor cells
+        //    foreach (var cell in room.CorridorCells)
+        //    {
+        //        var relativeX = cell.X - room.X;
+        //        var relativeY = cell.Y - room.Y;
+        //        display[relativeY, relativeX] = 'C';
+        //    }
 
-            var roomLayout = "\n";
+        //    var roomLayout = "\n";
 
-            // Add top border
-            roomLayout += "+";
-            for (int x = 0; x < room.Width + 2; x++)
-                roomLayout += "-";
-            roomLayout += "+\n";
+        //    // Add top border
+        //    roomLayout += "+";
+        //    for (int x = 0; x < room.Width + 2; x++)
+        //        roomLayout += "-";
+        //    roomLayout += "+\n";
 
-            // Add room content with side borders
-            for (int y = 0; y < room.Height + 2; y++)
-            {
-                roomLayout += "|";
-                for (int x = 0; x < room.Width + 2; x++)
-                {
-                    roomLayout += display[y, x];
-                }
-                roomLayout += "|\n";
-            }
+        //    // Add room content with side borders
+        //    for (int y = 0; y < room.Height + 2; y++)
+        //    {
+        //        roomLayout += "|";
+        //        for (int x = 0; x < room.Width + 2; x++)
+        //        {
+        //            roomLayout += display[y, x];
+        //        }
+        //        roomLayout += "|\n";
+        //    }
 
-            // Add bottom border
-            roomLayout += "+";
-            for (int x = 0; x < room.Width + 2; x++)
-                roomLayout += "-";
-            roomLayout += "+\n";
+        //    // Add bottom border
+        //    roomLayout += "+";
+        //    for (int x = 0; x < room.Width + 2; x++)
+        //        roomLayout += "-";
+        //    roomLayout += "+\n";
 
 
-            // Print room information
-            Debug.Log($"Room #{room.RoomNumber} - Type: {room.Type}\n" +
-                      $"Position: ({room.X}, {room.Y}), Size: {room.Width}x{room.Height}\n" +
-                      $"Center Cell: ({room.CenterCell.X}, {room.CenterCell.Y})\n" +
-                      "Room Layout (W=Wall, R=Room, M=Center, C=Corridor):\n" +
-                      $"{roomLayout}");
-        }
+        //    // Print room information
+        //    Debug.Log($"Room #{room.RoomNumber} - Type: {room.Type}\n" +
+        //              $"Position: ({room.X}, {room.Y}), Size: {room.Width}x{room.Height}\n" +
+        //              $"Center Cell: ({room.CenterCell.X}, {room.CenterCell.Y})\n" +
+        //              "Room Layout (W=Wall, R=Room, M=Center, C=Corridor):\n" +
+        //              $"{roomLayout}");
+        //}
         #endregion
 
-    } */
+    }
 
     private void Start()
     {

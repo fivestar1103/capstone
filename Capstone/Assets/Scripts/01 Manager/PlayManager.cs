@@ -53,7 +53,6 @@ public class PlayManager : MonoBehaviour
     public static void Drain(float _hp) { Player.Drain(_hp); }
 
     // 몬스터 관련
-    public static MonsterSpawnPoint[] spawnPoints;      // 몬스터 스폰 포인트
     public static int CurMonsterNum;                    // 소환이 이루어진 몬스터 수
     public static int MonsterNum;                       // 사냥당한 몬스터 수
 
@@ -79,7 +78,7 @@ public class PlayManager : MonoBehaviour
 
     private BattleRoomSpawner battleRoomSpawner;
     public static BattleRoomSpawner BattleRoomSpawner { get { return Inst.battleRoomSpawner; } }
-    public static int MonsterSpawnerCount { get { return BattleRoomSpawner.MonsterSpawnCount; } }
+    public static int MonsterSpawnerCount { get { return BattleRoomSpawner.MonsterSpawnCount; } set { BattleRoomSpawner.MonsterSpawnCount = value; } }
     public static bool IsBattleFinished { get { if (MonsterNum == MonsterSpawnerCount * 5) return true; else return false; } }
 
 
