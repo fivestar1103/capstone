@@ -106,7 +106,7 @@ public class DelaunayTriangulation
     {
         if (iteration != 0)
             return GetDelaunayEdges();
-        Debug.Log($"Generating Delaunay Triangulation for {MidPoints.Count} midpoints");
+        // Debug.Log($"Generating Delaunay Triangulation for {MidPoints.Count} midpoints");
         
         superTriangle = new Triangle(
             new Vertex(minX - width, minY - height),

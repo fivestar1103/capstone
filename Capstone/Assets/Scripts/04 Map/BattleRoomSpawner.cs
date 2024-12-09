@@ -219,11 +219,11 @@ public class BattleRoomSpawner : MonoBehaviour
 
 
             // Print room information
-            Debug.Log($"Room #{room.RoomNumber} - Type: {room.Type}\n" +
-                      $"Position: ({room.X}, {room.Y}), Size: {room.Width}x{room.Height}\n" +
-                      $"Center Cell: ({room.CenterCell.X}, {room.CenterCell.Y})\n" +
-                      "Room Layout (W=Wall, R=Room, M=Center, C=Corridor):\n" +
-                      $"{roomLayout}");
+            // Debug.Log($"Room #{room.RoomNumber} - Type: {room.Type}\n" +
+            //           $"Position: ({room.X}, {room.Y}), Size: {room.Width}x{room.Height}\n" +
+            //           $"Center Cell: ({room.CenterCell.X}, {room.CenterCell.Y})\n" +
+            //           "Room Layout (W=Wall, R=Room, M=Center, C=Corridor):\n" +
+            //           $"{roomLayout}");
         }
         #endregion
 

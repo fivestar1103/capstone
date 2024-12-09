@@ -47,6 +47,8 @@ public class Main : MonoBehaviour
     public List<Room> RoomsWithWalls { get; private set; }
     private BattleRoomSpawner battleRoomSpawner;
     
+    private bool isMapGenerated = false;
+    
     /*
      * 100, 100, 0.35, 3, 3, 4, 25
      * 100, 100, 0.15, 6, 3, 1, 30
@@ -155,6 +157,12 @@ public class Main : MonoBehaviour
         paths = pathFinder.BreakWalls(minimumSpanningTreeEdges, roomsWithWalls);
         
         map = pathFinder.FindPath(map, paths);
+        if (map == null)
+        {
+            StartCoroutine(InstantlyGenerateMapCoroutine());
+            yield break;
+        }
+        
         mapDisplayer.DisplayCorridors(map);
         
         foreach (var room in roomsWithWalls)
@@ -165,6 +173,8 @@ public class Main : MonoBehaviour
         }
 
         battleRoomSpawner.SetRoomData(roomsWithWalls);
+        
+        isMapGenerated = true;
     }
 
     private void InstantlyGenerateMap()
