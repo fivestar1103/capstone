@@ -24,10 +24,10 @@ public partial class PlayerController
 
     public void PlayerAttack()
     {
-        //if(CanAttack && AttackTrigger)
+        //if (CanAttack && AttackTrigger)
         //{
         //    PrepareSkill(ValueDefinition.SPELL2, EEmotion.ENeutral);
-        //    StartCoroutine(UseSkill());
+        //    UseSkill();
         //}
 
         if (CanAttack)

@@ -25,7 +25,7 @@ public class HitScript : PlayerAttack
     {
         GameObject HitInstance = Instantiate(HitEffect, monster.transform.position, Quaternion.identity, monster.transform);
 
-        ParticleSystem HitParticle = GetComponent<ParticleSystem>();
+        ParticleSystem HitParticle = HitInstance.GetComponent<ParticleSystem>();
         var mainModule = HitParticle.main;
         float realDuration = mainModule.duration / mainModule.simulationSpeed;
         yield return new WaitForSeconds(realDuration);

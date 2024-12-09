@@ -19,4 +19,17 @@ public partial class PlayerController
                 break;
         }
     }
+
+    private void OnTriggerEnter(Collider _other)
+    {
+        switch (_other.gameObject.tag)
+        {
+            case ValueDefinition.MONSTER_ATTACK_TAG:    // 몬스터 공격에 피격
+                MonsterAttack monsterAttack = _other.gameObject.GetComponent<MonsterAttack>();
+                if (monsterAttack != null) GetHit(monsterAttack.attack);
+                // 피격 파티클? 추가
+                Destroy(_other.gameObject);
+                break;
+        }
+    }
 }

@@ -28,7 +28,7 @@ public class FireSkill : PlayerAttack
     {
         GameObject fireInstance = Instantiate(fire, monster.transform.position, Quaternion.identity, monster.transform);
 
-        ParticleSystem fireParticle = GetComponent<ParticleSystem>();
+        ParticleSystem fireParticle = fireInstance.GetComponent<ParticleSystem>();
         var mainModule = fireParticle.main;
         float realDuration = mainModule.duration / mainModule.simulationSpeed;
         yield return new WaitForSeconds(realDuration);
