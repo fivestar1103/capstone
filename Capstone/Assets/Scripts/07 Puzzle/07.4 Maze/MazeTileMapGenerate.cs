@@ -35,13 +35,6 @@ public class MazeTileMapGenerate : MonoBehaviour
             if (prefabIndex == -1)
                 continue;
 
-            var roomCellObject = tileMap.transform.Find($"Room ({roomCell.X}, {roomCell.Y})").gameObject;
-            if (!roomCellObject)
-                continue;
-
-            // Debug.Log(roomCellObject);
-            Destroy(roomCellObject);
-
             nowCell = maze[nowPos.y][nowPos.x];
             roomObject = GameObject.Instantiate(prefabList[prefabIndex], tileMap.transform);
             roomObject.transform.rotation = prefabQuaternion;
@@ -58,7 +51,6 @@ public class MazeTileMapGenerate : MonoBehaviour
             //}
 
             // Debug.Log($"name, rotation : {roomObject.name}, {roomObject.transform.eulerAngles}");
-            room.RoomCellObjectsDictionary[roomCell] = roomObject;
         }
     }
 

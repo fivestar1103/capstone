@@ -985,6 +985,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tileMap: {fileID: 1508945198}
   puzzlePrefab: {fileID: 2933879288560293387, guid: 85fd4b2792aa6c140ac70038b14791f2, type: 3}
+  Door: {fileID: 0}
 --- !u!1 &1025790804
 GameObject:
   m_ObjectHideFlags: 0
@@ -1267,7 +1268,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 553f17e053a2a7543adbc6f4a9b1410f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tileMap: {fileID: 0}
+  tileMap: {fileID: 1508945198}
   buttonPrefab: {fileID: 3911434873140864070, guid: 5c1a280115c121a49a1aa96ddde08a17, type: 3}
   prefabList:
   - {fileID: 9080256883377652600, guid: 2bcabef7b20174a40affdf375b01f86d, type: 3}
