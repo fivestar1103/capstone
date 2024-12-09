@@ -56,9 +56,13 @@ public partial class PlayerController : ObjectScript
 
     private void Update()
     {
-        playerCam.Rotate();     // 카메라 회전
         PlayerMove();           // 플레이어 이동
         UpdateInputs();         // 기타 조작
+    }
+
+    private void FixedUpdate()
+    {
+        playerCam.Rotate();     // 카메라 회전
     }
 
     public void Start()

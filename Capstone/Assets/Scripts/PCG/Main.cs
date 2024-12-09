@@ -153,8 +153,7 @@ public class Main : MonoBehaviour
         // Wait for one frame to ensure walls are properly initialized
         yield return null;
 
-        List<Path> paths;
-        paths = pathFinder.BreakWalls(minimumSpanningTreeEdges, roomsWithWalls);
+        var paths = pathFinder.BreakWalls(minimumSpanningTreeEdges, roomsWithWalls);
         
         map = pathFinder.FindPath(map, paths);
         if (map == null)
@@ -163,31 +162,36 @@ public class Main : MonoBehaviour
             yield break;
         }
         
+        RoomsWithWalls = roomsWithWalls;
         mapDisplayer.DisplayCorridors(map);
 
+        SpawnRooms();
+    }
+    
+    void SpawnRooms()
+    {
         MazeManager mazeManager = new MazeManager();
-        foreach (var room in roomsWithWalls)
+        foreach (var room in RoomsWithWalls)
         {
             if (room.RoomNumber == 0)
                 continue;
             
-            // choose half of the rooms to spawn maze
             room.Type = Random.Range(0, 2) == 0 ? RoomType.Battle : RoomType.Puzzle;
-            // room.Type = RoomType.Puzzle;
-                
+            // room.Type = RoomType.Battle;
+
             mapDisplayer.AddRoomCellObject(room);
             room.CalculateRelativeCoordinates();
             room.LogRoomInfo();
 
             if (room.Type == RoomType.Puzzle)
             {
-                mazeManager.SpawnMaze(room);
-                // Debug.Log("skipping puzzle room");
+                // mazeManager.SpawnMaze(room);
+                Debug.Log("skipping puzzle room");
             }
             else
             {
-                // battleRoomSpawner.SpawnBattleRoom(room);
-                Debug.Log("skipping battle room");
+                battleRoomSpawner.SpawnBattleRoom(room);
+                // Debug.Log("skipping battle room");
             }
         }
         
