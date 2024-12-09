@@ -229,7 +229,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e665472aa77115c4c887b00c035dcebc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speakerLanguage: 50259
+  speakerLanguage: 50264
 --- !u!82 &794767153
 AudioSource:
   m_ObjectHideFlags: 0

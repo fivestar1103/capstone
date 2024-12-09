@@ -8,6 +8,7 @@ using UnityEngine;
 using Unity.Sentis;
 
 using static WhisperEx;
+using System.Linq;
 
 [RequireComponent(typeof(AudioSource))]
 public class WhisperModel : MonoBehaviour
@@ -25,6 +26,7 @@ public class WhisperModel : MonoBehaviour
     private AudioClip audioClip; // Recorded audio clip
     private int numSamples; // Number of samples
     private float[] data; // Audio data array
+    private string[] emotions = { "happiness", "angry", "disgust", "fear", "neutral", "sadness", "surprise" };
 
     private int[] whiteSpaceCharacters = new int[256]; // Whitespace character array
 
@@ -106,20 +108,25 @@ public class WhisperModel : MonoBehaviour
     {
         Debug.Log("WhisperModel.PredictEmotion(): 감정 예측 시작");
 
-        using var input = new TensorFloat(new TensorShape(1, numSamples), data); // 감정 예측을 위한 입력 텐서를 생성합니다.
+        using var input = new TensorFloat(new TensorShape(1, numSamples/6), data); // 감정 예측을 위한 입력 텐서를 생성합니다.
         SEREngine.Execute(input); // SER 모델을 실행하여 감정을 예측합니다.
         var predictedClass = SEREngine.PeekOutput() as TensorFloat; // SER 모델의 ArgMax 적용된 출력 값을 가져옵니다.
         predictedClass.CompleteOperationsAndDownload();
         float[] classValues = predictedClass.ToReadOnlyArray();
+        float[] softmaxValues = Softmax(classValues); // Softmax 적용
+        int predictedIndex = Array.IndexOf(softmaxValues, softmaxValues.Max()); // 가장 높은 확률을 가진 클래스의 인덱스 찾기
         //Debug.Log($"WhisperModel.PredictEmotion(): 예측된 감정 클래스 - {(predictedClass.shape)}");
-        Debug.Log("WhisperModel.PredictEmotion(): 예측된 감정 클래스 값들 - ");
-            for (int i = 0; i < classValues.Length; i++)
-            {
-                Debug.Log($"Index {i}: {classValues[i]}");
-            }
+        Debug.Log($"WhisperModel.PredictEmotion():{predictedIndex} ");
+
     }
 
-    
+    private float[] Softmax(float[] logits)
+    {
+        float maxLogit = logits.Max(); // Overflow 방지를 위해 최대값을 빼줌
+        float[] expValues = logits.Select(x => MathF.Exp(x - maxLogit)).ToArray();
+        float sumExpValues = expValues.Sum();
+        return expValues.Select(x => x / sumExpValues).ToArray();
+    }
 
     private void SaveRecordedClip()
     {
@@ -149,7 +156,7 @@ public class WhisperModel : MonoBehaviour
         }
 
         numSamples = audioClip.samples; // Set number of samples in audio clip
-        if (numSamples > maxSamples)
+        if (numSamples > (maxSamples) )
         {
             Debug.Log($"WhisperModel.LoadAudio(): The AudioClip is too long. It must be less than 30 seconds. This clip is {numSamples / audioClip.frequency} seconds.");
             return; // Warn if audio clip is too long
