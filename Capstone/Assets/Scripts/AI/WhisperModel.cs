@@ -21,7 +21,8 @@ public class WhisperModel : MonoBehaviour
     private IWorker SEREngine; // SER engine
     private TensorFloat encodedAudio; // Encoded audio data
     TensorFloat predictedClass;
-
+    public int predictedIndex;
+    public string emotion;
     private AudioSource audioSource; // Audio source component
     private AudioClip audioClip; // Recorded audio clip
     private int numSamples; // Number of samples
@@ -114,9 +115,10 @@ public class WhisperModel : MonoBehaviour
         predictedClass.CompleteOperationsAndDownload();
         float[] classValues = predictedClass.ToReadOnlyArray();
         float[] softmaxValues = Softmax(classValues); // Softmax 적용
-        int predictedIndex = Array.IndexOf(softmaxValues, softmaxValues.Max()); // 가장 높은 확률을 가진 클래스의 인덱스 찾기
+        predictedIndex = Array.IndexOf(softmaxValues, softmaxValues.Max()); // 가장 높은 확률을 가진 클래스의 인덱스 찾기
         //Debug.Log($"WhisperModel.PredictEmotion(): 예측된 감정 클래스 - {(predictedClass.shape)}");
-        Debug.Log($"WhisperModel.PredictEmotion():{predictedIndex} ");
+        Debug.Log($"WhisperModel.PredictEmotion():{emotions[predictedIndex]}");
+        emotion= emotions[predictedIndex];
 
     }
 
