@@ -164,7 +164,7 @@ public class Main : MonoBehaviour
             room.LogRoomInfo();
         }
 
-        battleRoomSpawner.SetRoomData(roomsWithWalls);
+        // battleRoomSpawner.SetRoomData(roomsWithWalls);
     }
 
     private void InstantlyGenerateMap()

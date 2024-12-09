@@ -38,7 +38,7 @@ public class TimerScript : MonoBehaviour
     {
         this.gameObject.SetActive(true);
 
-        timerDuration = Random.Range(3, 11);  // 1분부터 1분 30초까지 랜덤
+        timerDuration = Random.Range(90, 121);  // 1분 30초부터 2분까지 랜덤
 
         currentTime = timerDuration;
         isTimerRunning = true;

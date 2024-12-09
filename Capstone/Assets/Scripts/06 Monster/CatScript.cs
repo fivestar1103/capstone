@@ -37,7 +37,7 @@ public class CatScript : MonsterScript
     public override void OnCollisionEnter(Collision _other)
     {
         base.OnCollisionEnter(_other);
-        if (_other.gameObject.CompareTag(ValueDefinition.PLAYER_ATTACK_TAG)) 
+        if (_other.gameObject.CompareTag(ValueDefinition.PLAYER_ATTACK_TAG))
             animator.SetTrigger(hashDamage);
     }
 

@@ -7,15 +7,18 @@ public class HuntingUI : MonoBehaviour
 {
     [SerializeField]
     private TextMeshProUGUI monsterNum;
+    private int totalMonsterNum;
 
     public void SetBattleInfo()
     {
-        this.gameObject.SetActive(true);
-        monsterNum.text = $"{PlayManager.MonsterNum} / {PlayManager.TotalMonsterNum}";
-    }
+        totalMonsterNum = PlayManager.MonsterSpawnerCount * 5;
 
-    private void Start()
-    {
-        monsterNum.text = $"{PlayManager.MonsterNum} / {PlayManager.TotalMonsterNum}";
+        this.gameObject.SetActive(true);
+        monsterNum.text = $"{PlayManager.MonsterNum} / {totalMonsterNum}";
+
+        if(PlayManager.MonsterNum == totalMonsterNum)
+        {
+            // PlayManager.FinishBattle();
+        }
     }
 }

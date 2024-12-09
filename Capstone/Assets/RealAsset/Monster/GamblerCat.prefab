@@ -642,10 +642,12 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 100022, guid: 053a4ed4c00048f48a8055551095d11e, type: 3}
       insertIndex: -1
       addedObject: {fileID: 390240063899057261}
-    - targetCorrespondingSourceObject: {fileID: 100022, guid: 053a4ed4c00048f48a8055551095d11e, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 3999428548475356018}
   m_SourcePrefab: {fileID: 100100000, guid: 053a4ed4c00048f48a8055551095d11e, type: 3}
+--- !u!1 &2012582548392121225 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 100034, guid: 053a4ed4c00048f48a8055551095d11e, type: 3}
+  m_PrefabInstance: {fileID: 2012582548392219979}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &2012582548392121341 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 100022, guid: 053a4ed4c00048f48a8055551095d11e, type: 3}
@@ -715,37 +717,12 @@ MonoBehaviour:
   speed: 3
   duration: 3
   dottedDamage: 5
-  monsterBullet: {fileID: 0}
-  attackPoint: {fileID: 0}
+  monsterBullet: {fileID: 8644483386534874181, guid: bc31065a6c3b7bd4e85f979a6f539cab, type: 3}
+  attackPoint: {fileID: 2012582548392121225}
   PATROLRadius: 5
   attackDist: 10
   traceDist: 20
   minMonsterDistance: 3
---- !u!114 &3999428548475356018
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2012582548392121341}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2f2a33f78387cd04181cbe78f9a85601, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  maxHP: 50
-  attack: 10
-  attackSpeed: 0
-  defense: 0
-  speed: 3
-  duration: 3
-  dottedDamage: 5
-  monsterBullet: {fileID: 1141520411253339737, guid: f157c532793f65a438c8301664fe9b28, type: 3}
-  attackPoint: {fileID: 0}
-  PATROLRadius: 4
-  attackDist: 2
-  traceDist: 10
-  minMonsterDistance: 2
 --- !u!4 &2012582548392611805 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 400022, guid: 053a4ed4c00048f48a8055551095d11e, type: 3}

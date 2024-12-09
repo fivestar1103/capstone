@@ -31,7 +31,7 @@ public class WideSkill : PlayerAttack
 
             if (monster != null)
             {
-                GameObject skillEffect = Instantiate(SkillEffect, monster.transform.position, Quaternion.identity);
+                GameObject skillEffect = Instantiate(SkillEffect, monster.transform.position, Quaternion.identity, monster.transform);
                 StartCoroutine(SkillHit(skillEffect));
             }
         }
@@ -39,7 +39,7 @@ public class WideSkill : PlayerAttack
 
     IEnumerator SkillHit(GameObject _skillEffect)
     {       
-        yield return new WaitForSeconds(1.0f);
+        yield return new WaitForSeconds(2.0f);
         Destroy(_skillEffect);
     }
 }

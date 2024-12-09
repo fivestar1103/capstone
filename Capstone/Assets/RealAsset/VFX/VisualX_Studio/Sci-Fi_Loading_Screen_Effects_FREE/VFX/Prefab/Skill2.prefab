@@ -39079,6 +39079,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 652a0e2f39e0dbb4797fb685be20a833, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  lifeTime: 2
+  skillType: 2
+  skillDamage: 0
 --- !u!1 &8104757693279681954
 GameObject:
   m_ObjectHideFlags: 0

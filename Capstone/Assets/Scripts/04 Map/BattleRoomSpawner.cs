@@ -75,14 +75,15 @@ public class BattleRoomSpawner : MonoBehaviour
             }
         }
 
-        int count = room.RoomCells.Count / 10;
-        List<Vector3> randomPositions = SelectRandomPosition(spawnerPosInfo, count);
+        monsterSpawnCount = Random.Range(room.RoomCells.Count / 10, room.RoomCells.Count / 5);
+        List<Vector3> randomPositions = SelectRandomPosition(spawnerPosInfo, monsterSpawnCount);
 
         foreach (var position in randomPositions)
         {
             GameObject spawner = Instantiate(spawnPoint.gameObject, position, Quaternion.identity);
             spawner.SetActive(false);
             room.MonsterSpawners.Add(spawner);
+            Debug.Log(room.MonsterSpawners.Count);
         }
 
         foreach (var corridor in room.CorridorCells)
@@ -128,7 +129,7 @@ public class BattleRoomSpawner : MonoBehaviour
         }
     }
 
-    public void SetRoomData(List<Room> roomsWithWalls)
+    /* public void SetRoomData(List<Room> roomsWithWalls)
     {
         foreach (var room in roomsWithWalls)
         {
@@ -227,7 +228,7 @@ public class BattleRoomSpawner : MonoBehaviour
         }
         #endregion
 
-    }
+    } */
 
     private void Start()
     {

@@ -26,7 +26,7 @@ public partial class PlayerController
     {
         if(CanAttack && AttackTrigger)
         {
-            PrepareSkill(ValueDefinition.SPELL3, EEmotion.ENeutral);
+            PrepareSkill(ValueDefinition.SPELL2, EEmotion.ENeutral);
             StartCoroutine(UseSkill());
         }
 
@@ -87,12 +87,13 @@ public partial class PlayerController
                 break;
             case ESkillType.TELEPORT:
                 PlayManager.PlayerRigidBody.AddForce(PlayManager.PlayerTransform.forward * 150, ForceMode.Impulse);  // 수치 조정필요2
-                Destroy(preparedSkill);
+                Debug.Log(preparedSkill.name);
+                Destroy(preparedSkill.gameObject);
                 break;
             case ESkillType.WIDE:
                 WideSkill wideskill = preparedSkill as WideSkill;
                 wideskill.ControlSkill();
-                Destroy(preparedSkill);
+                Destroy(preparedSkill.gameObject);
                 break;
         }
         if ((int)preparedSkill.StatusEffect >= 0 && (int)preparedSkill.StatusEffect <= 2 && !IsBuffApplied)

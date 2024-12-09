@@ -8,6 +8,7 @@ public class BattleTriggerScript : MonoBehaviour
     private BattleRoomSpawner battleRoomSpawner;
     private int roomNumber;
     public bool IsBattleStarted { get; private set; }
+    public bool IsBattleFinished { get; set; } 
 
     private void OnTriggerEnter(Collider _other)
     {
@@ -30,6 +31,11 @@ public class BattleTriggerScript : MonoBehaviour
         PlayManager.ShowBattleUI();
         PlayManager.StartTimer();
         IsBattleStarted = true;
+    }
+
+    public void FinishBattle()
+    {
+
     }
 
 }

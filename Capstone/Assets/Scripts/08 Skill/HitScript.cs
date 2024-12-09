@@ -16,7 +16,6 @@ public class HitScript : PlayerAttack
 
             if (monster != null)
             {
-                Debug.Log(222);
                 StartCoroutine(HitMonster());
             }
         }

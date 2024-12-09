@@ -19546,7 +19546,6 @@ GameObject:
   - component: {fileID: 3220580318672070478}
   - component: {fileID: 4141503596249581934}
   - component: {fileID: 6948586627414197919}
-  - component: {fileID: -5144157871065500124}
   - component: {fileID: -713838980646073741}
   m_Layer: 0
   m_Name: Skill2
@@ -24390,39 +24389,12 @@ SphereCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
---- !u!54 &-5144157871065500124
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4282305057102428602}
-  serializedVersion: 4
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_CenterOfMass: {x: 0, y: 0, z: 0}
-  m_InertiaTensor: {x: 1, y: 1, z: 1}
-  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ImplicitCom: 1
-  m_ImplicitTensor: 1
-  m_UseGravity: 1
-  m_IsKinematic: 0
-  m_Interpolate: 0
-  m_Constraints: 0
-  m_CollisionDetection: 0
 --- !u!114 &-713838980646073741
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -24437,9 +24409,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   lifeTime: 2
   skillType: 2
+  skillDamage: 0
   preparedEffect: {fileID: 4282305057102428602}
   SkillEffect: {fileID: 4932088507883938021, guid: 0e5709a7ddb77924090c112cf73bb98a, type: 3}
-  hitEffect: {fileID: 4846656746467311786, guid: f69b0d4e59c98ef43b8532cd97a8eee6, type: 3}
   detectionRadius: 6
 --- !u!1 &4369317235751087004
 GameObject:
