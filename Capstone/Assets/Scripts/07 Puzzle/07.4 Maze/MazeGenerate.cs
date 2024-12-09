@@ -7,10 +7,8 @@ public class MazeGenerate
 {
     private enum EDirection { NONE = -1, UP, LEFT, DOWN, RIGHT }
 
-    public List<List<MazeCell>> GenerateMaze (List<List<MazeCell>> maze, int[,] map, List<(int, int)> entrances)
+    public List<List<MazeCell>> GenerateMaze (List<List<MazeCell>> maze, int[,] map, List<(int, int)> entrances, Room room)
     {
-        int[,] visited = (int[,]) map.Clone();
-
         // 상 좌 하 우, 탐색 방향 순서
         int[] dx = { 0, -1, 0, 1 };
         int[] dy = { -1, 0, 1, 0 };
@@ -19,6 +17,8 @@ public class MazeGenerate
         // 미로 가로, 세로 길이
         int mazeWidth = map.GetLength(1);
         int mazeHeight = map.GetLength(0);
+
+        int[,] visited = new int[mazeHeight, mazeWidth];
 
         // 미로 생성 시작점
         (int x, int y) startPos = entrances[0];
@@ -37,7 +37,9 @@ public class MazeGenerate
         {
             nowPos = recursiveStack.Pop();          // 현재 위치
             visited[nowPos.y, nowPos.x] = 1;
-            
+
+            if (map[nowPos.y, nowPos.x] == 3)
+
             ShuffleArray(directionOrder);           // 탐색 방향 순서 섞기
 
             for (int i = 0; i < 4; i++)
@@ -48,6 +50,8 @@ public class MazeGenerate
                 // 탐색 중인 칸이 맵 범위 내에 있는지 확인
                 if (0 <= visitPos.x && 0 <= visitPos.y && visitPos.x < mazeWidth && visitPos.y < mazeHeight)
                 {
+                    if (map[visitPos.y, visitPos.x] == 3)
+
                     // blank면 무시
                     if (map[visitPos.y, visitPos.x] == -1)
                         continue;

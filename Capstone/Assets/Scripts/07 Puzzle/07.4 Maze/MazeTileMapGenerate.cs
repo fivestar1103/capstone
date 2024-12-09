@@ -29,7 +29,7 @@ public class MazeTileMapGenerate : MonoBehaviour
 
         foreach (var roomCell in room.RoomCells)
         {
-            var nowPos = (x : roomCell.X - room.X, y : roomCell.Y - room.Y);
+            var nowPos = (x: roomCell.X - room.X, y: roomCell.Y - room.Y);
             // Debug.Log($"roomCell X,Y : {nowPos.x}, {nowPos.y}");
             (prefabQuaternion, prefabIndex) = ChoosePrefabForCell(maze[nowPos.y][nowPos.x]);
             if (prefabIndex == -1)
@@ -52,6 +52,21 @@ public class MazeTileMapGenerate : MonoBehaviour
 
             // Debug.Log($"name, rotation : {roomObject.name}, {roomObject.transform.eulerAngles}");
         }
+
+        //foreach (var roomCell in room.CorridorCells)
+        //{
+        //    var nowPos = (x: roomCell.X - room.X, y: roomCell.Y - room.Y);
+        //    // Debug.Log($"roomCell X,Y : {nowPos.x}, {nowPos.y}");
+        //    (prefabQuaternion, prefabIndex) = ChoosePrefabForCell(maze[nowPos.y][nowPos.x]);
+        //    if (prefabIndex == -1)
+        //        continue;
+
+        //    nowCell = maze[nowPos.y][nowPos.x];
+        //    roomObject = GameObject.Instantiate(prefabList[prefabIndex], tileMap.transform);
+        //    roomObject.transform.rotation = prefabQuaternion;
+        //    roomObject.transform.localPosition = new Vector3(roomCell.X * 4, 0, -roomCell.Y * 4);
+
+        //}
     }
 
     private Quaternion RotateInteractiveButton(MazeCell buttonCell)

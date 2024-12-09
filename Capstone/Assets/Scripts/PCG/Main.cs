@@ -172,7 +172,8 @@ public class Main : MonoBehaviour
                 continue;
             
             // choose half of the rooms to spawn maze
-            room.Type = Random.Range(0, 2) == 0 ? RoomType.Battle : RoomType.Puzzle; 
+            room.Type = Random.Range(0, 2) == 0 ? RoomType.Battle : RoomType.Puzzle;
+            // room.Type = RoomType.Puzzle;
                 
             mapDisplayer.AddRoomCellObject(room);
             room.CalculateRelativeCoordinates();
@@ -180,11 +181,13 @@ public class Main : MonoBehaviour
 
             if (room.Type == RoomType.Puzzle)
             {
-                // mazeManager.SpawnMaze(room);
-                Debug.Log("skipping maze");
+                mazeManager.SpawnMaze(room);
             }
             else
-                battleRoomSpawner.SpawnBattleRoom(room);
+            {
+                // battleRoomSpawner.SpawnBattleRoom(room);
+                Debug.Log("skipping battle room");
+            }
         }
         
         PlayManager.PlayerSpawn();
