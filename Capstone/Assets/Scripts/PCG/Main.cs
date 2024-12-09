@@ -168,7 +168,7 @@ public class Main : MonoBehaviour
         MazeManager mazeManager = new MazeManager();
         foreach (var room in roomsWithWalls)
         {
-            if (room.RoomNumber > 10)
+            if (room.RoomNumber == 0)
                 continue;
             
             // choose half of the rooms to spawn maze
@@ -178,9 +178,10 @@ public class Main : MonoBehaviour
             room.CalculateRelativeCoordinates();
             room.LogRoomInfo();
 
-            if (room.Type == RoomType.Puzzle && room.RoomNumber != 0)
+            if (room.Type == RoomType.Puzzle)
             {
                 // mazeManager.SpawnMaze(room);
+                Debug.Log("skipping maze");
             }
             else
                 battleRoomSpawner.SpawnBattleRoom(room);
