@@ -247,7 +247,7 @@ public class WhisperModel : MonoBehaviour
         logMelSpectroEngine = WorkerFactory.CreateWorker(backendType, logMelSpectroModel); // Create log Mel spectrogram worker
         encoderEngine = WorkerFactory.CreateWorker(backendType, encoderModel); // Create encoder worker
         decoderEngine = WorkerFactory.CreateWorker(backendType, decoderModelWithArgMax); // Create decoder worker
-        SEREngine = WorkerFactory.CreateWorker(BackendType.CPU, SERModel); // Create SER worker
+        SEREngine = WorkerFactory.CreateWorker(backendType, SERModel); // Create SER worker
     }
 
     private void GetTokens()

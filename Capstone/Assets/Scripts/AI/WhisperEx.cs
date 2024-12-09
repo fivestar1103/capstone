@@ -8,7 +8,7 @@ public class WhisperEx
     public const string LogMelSpectroModelName = "LogMelSepctro.sentis"; // Log Mel Spectrogram model name
     public const string EncoderModelName = "AudioEncoder_Tiny.sentis"; // Audio encoder model name
     public const string DecoderModelName = "AudioDecoder_Tiny.sentis"; // Audio decoder model name
-    public const string SERModelName = "SER_ver2.sentis"; // Audio SERModelName
+    public const string SERModelName = "SER_ver3.sentis"; // Audio SERModelName
     public const string VocabName = "vocab.json"; // Vocabulary file name
 
     public const int MaxTokens = 100; // Maximum number of tokens
