@@ -6,6 +6,7 @@ using System.Linq;
 using System.Net;
 using TMPro;
 using Unity.AI.Navigation;
+using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.UIElements;
@@ -17,30 +18,34 @@ public class BattleRoomSpawner : MonoBehaviour
     private GameObject monster;
 
     [SerializeField]
-    private MonsterSpawnPoint spawnPoint;   // ¸ó½ºÅÍ ½ºÆ÷³Ê ÇÁ¸®ÆÕ
+    private MonsterSpawnPoint spawnPoint;   // Â¸Ã³Â½ÂºÃ…Ã Â½ÂºÃ†Ã·Â³ÃŠ Ã‡ÃÂ¸Â®Ã†Ã•
     [SerializeField]
-    private int battleRoomCount = 10;       // ÀüÅõ¹æ °¹¼ö
-    private int pointCount;                 // ¹æ ÇÏ³ª¿¡ ¼³Ä¡µÉ ¸ó½ºÅÍ ½ºÆ÷³ÊÀÇ °¹¼ö
-    private int maxRoomNumber;              // ¹æ ¹øÈ£ Áß °¡Àå Å« ¼ö
+    private int battleRoomCount = 10;       // Ã€Ã¼Ã…ÃµÂ¹Ã¦ Â°Â¹Â¼Ã¶
+    private int pointCount;                 // Â¹Ã¦ Ã‡ÃÂ³ÂªÂ¿Â¡ Â¼Â³Ã„Â¡ÂµÃ‰ Â¸Ã³Â½ÂºÃ…Ã Â½ÂºÃ†Ã·Â³ÃŠÃ€Ã‡ Â°Â¹Â¼Ã¶
+    private int maxRoomNumber;              // Â¹Ã¦ Â¹Ã¸ÃˆÂ£ ÃÃŸ Â°Â¡Ã€Ã¥ Ã…Â« Â¼Ã¶
 
-    private HashSet<int> battleRoomNumber = new HashSet<int>();           // ÀüÅõ¹æÀ¸·Î »ç¿ëµÉ ¹æ ¹øÈ£µé
-    private List<Room> roomInfo = new List<Room>();                       // ÀüÅõ¹æ list
+    private HashSet<int> battleRoomNumber = new HashSet<int>();           // Ã€Ã¼Ã…ÃµÂ¹Ã¦Ã€Â¸Â·Ã Â»Ã§Â¿Ã«ÂµÃ‰ Â¹Ã¦ Â¹Ã¸ÃˆÂ£ÂµÃ©
+    private List<Room> roomInfo = new List<Room>();                       // Ã€Ã¼Ã…ÃµÂ¹Ã¦ list
 
-    // ÇÃ·¹ÀÌ¾î°¡ ¹æ¿¡ µé¾î°¥ ¶§ È°¼ºÈ­µÇ´Â ¿ÀºêÁ§Æ®µé
+    // Ã‡ÃƒÂ·Â¹Ã€ÃŒÂ¾Ã®Â°Â¡ Â¹Ã¦Â¿Â¡ ÂµÃ©Â¾Ã®Â°Â¥ Â¶Â§ ÃˆÂ°Â¼ÂºÃˆÂ­ÂµÃ‡Â´Ã‚ Â¿Ã€ÂºÃªÃÂ§Ã†Â®ÂµÃ©
     [SerializeField]
     private BattleTriggerScript battleTrigger;
-    private GameObject roomObject;                                        // navigation ´ã´ç ¿ÀºêÁ§Æ®
-    private NavMeshSurface navMeshSurface;                                // navigation ´ã´ç ¿ÀºêÁ§Æ®2
+    private GameObject roomObject;                                        // navigation Â´Ã£Â´Ã§ Â¿Ã€ÂºÃªÃÂ§Ã†Â®
+    private NavMeshSurface navMeshSurface;                                // navigation Â´Ã£Â´Ã§ Â¿Ã€ÂºÃªÃÂ§Ã†Â®2
 
     private int monsterSpawnCount;
-    public int MonsterSpawnCount { get { return monsterSpawnCount; } }
+    public int MonsterSpawnCount
+    {
+        get { return monsterSpawnCount; } 
+        set { monsterSpawnCount = value; } 
+    }
 
     private List<Vector3> SelectRandomPosition(HashSet<Vector3> set, int count)
     {
-        // HashSetÀ» List·Î º¯È¯
+        // HashSetÃ€Â» ListÂ·Ã ÂºÂ¯ÃˆÂ¯
         List<Vector3> list = new List<Vector3>(set);
 
-        // Shuffle (¸®½ºÆ®¸¦ ·£´ıÇÏ°Ô ¼¯À½)
+        // Shuffle (Â¸Â®Â½ÂºÃ†Â®Â¸Â¦ Â·Â£Â´Ã½Ã‡ÃÂ°Ã” Â¼Â¯Ã€Â½)
         for (int i = list.Count - 1; i > 0; i--)
         {
             int randomIndex = Random.Range(0, i + 1);
@@ -49,7 +54,7 @@ public class BattleRoomSpawner : MonoBehaviour
             list[randomIndex] = temp;
         }
 
-        // ¸®½ºÆ®¿¡¼­ »óÀ§ 'count'°³ÀÇ °ª ¹İÈ¯
+        // Â¸Â®Â½ÂºÃ†Â®Â¿Â¡Â¼Â­ Â»Ã³Ã€Â§ 'count'Â°Â³Ã€Ã‡ Â°Âª Â¹ÃÃˆÂ¯
         return list.GetRange(0, Mathf.Min(count, list.Count));
     }
 
@@ -65,25 +70,25 @@ public class BattleRoomSpawner : MonoBehaviour
                 Vector3 realSpawnerPos = new Vector3(cell.X * 4, 0.01f, cell.Y * -4);
                 spawnerPosInfo.Add(realSpawnerPos);
             }
-            else // Áß¾Ó¿¡´Â NavMeshSurface ´ã´ç ¿ÀºêÁ§Æ® ¹èÄ¡
+            else // ÃÃŸÂ¾Ã“Â¿Â¡Â´Ã‚ NavMeshSurface Â´Ã£Â´Ã§ Â¿Ã€ÂºÃªÃÂ§Ã†Â® Â¹Ã¨Ã„Â¡
             {
                 roomObject = new GameObject("Room" + room.RoomNumber);
                 roomObject.transform.position = new Vector3(cell.X * 4, 1.0f, cell.Y * -4);
 
                 navMeshSurface = roomObject.AddComponent<NavMeshSurface>();
-                navMeshSurface.collectObjects = CollectObjects.Children; // ÀÚ½Ä ¿ÀºêÁ§Æ®¸¸ NavMesh·Î Æ÷ÇÔ
+                navMeshSurface.collectObjects = CollectObjects.Children; // Ã€ÃšÂ½Ã„ Â¿Ã€ÂºÃªÃÂ§Ã†Â®Â¸Â¸ NavMeshÂ·Ã Ã†Ã·Ã‡Ã”
             }
         }
 
-        monsterSpawnCount = Random.Range(room.RoomCells.Count / 10, room.RoomCells.Count / 5);
+        monsterSpawnCount = Random.Range(room.RoomCells.Count / 15, room.RoomCells.Count / 10);
         List<Vector3> randomPositions = SelectRandomPosition(spawnerPosInfo, monsterSpawnCount);
 
         foreach (var position in randomPositions)
         {
             GameObject spawner = Instantiate(spawnPoint.gameObject, position, Quaternion.identity);
+            spawner.transform.SetParent(roomObject.transform);
             spawner.SetActive(false);
             room.MonsterSpawners.Add(spawner);
-            Debug.Log(room.MonsterSpawners.Count);
         }
 
         foreach (var corridor in room.CorridorCells)
@@ -105,9 +110,11 @@ public class BattleRoomSpawner : MonoBehaviour
         {
             if(_roomNumber == room.RoomNumber && room.MonsterSpawners.Count > 0)
             {
-                foreach(var spawner in room.MonsterSpawners)
+                PlayManager.MonsterSpawnerCount = room.MonsterSpawners.Count;
+
+                foreach (var spawner in room.MonsterSpawners)
                 {
-                    spawner.SetActive(true);
+                    spawner.gameObject.SetActive(true);
                 }
 
                 #region Setting BattleRoom Navigation
@@ -129,14 +136,14 @@ public class BattleRoomSpawner : MonoBehaviour
         }
     }
 
-     public void SetRoomData(List<Room> roomsWithWalls)
-     {
-         foreach (var room in roomsWithWalls)
-         {
-             roomInfo.Add(room);
-         }
+    public void SetRoomData(List<Room> roomsWithWalls)
+    {
+        foreach (var room in roomsWithWalls)
+        {
+            roomInfo.Add(room);
+        }
 
-         // ·£´ıÇÑ battleRoomCount°³ÀÇ ¹æÀ» ÀüÅõ ¹æÀ¸·Î ¼³Á¤
+         // Â·Â£Â´Ã½Ã‡Ã‘ battleRoomCountÂ°Â³Ã€Ã‡ Â¹Ã¦Ã€Â» Ã€Ã¼Ã…Ãµ Â¹Ã¦Ã€Â¸Â·Ã Â¼Â³ÃÂ¤
          maxRoomNumber = roomInfo.Max(room => room.RoomNumber);
          while (battleRoomNumber.Count < battleRoomCount)
          {
@@ -147,7 +154,7 @@ public class BattleRoomSpawner : MonoBehaviour
 
          foreach (var room in roomInfo)
          {
-             if (battleRoomNumber.Contains(room.RoomNumber))  // ÀüÅõ ¹æ setting
+             if (battleRoomNumber.Contains(room.RoomNumber))  // Ã€Ã¼Ã…Ãµ Â¹Ã¦ setting
              {
                  room.Type = RoomType.Battle;
                  SpawnBattleRoom(room);

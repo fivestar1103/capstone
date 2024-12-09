@@ -54,7 +54,8 @@ public class TimerScript : MonoBehaviour
     {
         // 몬스터가 모두 퇴치되지 않은 채로 시간이 지나면 플레이어 사망
         // 정상적인 클리어는 구현 예정
-        StartCoroutine(PlayerExplosion());
+        if(!PlayManager.IsBattleFinished)
+            StartCoroutine(PlayerExplosion());
     }
 
     IEnumerator PlayerExplosion()

@@ -7,13 +7,14 @@ public class BattleTriggerScript : MonoBehaviour
 {
     private BattleRoomSpawner battleRoomSpawner;
     private int roomNumber;
-    public bool IsBattleStarted { get; private set; }
+    public bool IsBattleStarted { get; set; }
     public bool IsBattleFinished { get; set; } 
 
     private void OnTriggerEnter(Collider _other)
     {
         if(_other.CompareTag(ValueDefinition.PLAYER_TAG) && !IsBattleStarted)
         {
+            PlayManager.MonsterNum = 0;
             battleRoomSpawner.ActivateBattleObject(roomNumber);
             StartBattle();
         }
@@ -25,6 +26,8 @@ public class BattleTriggerScript : MonoBehaviour
         roomNumber = _roomNumber;
     }
 
+
+
     public void StartBattle()
     {
         PlayManager.SetBattleInfo();
@@ -35,7 +38,7 @@ public class BattleTriggerScript : MonoBehaviour
 
     public void FinishBattle()
     {
-
+        IsBattleFinished = true;
     }
 
 }
