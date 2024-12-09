@@ -11,6 +11,8 @@ public class TimerScript : MonoBehaviour
     private float currentTime;
     private bool isTimerRunning = false;
 
+    private Room curRoom;
+
     [SerializeField]
     private GameObject explosionEffect; // 플레이어 폭발 이펙트
 
@@ -19,6 +21,16 @@ public class TimerScript : MonoBehaviour
         if (isTimerRunning)
         {
             currentTime -= Time.deltaTime;
+            if(currentTime > 0)
+            {
+                if(CheckCurRoomBattleStatus(curRoom))
+                {
+                    currentTime = 0;
+                    isTimerRunning = false;
+                    this.gameObject.SetActive(false);
+                }
+
+            }
             if (currentTime <= 0)
             {
                 currentTime = 0;
@@ -29,8 +41,14 @@ public class TimerScript : MonoBehaviour
         }
     }
 
-    public void StartTimer()
+    private bool CheckCurRoomBattleStatus(Room _room)
     {
+        return _room.IsBattleFinished;
+    }
+
+    public void StartTimer(Room _room)
+    {
+        curRoom = _room;
         this.gameObject.SetActive(true);
 
         timerDuration = Random.Range(90, 121);  // 1분 30초부터 2분까지 랜덤
@@ -50,11 +68,12 @@ public class TimerScript : MonoBehaviour
         }
     }
 
+
+
     private void OnTimerEnd()
     {
         // 몬스터가 모두 퇴치되지 않은 채로 시간이 지나면 플레이어 사망
-        // 정상적인 클리어는 구현 예정
-        if(!PlayManager.IsBattleFinished)
+        if(!curRoom.IsBattleFinished)
             StartCoroutine(PlayerExplosion());
     }
 

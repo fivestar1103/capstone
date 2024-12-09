@@ -5,7 +5,7 @@ using UnityEngine;
 public class PoolManager : MonoBehaviour
 {
     [SerializeField]
-    private int objectNum = 5; // 풀 크기 설정
+    private int objectNum = 10; // 풀 크기 설정
 
     private List<GameObject> poolObjects = new List<GameObject>();
     public List<GameObject> PoolObjects { get { return poolObjects; } }
@@ -43,6 +43,17 @@ public class PoolManager : MonoBehaviour
         {
             _obj.SetActive(false); // 반드시 비활성화
             PoolObjects.Add(_obj);
+        }
+    }
+
+    public void InActiveMonsters()
+    {
+        foreach (GameObject poolObject in poolObjects)
+        {
+            if (poolObject.activeSelf == true) 
+            {
+                poolObject.SetActive(false);
+            }
         }
     }
 }

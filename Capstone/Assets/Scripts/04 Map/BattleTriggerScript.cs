@@ -6,39 +6,31 @@ using UnityEngine.UI;
 public class BattleTriggerScript : MonoBehaviour
 {
     private BattleRoomSpawner battleRoomSpawner;
-    private int roomNumber;
-    public bool IsBattleStarted { get; set; }
-    public bool IsBattleFinished { get; set; } 
+    private Room curRoom;
 
     private void OnTriggerEnter(Collider _other)
     {
-        if(_other.CompareTag(ValueDefinition.PLAYER_TAG) && !IsBattleStarted)
+        if(_other.CompareTag(ValueDefinition.PLAYER_TAG) && !curRoom.IsBattleStarted)
         {
             PlayManager.MonsterNum = 0;
-            battleRoomSpawner.ActivateBattleObject(roomNumber);
+            battleRoomSpawner.ActivateBattleObject(curRoom);
             StartBattle();
         }
     }
 
-    public void SetBattleRoom(BattleRoomSpawner _battleRoom, int _roomNumber)
+    public void SetBattleRoom(BattleRoomSpawner _battleRoom, Room _room)
     {
         battleRoomSpawner = _battleRoom;
-        roomNumber = _roomNumber;
+        curRoom = _room;
     }
 
 
 
     public void StartBattle()
     {
-        PlayManager.SetBattleInfo();
+        curRoom.IsBattleStarted = true;
         PlayManager.ShowBattleUI();
-        PlayManager.StartTimer();
-        IsBattleStarted = true;
+        PlayManager.SetBattleInfo(curRoom);
+        PlayManager.StartTimer(curRoom);
     }
-
-    public void FinishBattle()
-    {
-        IsBattleFinished = true;
-    }
-
 }

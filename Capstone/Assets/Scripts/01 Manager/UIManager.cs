@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering.PostProcessing;
 
 public class UIManager : MonoBehaviour
 {
@@ -21,6 +22,7 @@ public class UIManager : MonoBehaviour
     [SerializeField]
     private HuntingUI huntingInfo;
     public void SetBattleInfo() { huntingInfo.SetBattleInfo(); }
+    public void SetBattleInfo(Room _room) { huntingInfo.SetBattleInfo(_room); }
 
     private HPbar hpBar;
     public void SetMaxHP(float _hp) { hpBar.SetMaxHP(_hp); }
@@ -32,7 +34,7 @@ public class UIManager : MonoBehaviour
 
     [SerializeField]
     private TimerScript timer;
-    public void StartTimer() { timer.StartTimer(); }
+    public void StartTimer(Room _room) { timer.StartTimer(_room); }
 
     public void SetManager()
     {

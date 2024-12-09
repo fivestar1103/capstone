@@ -30,6 +30,7 @@ public class GameManager : MonoBehaviour
     public static List<GameObject> PoolObjects { get { return PoolManager.PoolObjects; } }
     public static GameObject GetPooledObject() { return PoolManager.GetPooledObject(); }
     public static void ReturnObjectToPool(GameObject _obj) { PoolManager.ReturnObjectToPool(_obj); }
+    public static void InActiveMonsters() { PoolManager.InActiveMonsters(); }
 
     // ¿Ã∫•∆Æ
     private EventManager eventManager;

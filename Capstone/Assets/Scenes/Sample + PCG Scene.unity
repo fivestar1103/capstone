@@ -1974,6 +1974,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e665472aa77115c4c887b00c035dcebc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  predictedIndex: 0
+  emotion: 
+  emotions:
+  - happiness
+  - angry
+  - disgust
+  - fear
+  - neutral
+  - sadness
+  - surprise
   speakerLanguage: 50259
 --- !u!82 &963194232
 AudioSource:
@@ -3568,6 +3578,14 @@ PrefabInstance:
     - target: {fileID: 4997408705586345205, guid: 60bf59e1287e2f54a928472c98c7c0fb, type: 3}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5358633155392582005, guid: 60bf59e1287e2f54a928472c98c7c0fb, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1556337245}
+    - target: {fileID: 5358633155392582005, guid: 60bf59e1287e2f54a928472c98c7c0fb, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: PlayerRespawn
       objectReference: {fileID: 0}
     - target: {fileID: 6972966582096072040, guid: 60bf59e1287e2f54a928472c98c7c0fb, type: 3}
       propertyPath: m_AnchoredPosition.y

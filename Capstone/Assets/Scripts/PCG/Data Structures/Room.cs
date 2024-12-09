@@ -27,7 +27,10 @@ public class Room
     public Dictionary<Cell, GameObject> WallCellObjectsDictionary { get; set; }
     public Dictionary<Cell, GameObject> CorridorCellObjectsDictionary { get; set; }
 
+   
     public List<GameObject> MonsterSpawners;
+    public bool IsBattleStarted;
+    public bool IsBattleFinished;
 
     public int X { get; set; } // top left corner including walls
     public int Y { get; set; } // top left corner including walls

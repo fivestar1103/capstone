@@ -16,7 +16,6 @@ public class MonsterSpawnPoint : MonoBehaviour
     IEnumerator MonsterSpawn()
     {
         int totalMonsterCount = PlayManager.MonsterSpawnerCount * 5;
-        // int totalMonsterCount = 10;
 
         while (true) // 계속 실행
         {
@@ -35,7 +34,7 @@ public class MonsterSpawnPoint : MonoBehaviour
                 }
             }
 
-            yield return new WaitForSeconds(spawnTime); // 매 프레임마다 확인
+            yield return new WaitForSeconds(spawnTime); 
         }
     }
 

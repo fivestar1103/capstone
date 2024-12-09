@@ -36,8 +36,8 @@ public class BattleRoomSpawner : MonoBehaviour
     private int monsterSpawnCount;
     public int MonsterSpawnCount
     {
-        get { return monsterSpawnCount; } 
-        set { monsterSpawnCount = value; } 
+        get { return monsterSpawnCount; }
+        set { monsterSpawnCount = value; }
     }
 
     private List<Vector3> SelectRandomPosition(HashSet<Vector3> set, int count)
@@ -49,7 +49,7 @@ public class BattleRoomSpawner : MonoBehaviour
         for (int i = list.Count - 1; i > 0; i--)
         {
             int randomIndex = Random.Range(0, i + 1);
-            Vector3 temp = list[i]; 
+            Vector3 temp = list[i];
             list[i] = list[randomIndex];
             list[randomIndex] = temp;
         }
@@ -96,44 +96,53 @@ public class BattleRoomSpawner : MonoBehaviour
             Vector3 triggerPos = new Vector3(corridor.X * 4, 1f, corridor.Y * -4);
 
             BattleTriggerScript triggerInstance = Instantiate(battleTrigger, triggerPos, Quaternion.identity);
-            triggerInstance.transform.SetParent(roomObject.transform); 
+            triggerInstance.transform.SetParent(roomObject.transform);
             triggerInstance.GetComponent<Collider>().isTrigger = true;
-            
-            triggerInstance.SetBattleRoom(this, room.RoomNumber);
+
+            triggerInstance.SetBattleRoom(this, room);
         }
         #endregion
     }
 
-    public void ActivateBattleObject(int _roomNumber)
+    public void ActivateBattleObject(Room _room)
     {
-        foreach(var room in PlayManager.RoomWithWalls)
+
+        if (_room.MonsterSpawners.Count > 0)
         {
-            if(_roomNumber == room.RoomNumber && room.MonsterSpawners.Count > 0)
+            PlayManager.MonsterSpawnerCount = _room.MonsterSpawners.Count;
+
+            foreach (var spawner in _room.MonsterSpawners)
             {
-                PlayManager.MonsterSpawnerCount = room.MonsterSpawners.Count;
-
-                foreach (var spawner in room.MonsterSpawners)
-                {
-                    spawner.gameObject.SetActive(true);
-                }
-
-                #region Setting BattleRoom Navigation
-                foreach (var tile in room.RoomCellObjectsDictionary)
-                {
-                    GameObject tileObject = tile.Value;
-                    tileObject.transform.parent = roomObject.transform;
-
-                    NavMeshLink link = tileObject.AddComponent<NavMeshLink>();
-
-                    link.startPoint = new Vector3(-2.0f, 0, 0);
-                    link.endPoint = new Vector3(2.0f, 0, 0);
-                    link.width = 4.0f;
-                    link.bidirectional = true;
-                }
-                navMeshSurface.BuildNavMesh();
-                #endregion
+                spawner.gameObject.SetActive(true);
             }
+
+            #region Setting BattleRoom Navigation
+            foreach (var tile in _room.RoomCellObjectsDictionary)
+            {
+                GameObject tileObject = tile.Value;
+                tileObject.transform.parent = roomObject.transform;
+
+                NavMeshLink link = tileObject.AddComponent<NavMeshLink>();
+
+                link.startPoint = new Vector3(-2.0f, 0, 0);
+                link.endPoint = new Vector3(2.0f, 0, 0);
+                link.width = 4.0f;
+                link.bidirectional = true;
+            }
+            navMeshSurface.BuildNavMesh();
+            #endregion
+
         }
+    }
+
+    public void FinishBattle(Room _room)
+    {
+        _room.IsBattleFinished = true;
+        foreach (var spawner in _room.MonsterSpawners) 
+        { 
+            spawner.SetActive(false); 
+        }
+        GameManager.InActiveMonsters();
     }
 
     public void SetRoomData(List<Room> roomsWithWalls)
@@ -143,102 +152,27 @@ public class BattleRoomSpawner : MonoBehaviour
             roomInfo.Add(room);
         }
 
-         // ·£´ýÇÑ battleRoomCount°³ÀÇ ¹æÀ» ÀüÅõ ¹æÀ¸·Î ¼³Á¤
-         maxRoomNumber = roomInfo.Max(room => room.RoomNumber);
-         while (battleRoomNumber.Count < battleRoomCount)
-         {
-             int randomRoomValue = Random.Range(0, maxRoomNumber + 1);
-             if (randomRoomValue == 0) continue;
-             battleRoomNumber.Add(randomRoomValue);
-         }
+        // ·£´ýÇÑ battleRoomCount°³ÀÇ ¹æÀ» ÀüÅõ ¹æÀ¸·Î ¼³Á¤
+        maxRoomNumber = roomInfo.Max(room => room.RoomNumber);
+        while (battleRoomNumber.Count < battleRoomCount)
+        {
+            int randomRoomValue = Random.Range(0, maxRoomNumber + 1);
+            if (randomRoomValue == 0) continue;
+            battleRoomNumber.Add(randomRoomValue);
+        }
 
-         foreach (var room in roomInfo)
-         {
-             if (battleRoomNumber.Contains(room.RoomNumber))  // ÀüÅõ ¹æ setting
-             {
-                 room.Type = RoomType.Battle;
-                 SpawnBattleRoom(room);
-             }
-         }
-
-         // #region Visualization
-         // foreach (var room in roomInfo)
-         // {
-         //     // Create a 2D array representing the room including walls
-         //     var display = new char[room.Height + 2, room.Width + 2];
-         //
-         //     // Initialize with empty spaces
-         //     for (int y = 0; y < room.Height + 2; y++)
-         //     {
-         //         for (int x = 0; x < room.Width + 2; x++)
-         //         {
-         //             display[y, x] = ' ';
-         //         }
-         //     }
-         //
-         //     // Add room cells
-         //     foreach (var cell in room.RoomCells)
-         //     {
-         //         var relativeX = cell.X - room.X;
-         //         var relativeY = cell.Y - room.Y;
-         //         display[relativeY, relativeX] = cell.IsCenter ? 'M' : 'R';
-         //     }
-         //
-         //     // Add wall cells
-         //     foreach (var cell in room.WallCells)
-         //     {
-         //         var relativeX = cell.X - room.X;
-         //         var relativeY = cell.Y - room.Y;
-         //         display[relativeY, relativeX] = 'W';
-         //     }
-         //
-         //     // Add corridor cells
-         //     foreach (var cell in room.CorridorCells)
-         //     {
-         //         var relativeX = cell.X - room.X;
-         //         var relativeY = cell.Y - room.Y;
-         //         display[relativeY, relativeX] = 'C';
-         //     }
-         //
-         //     var roomLayout = "\n";
-         //
-         //     // Add top border
-         //     roomLayout += "+";
-         //     for (int x = 0; x < room.Width + 2; x++)
-         //         roomLayout += "-";
-         //     roomLayout += "+\n";
-         //
-         //     // Add room content with side borders
-         //     for (int y = 0; y < room.Height + 2; y++)
-         //     {
-         //         roomLayout += "|";
-         //         for (int x = 0; x < room.Width + 2; x++)
-         //         {
-         //             roomLayout += display[y, x];
-         //         }
-         //         roomLayout += "|\n";
-         //     }
-         //
-         //     // Add bottom border
-         //     roomLayout += "+";
-         //     for (int x = 0; x < room.Width + 2; x++)
-         //         roomLayout += "-";
-         //     roomLayout += "+\n";
-         //
-         //
-         //     // Print room information
-         //     // Debug.Log($"Room #{room.RoomNumber} - Type: {room.Type}\n" +
-         //     //           $"Position: ({room.X}, {room.Y}), Size: {room.Width}x{room.Height}\n" +
-         //     //           $"Center Cell: ({room.CenterCell.X}, {room.CenterCell.Y})\n" +
-         //     //           "Room Layout (W=Wall, R=Room, M=Center, C=Corridor):\n" +
-         //     //           $"{roomLayout}");
-         // }
-         // #endregion
-
-     }
+        foreach (var room in roomInfo)
+        {
+            if (battleRoomNumber.Contains(room.RoomNumber))  // ÀüÅõ ¹æ setting
+            {
+                room.Type = RoomType.Battle;
+                SpawnBattleRoom(room);
+            }
+        }
+    }
 
     private void Start()
     {
-        
+
     }
 }
