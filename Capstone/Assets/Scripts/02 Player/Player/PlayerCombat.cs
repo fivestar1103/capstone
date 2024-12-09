@@ -82,7 +82,7 @@ public partial class PlayerController
             attackPos.rotation,
             PlayManager.PlayerTransform);
         
-        Debug.Log($"preparedSkill : {preparedSkill.name}");
+        // Debug.Log($"preparedSkill : {preparedSkill.name}");
         
         if (preparedSkill.SkillType != ESkillType.TELEPORT)
         {

@@ -6,9 +6,9 @@ public enum EEmotion
 {
     EHappy,
     EAngry,
-    ENeutral,
     EDisgust,
     EFear,
+    ENeutral,
     ESad,
     ESurprise,
     LAST

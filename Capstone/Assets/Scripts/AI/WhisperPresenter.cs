@@ -43,8 +43,11 @@ public class WhisperPresenter : MonoBehaviour
             if (accuracy > 0.7f)
             {
                 spellInput = correctSpell;
-                PlayManager.PrepareSkill(spellInput, EEmotion.EAngry);
-                Debug.Log($"Skill: {spellInput}");
+                var emotionIndex = (EEmotion)whisperModel.predictedIndex;
+                var emotionString = whisperModel.emotions[(int)emotionIndex];
+                
+                PlayManager.PrepareSkill(spellInput, emotionIndex);
+                Debug.Log($"Skill: {spellInput}, Emotion: {emotionString}");
                 break;
             }
         }

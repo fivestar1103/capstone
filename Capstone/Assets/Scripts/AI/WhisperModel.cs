@@ -27,7 +27,7 @@ public class WhisperModel : MonoBehaviour
     private AudioClip audioClip; // Recorded audio clip
     private int numSamples; // Number of samples
     private float[] data; // Audio data array
-    private string[] emotions = { "happiness", "angry", "disgust", "fear", "neutral", "sadness", "surprise" };
+    public string[] emotions = { "happiness", "angry", "disgust", "fear", "neutral", "sadness", "surprise" };
 
     private int[] whiteSpaceCharacters = new int[256]; // Whitespace character array
 
@@ -107,7 +107,7 @@ public class WhisperModel : MonoBehaviour
 
     private void PredictEmotion()
     {
-        Debug.Log("WhisperModel.PredictEmotion(): 감정 예측 시작");
+        // Debug.Log("WhisperModel.PredictEmotion(): 감정 예측 시작");
 
         using var input = new TensorFloat(new TensorShape(1, numSamples/6), data); // 감정 예측을 위한 입력 텐서를 생성합니다.
         SEREngine.Execute(input); // SER 모델을 실행하여 감정을 예측합니다.
@@ -117,7 +117,7 @@ public class WhisperModel : MonoBehaviour
         float[] softmaxValues = Softmax(classValues); // Softmax 적용
         predictedIndex = Array.IndexOf(softmaxValues, softmaxValues.Max()); // 가장 높은 확률을 가진 클래스의 인덱스 찾기
         //Debug.Log($"WhisperModel.PredictEmotion(): 예측된 감정 클래스 - {(predictedClass.shape)}");
-        Debug.Log($"WhisperModel.PredictEmotion():{emotions[predictedIndex]}");
+        // Debug.Log($"WhisperModel.PredictEmotion():{emotions[predictedIndex]}");
         emotion= emotions[predictedIndex];
 
     }
