@@ -38,8 +38,6 @@ public class MazeGenerate
             nowPos = recursiveStack.Pop();          // 현재 위치
             visited[nowPos.y, nowPos.x] = 1;
 
-            if (map[nowPos.y, nowPos.x] == 3)
-
             ShuffleArray(directionOrder);           // 탐색 방향 순서 섞기
 
             for (int i = 0; i < 4; i++)
@@ -50,8 +48,6 @@ public class MazeGenerate
                 // 탐색 중인 칸이 맵 범위 내에 있는지 확인
                 if (0 <= visitPos.x && 0 <= visitPos.y && visitPos.x < mazeWidth && visitPos.y < mazeHeight)
                 {
-                    if (map[visitPos.y, visitPos.x] == 3)
-
                     // blank면 무시
                     if (map[visitPos.y, visitPos.x] == -1)
                         continue;
