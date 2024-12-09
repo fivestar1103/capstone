@@ -60,7 +60,7 @@ public partial class PlayerController : ObjectScript
         UpdateInputs();         // 기타 조작
     }
 
-    private void FixedUpdate()
+    private void LateUpdate()
     {
         playerCam.Rotate();     // 카메라 회전
     }

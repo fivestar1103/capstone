@@ -661,13 +661,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHP: 50
-  attack: 10
+  attack: 5
   attackSpeed: 0
   defense: 0
   speed: 3
   duration: 3
   dottedDamage: 5
-  monsterBullet: {fileID: 1141520411253339737, guid: f157c532793f65a438c8301664fe9b28, type: 3}
+  monsterBullet: {fileID: 5822823068730282034, guid: 2d9e9279a0cc85c4fa18088a87760e36, type: 3}
   attackPoint: {fileID: 7390985341910326098}
   PATROLRadius: 4
   attackDist: 2

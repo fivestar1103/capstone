@@ -24,23 +24,24 @@ public partial class PlayerController
 
     public void PlayerAttack()
     {
+        // Test Logic
         //if (CanAttack && AttackTrigger)
         //{
         //    PrepareSkill(ValueDefinition.SPELL2, EEmotion.ENeutral);
         //    UseSkill();
         //}
 
+        // Real Logic
         if (CanAttack)
         {
             if (AttackTrigger && !preparedSkill)
             {
-                // 평타 구현 
+                // 평타 
                 StartCoroutine(NormalAttack());
             }
             else if (AttackTrigger && preparedSkill)
             {
-                // Test Calling
-                // PrepareSkill(ValueDefinition.SPELL1, EEmotion.ENeutral);
+                // 스킬
                 UseSkill();
             }
         }

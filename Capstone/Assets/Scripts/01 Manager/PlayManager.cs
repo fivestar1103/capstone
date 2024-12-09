@@ -73,6 +73,7 @@ public class PlayManager : MonoBehaviour
     private BattleRoomSpawner battleRoomSpawner;
     public static BattleRoomSpawner BattleRoomSpawner { get { return Inst.battleRoomSpawner; } }
     public static int MonsterSpawnerCount { get { return BattleRoomSpawner.MonsterSpawnCount; } set { BattleRoomSpawner.MonsterSpawnCount = value; } }
+    public static int TotalMonsterCount { get { return MonsterSpawnerCount * 5; } }
     public static void FinishBattle(Room _room) { BattleRoomSpawner.FinishBattle(_room); }
 
 

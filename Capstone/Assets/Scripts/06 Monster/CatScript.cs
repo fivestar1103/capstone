@@ -62,6 +62,7 @@ public class CatScript : MonsterScript
             case EMonsterState.TRACE:
                 MaintainDistance();
                 animator.SetBool(hashRun, true);
+                animator.SetBool(hashHit, false);
                 monsterNav.SetDestination(PlayManager.PlayerPos);
                 
                 break;

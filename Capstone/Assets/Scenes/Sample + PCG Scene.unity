@@ -1931,7 +1931,7 @@ MonoBehaviour:
   m_ShowCameraFrustum: 1
   m_IgnoreTimeScale: 0
   m_WorldUpOverride: {fileID: 0}
-  m_UpdateMethod: 2
+  m_UpdateMethod: 1
   m_BlendUpdateMethod: 1
   m_DefaultBlend:
     m_Style: 1
@@ -3192,7 +3192,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6610b98eb2f82b64fb269bbf04b9f922, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  objectNum: 5
+  objectNum: 10
   poolObject:
   - {fileID: 2012582548392121341, guid: c806f71bfc0f15d428f88433fd97b373, type: 3}
   - {fileID: 7035340801813807993, guid: c4af682be65ae26478eefbc1f12c90a1, type: 3}
@@ -3209,6 +3209,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ed2782deb8d3cad4f85e9715222fcb6b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  huntingUI: {fileID: 453425226}
+  timerUI: {fileID: 3559761971649851776}
   DieFrame: {fileID: 269727783}
   Player: {fileID: 1298071670}
 --- !u!1 &1662263573

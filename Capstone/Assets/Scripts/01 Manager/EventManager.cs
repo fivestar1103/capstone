@@ -6,6 +6,11 @@ using UnityEngine.UI;
 public class EventManager : MonoBehaviour
 {
     [SerializeField]
+    private HuntingUI huntingUI;
+    [SerializeField]
+    private TimerScript timerUI;
+
+    [SerializeField]
     private Image DieFrame;
     [SerializeField]
     private PlayerController Player;
@@ -21,6 +26,8 @@ public class EventManager : MonoBehaviour
     {
         Player.IsDead = false;
         DieFrame.gameObject.SetActive(false);
+        huntingUI.gameObject.SetActive(false);
+        timerUI.gameObject.SetActive(false);
 
         Player.PlayerRB.isKinematic = false;
         Player.GetComponent<CapsuleCollider>().enabled = true;

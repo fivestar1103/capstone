@@ -15,8 +15,8 @@ public class MonsterSpawnPoint : MonoBehaviour
 
     IEnumerator MonsterSpawn()
     {
-        // int totalMonsterCount = PlayManager.MonsterSpawnerCount * 5;
-        int totalMonsterCount = 5;
+        int totalMonsterCount = PlayManager.TotalMonsterCount;
+        // int totalMonsterCount = 5;
 
         while (true) // 계속 실행
         {

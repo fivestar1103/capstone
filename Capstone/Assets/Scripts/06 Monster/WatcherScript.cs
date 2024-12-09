@@ -62,6 +62,7 @@ public class WatcherScript : MonsterScript
             case EMonsterState.TRACE:
                 MaintainDistance();
                 animator.SetBool(hashRun, true);
+                animator.SetBool(hashAttack, false);
                 monsterNav.SetDestination(PlayManager.PlayerPos);
 
                 break;

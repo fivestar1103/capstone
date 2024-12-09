@@ -38,7 +38,7 @@ public partial class MonsterScript
         if (monsterAttack != null) monsterAttack.attack = this.Attack;
 
         Rigidbody rb = bullet.GetComponent<Rigidbody>();
-        if (rb != null) rb.velocity = attackPoint.transform.forward * 20;
+        if (rb != null) rb.velocity = attackPoint.transform.forward * 15;
 
         yield return new WaitForSeconds(1.0f);
 
