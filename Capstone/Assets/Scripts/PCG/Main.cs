@@ -182,6 +182,7 @@ public class Main : MonoBehaviour
             if (room.Type == RoomType.Puzzle)
             {
                 mazeManager.SpawnMaze(room);
+                // Debug.Log("skipping puzzle room");
             }
             else
             {

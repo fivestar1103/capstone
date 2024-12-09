@@ -23,9 +23,9 @@ public static class ValueDefinition
     public readonly static Vector3 NULL_VECTOR = Vector3.up * 100;      // 아무것도 아닌 벡터
 
     // 주문
-    public const string SPELL1 = "파이어볼";
-    public const string SPELL2 = "아이스에이지";
-    public const string SPELL3 = "플래시";
+    public const string SPELL1 = "fireball";
+    public const string SPELL2 = "frostbite"; 
+    public const string SPELL3 = "flash";
 
     // 더미 주문(테스트옹)
 }

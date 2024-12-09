@@ -25,29 +25,30 @@ public class WhisperPresenter : MonoBehaviour
         }
     }
 
-    private void CheckSpell(string _spell)
+    private void CheckSpell(string spellInput)
     {
-        int matchingCount = 0;
+        // trim the spell
+        spellInput = spellInput.Trim().ToLower();
 
-        foreach(string spell in spells)
+        foreach (var correctSpell in spells)
         {
-            if (_spell.Length != spell.Length)
-                return;
+            var matchingCount = 0;
 
-            for(int i = 0; i < spell.Length; i++)
-            {
-                if (_spell[i] == spell[i])
+            for (var i = 0; i < correctSpell.Length; i++)
+                if (i < spellInput.Length && spellInput[i] == correctSpell[i])
                     matchingCount++;
-                
-                accuracy = matchingCount / spell.Length;
-            }
+            
+            accuracy = (float)matchingCount / correctSpell.Length;
+            
             if (accuracy > 0.7f)
             {
-                _spell = spell;
+                spellInput = correctSpell;
+                PlayManager.PrepareSkill(spellInput, EEmotion.EAngry);
+                Debug.Log($"Skill: {spellInput}");
                 break;
             }
         }
-        PlayManager.PrepareSkill(_spell, EEmotion.EAngry);
+        Debug.Log($"Acc.: {accuracy}");
     } 
 
     private async void ProcessVoiceInput()

@@ -40,7 +40,7 @@ public partial class PlayerController
             else if (AttackTrigger && preparedSkill != null)
             {
                 // Test Calling
-                PrepareSkill(ValueDefinition.SPELL1, EEmotion.ENeutral);
+                // PrepareSkill(ValueDefinition.SPELL1, EEmotion.ENeutral);
                 StartCoroutine(UseSkill());
             }
         }
