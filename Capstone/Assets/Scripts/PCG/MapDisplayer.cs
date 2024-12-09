@@ -73,7 +73,7 @@ public class MapDisplayer
             }
             catch (Exception e)
             {
-                Debug.LogWarning(e);
+                // Debug.LogWarning(e);
             }
         }
     }
@@ -119,13 +119,13 @@ public class MapDisplayer
             for (var x = 0; x < Width; x++)
             {
                 var cell = map.Cells[y, x];
-                CreateCell(cell);
+                CreateCell(cell, map);
             }
         
         GenerationText.text = $"Generation {currentGeneration}";
     }
 
-    public void CreateCell(Cell cell)
+    public void CreateCell(Cell cell, Map map)
     {
         var cellType = cell.Type;
         GameObject cellObject = null;
@@ -156,6 +156,7 @@ public class MapDisplayer
             case CellType.Corridor:
             {
                 cellObject = Object.Instantiate(CorridorPrototypePrefab, CellsParent.transform);
+                DeleteUnnecessaryWalls(cellObject, map, cell.X, cell.Y);
                 cellObject.name = $"Corridor ({cell.X}, {cell.Y})";
                 break;
             }
@@ -174,6 +175,25 @@ public class MapDisplayer
         vertexMonoBehaviour.vertex = new Vertex(cell.X, cell.Y);
     }
     
+    public void DeleteUnnecessaryWalls(GameObject corridorCellObject, Map map, int cellX, int cellY)
+    {
+        if (cellY - 1 >= 0 && map.Cells[cellY - 1, cellX].Type != CellType.Blank)
+            HideWall(corridorCellObject, "North");
+        if (cellX + 1 < Width && map.Cells[cellY, cellX + 1].Type != CellType.Blank)
+            HideWall(corridorCellObject, "East");
+        if (cellY + 1 < Height && map.Cells[cellY + 1, cellX].Type != CellType.Blank)
+            HideWall(corridorCellObject, "South");
+        if (cellX - 1 >= 0 && map.Cells[cellY, cellX - 1].Type != CellType.Blank)
+            HideWall(corridorCellObject, "West");
+    }
+    
+    public void HideWall(GameObject corridorCellObject, string direction)
+    {
+        var wall = corridorCellObject.transform.Find(direction);
+        if (wall)
+            wall.gameObject.SetActive(false);
+    }
+    
     public void DisplayCorridors(Map map)
     {
         for (var y = 0; y < Height; y++)
@@ -181,7 +201,7 @@ public class MapDisplayer
             {
                 var cell = map.Cells[y, x];
                 if (cell.Type == CellType.Corridor)
-                    CreateCell(cell);
+                    CreateCell(cell, map);
             }
     }
     

@@ -61,7 +61,7 @@ public class MinimumSpanningTree
                 }
         }
         
-        Debug.Log($"number of edges in minimum spanning tree: {minimumSpanningTree.Count}");
+        // Debug.Log($"number of edges in minimum spanning tree: {minimumSpanningTree.Count}");
         return minimumSpanningTree;   
     }
     

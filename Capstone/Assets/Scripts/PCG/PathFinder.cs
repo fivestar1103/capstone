@@ -37,7 +37,7 @@ public class PathFinder
                     room.AddCell(deletedCellA);
                     flagA = true;
                     
-                    Debug.Log($"Deleted wall A: {deletedCellA}");
+                    // Debug.Log($"Deleted wall A: {deletedCellA}");
                 }
 
                 if (!flagB && room.CenterCell.Equals(centerCellB))
@@ -47,7 +47,7 @@ public class PathFinder
                     room.AddCell(deletedCellB);
                     flagB = true;
                     
-                    Debug.Log($"Deleted wall B: {deletedCellB}");
+                    // Debug.Log($"Deleted wall B: {deletedCellB}");
                 }
             }
         }
@@ -64,7 +64,7 @@ public class PathFinder
         var direction = room2Center - room1Center;
         var distance = direction.magnitude;
         var ray = new Ray(room1Center, direction);
-        Debug.DrawRay(room1Center, direction, Color.red, 1000f);
+        // Debug.DrawRay(room1Center, direction, Color.red, 1000f);
         if (Physics.Raycast(ray, out var hit, distance) && hit.collider.CompareTag("Wall"))
         {
             // Debug.Log($"Destroying wall: {hit.collider.gameObject.name}");
@@ -72,7 +72,7 @@ public class PathFinder
             deletedVertex = hit.transform.GetComponent<VertexMonoBehaviour>().vertex;
         }
 
-        Debug.Log($"Deleted vertex: {deletedVertex}");
+        // Debug.Log($"Deleted vertex: {deletedVertex}");
         return deletedVertex;
     }
     
@@ -98,7 +98,7 @@ public class PathFinder
             if (pathCells.Count == 0)
             {
                 Debug.LogWarning($"No path found between {startCell} and {endCell}!");
-                continue;
+                return null;
             }
             
             // Debug.Log($"Finding path between {startCell} and {endCell}");

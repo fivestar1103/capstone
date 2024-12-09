@@ -285,14 +285,14 @@ public class Room
         roomLayout += "+\n";
     
         // Print room information
-        Debug.Log($"Room #{RoomNumber} - Type: {Type}\n" +
-                  $"\tPosition: ({X}, {Y}), Size: {Width}x{Height}\n" +
-                  $"\tCenter Cell: ({CenterCell.X}, {CenterCell.Y})\n\n" +
-                  "Room Layout (W=Wall, R=Room, M=Center, C=Corridor):" +
-                  $"{roomLayout}\n" +
-                  $"\tRoomCellGameObject count: {RoomCellObjectsDictionary.Count}\n" +
-                  $"\tWallCellGameObject count: {WallCellObjectsDictionary.Count}\n" +
-                  $"\tCorridorCellGameObject count: {CorridorCellObjectsDictionary.Count}"
-        );
+        // Debug.Log($"Room #{RoomNumber} - Type: {Type}\n" +
+        //           $"\tPosition: ({X}, {Y}), Size: {Width}x{Height}\n" +
+        //           $"\tCenter Cell: ({CenterCell.X}, {CenterCell.Y})\n\n" +
+        //           "Room Layout (W=Wall, R=Room, M=Center, C=Corridor):" +
+        //           $"{roomLayout}\n" +
+        //           $"\tRoomCellGameObject count: {RoomCellObjectsDictionary.Count}\n" +
+        //           $"\tWallCellGameObject count: {WallCellObjectsDictionary.Count}\n" +
+        //           $"\tCorridorCellGameObject count: {CorridorCellObjectsDictionary.Count}"
+        // );
     }
 }
