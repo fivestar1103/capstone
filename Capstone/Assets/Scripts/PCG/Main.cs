@@ -46,15 +46,16 @@ public class Main : MonoBehaviour
 
     public List<Room> RoomsWithWalls { get; private set; }
     private BattleRoomSpawner battleRoomSpawner;
-    
-    // private bool isMapGenerated = false;
-    
+
+    // chihoon
+    [SerializeField] PressurePuzzleManager pressurePuzzleManager;
+
     /*
      * 100, 100, 0.35, 3, 3, 4, 25
      * 100, 100, 0.15, 6, 3, 1, 30
      * 100, 100, 0.35, 5, 4, 3, 20
      */
-    
+
     private void Start()
     {
         if (stepByStep) return;
@@ -163,12 +164,19 @@ public class Main : MonoBehaviour
         }
         
         mapDisplayer.DisplayCorridors(map);
-        
+
+        MazeManager mazeManager = new MazeManager();
         foreach (var room in roomsWithWalls)
         {
             mapDisplayer.AddRoomCellObject(room);
             room.CalculateRelativeCoordinates();
             room.LogRoomInfo();
+
+            // spawn maze
+            mazeManager.SpawnMaze(room);
+
+            // spawn pressure switch puzzle
+            // pressurePuzzleManager.SpawnPuzzle(room);
         }
 
         battleRoomSpawner.SetRoomData(roomsWithWalls);
