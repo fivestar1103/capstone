@@ -45,13 +45,16 @@ public class Main : MonoBehaviour
     private readonly PathFinder pathFinder = new PathFinder();
 
     private BattleRoomSpawner battleRoomSpawner;
-    
+
+    // chihoon
+    [SerializeField] PressurePuzzleManager pressurePuzzleManager;
+
     /*
      * 100, 100, 0.35, 3, 3, 4, 25
      * 100, 100, 0.15, 6, 3, 1, 30
      * 100, 100, 0.35, 5, 4, 3, 20
      */
-    
+
     private void Start()
     {
         if (stepByStep) return;
@@ -153,14 +156,21 @@ public class Main : MonoBehaviour
         
         map = pathFinder.FindPath(map, paths);
         mapDisplayer.DisplayCorridors(map);
-        
+
+        MazeManager mazeManager = new MazeManager();
         foreach (var room in roomsWithWalls)
         {
             mapDisplayer.AddRoomCellObject(room);
             room.CalculateRelativeCoordinates();
             room.LogRoomInfo();
+
+            // spawn maze
+            // mazeManager.SpawnMaze(room);
+
+            // spawn pressure switch puzzle
+            // pressurePuzzleManager.SpawnPuzzle(room);
         }
-        battleRoomSpawner.SetRoomData(roomsWithWalls);
+        // battleRoomSpawner.SetRoomData(roomsWithWalls);
     }
 
     private void InstantlyGenerateMap()

@@ -263,9 +263,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   TileMap: {fileID: 824721603}
   prefabList:
-  - {fileID: 7559079026784205929, guid: a755249e0957769419d327731a18d33e, type: 3}
-  - {fileID: 7318629450643141152, guid: 03fa56974f71ce140bce2eafda9e9dca, type: 3}
-  - {fileID: 4925240996685131332, guid: 8dbd879842c770b4dbf949f741dd214e, type: 3}
+  - {fileID: 916917378494744782, guid: d6c747dfa96e4464391017639f515590, type: 3}
+  - {fileID: 9080256883377652600, guid: 03fa56974f71ce140bce2eafda9e9dca, type: 3}
+  - {fileID: 3911434873140864070, guid: 8dbd879842c770b4dbf949f741dd214e, type: 3}
+  - {fileID: 2515885378564930463, guid: 604d5b0e0899c03478975c160d3f5860, type: 3}
 --- !u!1 &963194225
 GameObject:
   m_ObjectHideFlags: 0
