@@ -62,9 +62,9 @@ public class MazeManager
         FindDoors();
 
         Debug.Log("Generate Maze!");
-
+        
         // (int, int)[] buttons = new (int, int)[4] { (0, 0), (0, 0), (0, 0), (0, 0) };
-        maze = mazeGenerate.GenerateMaze(maze, mazeArray, entrances);
+        maze = mazeGenerate.GenerateMaze(maze, mazeArray, entrances, room);
         // Debug.Log($"nowallflag : {maze[entrances[0].y][entrances[0].x].noWallFlag}");
 
         // 일단 버튼은 없는 걸로
