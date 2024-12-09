@@ -28,7 +28,7 @@ public class PressureSwitchSpawner : MonoBehaviour
 
     // instantiate switches at right position
     // and add switches in list with randomly fixed order
-    private void SpawnSwitches(Room room, GameObject tileMap, GameObject puzzleObject)
+    private void SpawnSwitches(Room room, GameObject puzzleObject)
     {
         (int x, int y) spawnPoint = (room.CenterCell.X - switchNumberWidth / 2, room.CenterCell.Y - switchNumberWidth / 2);
         GameObject switchPrefab = null;
@@ -43,13 +43,6 @@ public class PressureSwitchSpawner : MonoBehaviour
             {
                 var switchPoint = (x: spawnPoint.x + x, y: spawnPoint.y + y);
                 Debug.Log($"puzzle switch point : {switchPoint}");
-
-                var roomCellObject = tileMap.transform.Find($"Room ({switchPoint.x}, {switchPoint.y})").gameObject;
-                if (!roomCellObject)
-                    continue;
-
-                Debug.Log($"puzzle roomCell object : {roomCellObject}");
-                Destroy(roomCellObject);
 
                 switchPrefab = Instantiate(pressureSwitch, puzzleObject.transform);
                 switchPrefab.transform.localPosition = new Vector3(switchPoint.x * 4, 0, -switchPoint.y * 4);

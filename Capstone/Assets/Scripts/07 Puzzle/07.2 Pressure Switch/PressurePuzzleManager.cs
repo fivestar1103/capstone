@@ -11,7 +11,7 @@ public class PressurePuzzleManager : MonoBehaviour
     [SerializeField] private GameObject puzzlePrefab;
     [SerializeField] private OrderDoor Door;
 
-    public static Action<Room, GameObject, GameObject> ASpawnSwitches;
+    public static Action<Room, GameObject> ASpawnSwitches;
     
     // 해결해야 할 점
     // 1. 퍼즐 스폰 포인트 정하기 -> 랜덤으로, 벽으로 막히는 일 없이 (퍼즐은 3x3으로 뭉쳐서 생성됨)
@@ -33,7 +33,7 @@ public class PressurePuzzleManager : MonoBehaviour
         Debug.Log($"puzzle center position : {centerPos}");
 
         // spawn switches in puzzles
-        ASpawnSwitches(room, tileMap, centerObject);
+        ASpawnSwitches(room, centerObject);
     }
 
     private (int, int) DecideSpawnPoint(Room room)
