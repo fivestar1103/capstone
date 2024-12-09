@@ -47,7 +47,7 @@ public class Main : MonoBehaviour
     public List<Room> RoomsWithWalls { get; private set; }
     private BattleRoomSpawner battleRoomSpawner;
     
-    private bool isMapGenerated = false;
+    // private bool isMapGenerated = false;
     
     /*
      * 100, 100, 0.35, 3, 3, 4, 25
@@ -61,7 +61,6 @@ public class Main : MonoBehaviour
         RoomsWithWalls = new List<Room>();
 
         InstantlyGenerateMap();
-        PlayManager.PlayerSpawn();
 
         battleRoomSpawner = GetComponent<BattleRoomSpawner>();
     }
@@ -174,7 +173,8 @@ public class Main : MonoBehaviour
 
         battleRoomSpawner.SetRoomData(roomsWithWalls);
         
-        isMapGenerated = true;
+        // isMapGenerated = true;
+        PlayManager.PlayerSpawn();
     }
 
     private void InstantlyGenerateMap()

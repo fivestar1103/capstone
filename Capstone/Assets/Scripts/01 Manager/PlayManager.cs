@@ -17,18 +17,11 @@ public class PlayManager : MonoBehaviour
     public static void PlayerSpawn()
     {
         foreach(var room in RoomWithWalls)
-        {
-            if(room.RoomNumber == 0)    // 0번 방이 스폰 방
+            if (room.RoomNumber == 0) // 0번 방이 스폰 방
             {
-                foreach (var cell in room.RoomCells)
-                {
-                    if (cell.IsCenter)
-                    {
-                        Player.transform.position = new Vector3((cell.X * 4 + 3), 1f, (cell.Y * -4 + 3));
-                    }
-                }
+                Player.transform.position = new Vector3((room.CenterCell.X * 4 + 3), 1f, (room.CenterCell.Y * -4 + 3));
+                break;
             }
-        }
     }
 
     // 플레이어
