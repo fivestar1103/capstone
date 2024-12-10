@@ -55,6 +55,17 @@ public class MapDisplayer
         // create a parent object for each room under CellsParent
         var roomParent = new GameObject($"Room {room.RoomNumber}");
         roomParent.transform.SetParent(CellsParent.transform);
+
+        if (RoomManager.Instance.RoomParents == null)
+        {
+            Debug.LogWarning("RoomManager.Instance.RoomParents is null");
+            return;
+        }
+
+        if (RoomManager.Instance.RoomParents.ContainsKey(room.RoomNumber))
+            RoomManager.Instance.RoomParents[room.RoomNumber] = roomParent;
+        else
+            RoomManager.Instance.RoomParents.Add(room.RoomNumber, roomParent);
         
         foreach (var roomCell in room.RoomCells)
         {
@@ -79,7 +90,6 @@ public class MapDisplayer
             try
             {
                 var corridorCellObject = CorridorsParent.transform.Find($"Corridor ({corridorCell.X}, {corridorCell.Y})").gameObject;
-                Debug.Log($"Corridor ({corridorCell.X}, {corridorCell.Y}): {corridorCellObject}");
                 if (corridorCellObject)
                 {
                     room.AddCellObject(corridorCell, corridorCellObject);

@@ -166,6 +166,19 @@ public class Main : MonoBehaviour
         RoomsWithWalls = roomsWithWalls;
         mapDisplayer.DisplayCorridors(map);
 
+        RoomManager.Instance.AdjacencyList = minimumSpanningTree.GenerateAdjacencyList(minimumSpanningTreeEdges,
+            delaunayTriangulation.MidPoints);
+
+        foreach (var room in RoomsWithWalls)
+        {
+            mapDisplayer.AddRoomCellObject(room);
+            room.CalculateRelativeCoordinates();
+        }
+
+        PlayManager.PlayerSpawn();
+        RoomManager.Instance.CurrentCellType = CellType.Room;
+        RoomManager.Instance.InitializeRoomParents();
+        
         SpawnRooms();
     }
     
@@ -177,17 +190,13 @@ public class Main : MonoBehaviour
             room.Type = Random.Range(0, 2) == 0 ? RoomType.Battle : RoomType.Puzzle;
             // room.Type = RoomType.Battle;
 
-            mapDisplayer.AddRoomCellObject(room);
-            room.CalculateRelativeCoordinates();
-            room.LogRoomInfo();
-
             if (room.RoomNumber == 0)
                 continue;
             
             if (room.Type == RoomType.Puzzle)
             {
-                // mazeManager.SpawnMaze(room);
-                Debug.Log("skipping puzzle room");
+                mazeManager.SpawnMaze(room);
+                // Debug.Log("skipping puzzle room");
             }
             else
             {
@@ -195,8 +204,6 @@ public class Main : MonoBehaviour
                 // Debug.Log("skipping battle room");
             }
         }
-        
-        PlayManager.PlayerSpawn();
     }
 
     private void InstantlyGenerateMap()

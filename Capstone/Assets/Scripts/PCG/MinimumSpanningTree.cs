@@ -47,7 +47,8 @@ public class MinimumSpanningTree
                     minDistance = distanceSquared[vertex];
                     minVertex = vertex;
                 }
-            if (minVertex == null) break;
+            if (minVertex == null) 
+                break;
             
             visitedVertices.Add(minVertex);
             if (parent[minVertex] != null)
@@ -68,5 +69,31 @@ public class MinimumSpanningTree
     private static float GetEdgeDistanceSquared(Edge edge)
     {
         return Mathf.Pow(edge.A.X - edge.B.X, 2) + Mathf.Pow(edge.A.Y - edge.B.Y, 2);
+    }
+    
+    public Dictionary<int, List<int>> GenerateAdjacencyList(List<Edge> minimumSpanningTree, List<RoomCell> midPoints)
+    {
+        // create a dictionary to store the midPoint cells' coordinates
+        var midPointVerticesDictionary = new Dictionary<Vertex, int>();
+        foreach (var midPoint in midPoints)
+            midPointVerticesDictionary[new Vertex(midPoint.X, midPoint.Y)] = midPoint.RoomNumber;
+        
+        var adjacencyList = new Dictionary<int, List<int>>();
+
+        // Initialize adjacency list with empty lists for all midPoints
+        for (int i = 0; i < midPoints.Count; i++)
+            adjacencyList[i] = new List<int>();
+
+        // Build the adjacency list from MST edges
+        foreach (var edge in minimumSpanningTree)
+        {
+            var indexA = midPointVerticesDictionary[edge.A];
+            var indexB = midPointVerticesDictionary[edge.B];
+
+            adjacencyList[indexA].Add(indexB);
+            adjacencyList[indexB].Add(indexA);
+        }
+
+        return adjacencyList;
     }
 }
