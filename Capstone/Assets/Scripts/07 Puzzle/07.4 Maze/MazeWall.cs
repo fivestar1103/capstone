@@ -18,6 +18,7 @@ public class MazeWall : MonoBehaviour
         {
             if (collider.gameObject != this.gameObject && collider.gameObject.tag == "Wall")
             {
+                Debug.Log("Destroyed overlapping maze wall!");
                 Destroy(gameObject);
                 break;
             }

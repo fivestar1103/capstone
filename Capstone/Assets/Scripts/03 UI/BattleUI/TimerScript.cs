@@ -46,8 +46,7 @@ public class TimerScript : MonoBehaviour
     public void StartTimer(Room _room)
     {
         curRoom = _room;
-        this.gameObject.SetActive(true);
-        timerText = GetComponentInChildren<TextMeshProUGUI>();
+        gameObject.SetActive(true);
 
         timerDuration = Random.Range(90, 121);  // 1분 30초부터 2분까지 랜덤
 
@@ -62,7 +61,7 @@ public class TimerScript : MonoBehaviour
         {
             int minutes = Mathf.FloorToInt(currentTime / 60);
             int seconds = Mathf.FloorToInt(currentTime % 60);
-            timerText.text = $"남은 시간  {minutes:00}: {seconds:00}"; // 분:초 형식으로 표시
+            timerText.text = $"{minutes:00}: {seconds:00}"; // 분:초 형식으로 표시
         }
     }
 
