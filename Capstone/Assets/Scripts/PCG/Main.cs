@@ -200,7 +200,7 @@ public class Main : MonoBehaviour
             }
             else
             {
-                battleRoomSpawner.SpawnBattleRoom(room);
+                // battleRoomSpawner.SpawnBattleRoom(room);
                 // Debug.Log("skipping battle room");
             }
         }

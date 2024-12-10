@@ -4,12 +4,11 @@ using UnityEngine;
 
 public class MazeTileMapGenerate : MonoBehaviour
 {
-    [SerializeField] private GameObject tileMap;
     [SerializeField] private GameObject buttonPrefab;
     [SerializeField] private List<GameObject> prefabList;
 
     private enum Blocks { NONE = -1, FLOOR = 0, WALL, INTERACTIVE, ENTRANCE }
-    private enum EDirection { NONE = -1, UP, LEFT, DOWN, RIGHT }
+    private enum EDirection { NONE = -1, UP, LEFT, DOWN, RIGHT }    
 
     private void Awake()
     {
@@ -19,14 +18,18 @@ public class MazeTileMapGenerate : MonoBehaviour
     // public void GenerateMap(int[,] maze, Room mazeRoom)
     public void GenerateMap(Room room, List<List<MazeCell>> maze)   // , (int x, int y)[] buttons)
     {
-        // RoomCells을 순회하며 매번 Dictionary에 접근.
-        // 접근 이후 각 RoomCell이 가진 좌표에 해당하는 프리팹으로 교체.
+        // set parent : tilemap - parentObject - maze cells
+        GameObject tileMap = RoomManager.Instance.RoomParents[room.RoomNumber];
+        GameObject parentObject = new GameObject($"maze {room.RoomNumber}");
+        parentObject.transform.parent = tileMap.transform;
+
+        // initialize variables
         GameObject roomObject = null;
-        // GameObject buttonObject = null;
         MazeCell nowCell = null;
         int prefabIndex = -1;
         Quaternion prefabQuaternion = Quaternion.identity;
 
+        // set maze cells
         foreach (var roomCell in room.RoomCells)
         {
             var nowPos = (x: roomCell.X - room.X, y: roomCell.Y - room.Y);
@@ -36,7 +39,7 @@ public class MazeTileMapGenerate : MonoBehaviour
                 continue;
 
             nowCell = maze[nowPos.y][nowPos.x];
-            roomObject = Instantiate(prefabList[prefabIndex], tileMap.transform);
+            roomObject = Instantiate(prefabList[prefabIndex], parentObject.transform);
             roomObject.transform.rotation = prefabQuaternion;
             roomObject.transform.localPosition = new Vector3(roomCell.X * 4, 0, -roomCell.Y * 4);
 
