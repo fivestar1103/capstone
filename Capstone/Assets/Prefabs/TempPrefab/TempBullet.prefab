@@ -149,3 +149,12 @@ MonoBehaviour:
   lifeTime: 2
   skillType: 0
   skillDamage: 10
+  emotionMaterials:
+  - {fileID: 2100000, guid: b88d6eebf8e05d448a4846a65ad6366d, type: 2}
+  - {fileID: 2100000, guid: fb626177eeba29f43b0dc388f2af75f1, type: 2}
+  - {fileID: 2100000, guid: d6484de39c6313f47bd88816628ec77d, type: 2}
+  - {fileID: 2100000, guid: 671f4414a27fb3e4799e33082d1d73bb, type: 2}
+  - {fileID: 2100000, guid: 5eeffa999428fde488d9e9d43a872cd1, type: 2}
+  - {fileID: 2100000, guid: c3de149159bc19d4f90219d709c24552, type: 2}
+  - {fileID: 2100000, guid: a413cd8908673174c87ae77bea6862fb, type: 2}
+  emotionColor: {fileID: 0}

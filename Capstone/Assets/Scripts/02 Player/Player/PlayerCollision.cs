@@ -12,6 +12,7 @@ public partial class PlayerController
                 IsGround = true;
                 break;
             case ValueDefinition.MONSTER_ATTACK_TAG:    // 몬스터 공격에 피격
+                Debug.Log("collider");
                 MonsterAttack monsterAttack = _other.gameObject.GetComponent<MonsterAttack>();
                 if (monsterAttack != null) GetHit(monsterAttack.attack);
                 // 피격 파티클? 추가
@@ -25,6 +26,7 @@ public partial class PlayerController
         switch (_other.gameObject.tag)
         {
             case ValueDefinition.MONSTER_ATTACK_TAG:    // 몬스터 공격에 피격
+                Debug.Log("trigger");
                 MonsterAttack monsterAttack = _other.gameObject.GetComponent<MonsterAttack>();
                 if (monsterAttack != null) GetHit(monsterAttack.attack);
                 // 피격 파티클? 추가

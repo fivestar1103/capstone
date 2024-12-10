@@ -45,6 +45,7 @@ public class PlayManager : MonoBehaviour
     public static void PlayerHit(float _hp) { Player.GetHit(_hp); }                                                                         // 플레이어 피격
     public static void StopPlayerInteract() { Player.StopInteract(); }                                                                      // 상호작용 종료
     public static void StopPlayerInteract(InteractScript _interact) { Player.StopInteract(_interact); }
+    public static void SetEmotionColor(Material _mat) { Player.SetEmotionColor(_mat); }
 
     // 전투 관련
     public static void PrepareSkill(string _spell, EEmotion _emotion) { Player.PrepareSkill(_spell, _emotion); }

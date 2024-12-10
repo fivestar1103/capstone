@@ -16,6 +16,7 @@ public partial class PlayerController : ObjectScript
 
     public GameObject leftArm;
     public GameObject rightArm;
+    private MeshRenderer[] playerParts;
 
     private bool isDead;
 
@@ -29,6 +30,13 @@ public partial class PlayerController : ObjectScript
     public bool InteractTrigger { get { return PlayerInput.Interact.triggered; } }              // 상호작용
     public bool SupportUITrigger { get { return PlayerInput.SupportUI.triggered; } }            // AI 대화창
 
+    public void SetEmotionColor(Material _mat)
+    {
+        foreach(var part in playerParts)
+        {
+            part.material = _mat;
+        }
+    }
 
     public void PlayerDie()
     {
@@ -75,9 +83,14 @@ public partial class PlayerController : ObjectScript
     {
         base.OnEnable();
 
+        playerParts = GetComponentsInChildren<MeshRenderer>();
         PlayManager.SetCurPlayer(this);
         PlayManager.SetPlayerMaxHP(MaxHP);
 
+        foreach(var part in playerParts)
+        {
+            Debug.Log(part.name);
+        }
         CanAttack = true;
     }
 }

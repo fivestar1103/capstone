@@ -94,6 +94,7 @@ public partial class PlayerController
             preparedSkill.transform.localPosition = Vector3.zero;
        
         preparedSkill.transform.localRotation = Quaternion.identity;
+        preparedSkill.SetSkill(CurSkill, _emotion);
     }
 
     public void UseSkill()
