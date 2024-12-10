@@ -187,9 +187,13 @@ public class Main : MonoBehaviour
     
     void SpawnRooms()
     {
+        string roomTypes = "";
         MazeManager mazeManager = new MazeManager();
         foreach (var room in RoomsWithWalls)
         { 
+            var roomIndex = room.RoomNumber;
+            string roomType;
+            
             room.Type = Random.Range(0, 2) == 0 ? RoomType.Battle : RoomType.Puzzle;
             // room.Type = RoomType.Battle;
 
@@ -202,18 +206,25 @@ public class Main : MonoBehaviour
                 if (RoomManager.Instance.AdjacencyList[room.RoomNumber].Count == 1)
                 {
                     battleRoomSpawner.SpawnBattleRoom(room);
-                    continue;
+                    roomType = "battle";
                 }
-                
-                mazeManager.SpawnMaze(room);
+                else
+                {
+                    mazeManager.SpawnMaze(room);
+                    roomType = "puzzle";
+                }
                 // Debug.Log("skipping puzzle room");
             }
             else
             {
                 battleRoomSpawner.SpawnBattleRoom(room);
+                roomType = "battle";
                 // Debug.Log("skipping battle room");
             }
+            
+            roomTypes += $"Room {roomIndex}: {roomType}\n";
         }
+        Debug.Log(roomTypes);
     }
 
     private void InstantlyGenerateMap()
