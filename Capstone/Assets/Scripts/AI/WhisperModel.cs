@@ -109,7 +109,7 @@ public class WhisperModel : MonoBehaviour
     {
         Debug.Log("WhisperModel.PredictEmotion(): 감정 예측 시작");
 
-        using var input = new TensorFloat(new TensorShape(1, numSamples/6), data); // 감정 예측을 위한 입력 텐서를 생성합니다.
+        using var input = new TensorFloat(new TensorShape(1, numSamples/4), data); // 감정 예측을 위한 입력 텐서를 생성합니다.
         SEREngine.Execute(input); // SER 모델을 실행하여 감정을 예측합니다.
         var predictedClass = SEREngine.PeekOutput() as TensorFloat; // SER 모델의 ArgMax 적용된 출력 값을 가져옵니다.
         predictedClass.CompleteOperationsAndDownload();
