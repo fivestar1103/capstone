@@ -18,7 +18,7 @@ public class FloorButton : MonoBehaviour
             
             if (CellType == CellType.Room)
             {
-                RoomManager.Instance.CurrentRoomNumber = RoomNumber;
+                RoomManager.Instance.SetCurrentRoomNumber(RoomNumber);
                 str += $"\nCurrent Room Number: {RoomManager.Instance.CurrentRoomNumber}\");"; 
             }
 

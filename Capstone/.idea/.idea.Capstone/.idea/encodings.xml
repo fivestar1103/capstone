@@ -15,7 +15,7 @@
     <file url="file://$PROJECT_DIR$/Assets/Scripts/02 Player/Player/PlayerDetect.cs" charset="EUC-KR" />
     <file url="file://$PROJECT_DIR$/Assets/Scripts/02 Player/Player/PlayerMovement.cs" charset="EUC-KR" />
     <file url="file://$PROJECT_DIR$/Assets/Scripts/03 UI/BattleUI/TimerScript.cs" charset="EUC-KR" />
-    <file url="file://$PROJECT_DIR$/Assets/Scripts/04 Map/BattleRoomSpawner.cs" charset="EUC-KR" />
+    <file url="file://$PROJECT_DIR$/Assets/Scripts/04 Map/BattleRoomSpawner.cs" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/Assets/Scripts/05 Object/InteractScript.cs" charset="EUC-KR" />
     <file url="file://$PROJECT_DIR$/Assets/Scripts/05 Object/NPCScript.cs" charset="EUC-KR" />
     <file url="file://$PROJECT_DIR$/Assets/Scripts/05 Object/ObjectScript.cs" charset="EUC-KR" />
