@@ -122,6 +122,7 @@ public class Room
             
             case CellType.Corridor:
                 CorridorCellObjectsDictionary.TryAdd(cell, cellObject);
+                
                 break;
             
             default:

@@ -79,8 +79,15 @@ public class MapDisplayer
             try
             {
                 var corridorCellObject = CorridorsParent.transform.Find($"Corridor ({corridorCell.X}, {corridorCell.Y})").gameObject;
+                Debug.Log($"Corridor ({corridorCell.X}, {corridorCell.Y}): {corridorCellObject}");
                 if (corridorCellObject)
+                {
                     room.AddCellObject(corridorCell, corridorCellObject);
+                    var floorGameObject = corridorCellObject.transform.Find("Floor").gameObject;
+                    var floorButton = floorGameObject.GetComponent<FloorButton>();
+                    floorButton.CellType = CellType.Room;
+                    floorButton.RoomNumber = room.RoomNumber;
+                }
                 
                 corridorCellObject.transform.SetParent(roomParent.transform);
             }
