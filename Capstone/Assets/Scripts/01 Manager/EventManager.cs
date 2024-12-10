@@ -25,16 +25,18 @@ public class EventManager : MonoBehaviour
     public void PlayerRespawn()
     {
         Player.IsDead = false;
-        DieFrame.gameObject.SetActive(false);
-        huntingUI.gameObject.SetActive(false);
-        timerUI.gameObject.SetActive(false);
 
         Player.PlayerRB.isKinematic = false;
         Player.GetComponent<CapsuleCollider>().enabled = true;
         Player.enabled = true;
         GameManager.SetControlMode(EControlMode.FIRST_PERSON);
         PlayManager.PlayerSpawn();
+
+        DieFrame.gameObject.SetActive(false);
+        huntingUI.gameObject.SetActive(false);
+        timerUI.gameObject.SetActive(false);
     }
+ 
     public void RegisterMonster(MonsterScript monster)
     {
         if (!monsters.Contains(monster))

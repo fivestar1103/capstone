@@ -80,7 +80,7 @@ public class BattleRoomSpawner : MonoBehaviour
             }
         }
 
-        monsterSpawnCount = Random.Range(room.RoomCells.Count / 15, room.RoomCells.Count / 10);
+        monsterSpawnCount = Random.Range(room.RoomCells.Count / 20, room.RoomCells.Count / 15);
         List<Vector3> randomPositions = SelectRandomPosition(spawnerPosInfo, monsterSpawnCount);
 
         foreach (var position in randomPositions)
