@@ -30,7 +30,7 @@ public class MazeCell
         {
             pathFlags[directionIndex] = true;
             noWallFlag = false;
-            Debug.Log($"no wall flag {noWallFlag}");
+            // Debug.Log($"no wall flag {noWallFlag}");
         }
         else
             Debug.Log($"position {globalPosition.x}, setPathFlagTrue, {globalPosition.y} - Index Out of Range!");

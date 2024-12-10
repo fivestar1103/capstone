@@ -540,6 +540,7 @@ GameObject:
   - component: {fileID: 701910203}
   - component: {fileID: 701910205}
   - component: {fileID: 701910206}
+  - component: {fileID: 701910207}
   m_Layer: 0
   m_Name: System
   m_TagString: Untagged
@@ -660,6 +661,18 @@ MonoBehaviour:
   - {fileID: 9080256883377652600, guid: 44c2c4632374c3749858f33f96c2cfef, type: 3}
   - {fileID: 9080256883377652600, guid: 704fd5b1c3e0a9d40a98c182823e971d, type: 3}
   - {fileID: 9080256883377652600, guid: 57a26f60bc3878f41acb953e8f9356a5, type: 3}
+--- !u!114 &701910207
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 701910199}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6aaa634e49d1d44f981eaeddef38b610, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &705507993
 GameObject:
   m_ObjectHideFlags: 0
@@ -2354,6 +2367,10 @@ PrefabInstance:
       propertyPath: attackPos
       value: 
       objectReference: {fileID: 1298071672}
+    - target: {fileID: 1681218640425170630, guid: 286ac1954b1454e468b6392747fcfc1d, type: 3}
+      propertyPath: moveSpeed
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 1681218640425170630, guid: 286ac1954b1454e468b6392747fcfc1d, type: 3}
       propertyPath: attackSpeed
       value: 0.8
