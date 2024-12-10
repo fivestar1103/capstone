@@ -36,6 +36,7 @@ public class OrderDoorScript : MonoBehaviour
             }
             else
             {
+                Debug.Log("¶¯!");
                 pressureSwitches.Clear();
             }
         }

@@ -8,4 +8,13 @@ public class GetHintFromAI : MonoBehaviour
     {
         
     }
+
+    public void GetHint()
+    {
+        string imagePath = "";
+        imagePath = CameraCapture.capture();
+        ChatGPTAPI.gptEvent(imagePath);
+
+
+    }
 }
