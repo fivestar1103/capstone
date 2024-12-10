@@ -11,11 +11,11 @@ public class HuntingUI : MonoBehaviour
     private int totalMonsterNum;
     private Room curRoom;
 
-    public void SetBattleInfo() // ¸ó½ºÅÍ°¡ Á×¾úÀ» ¶§ÀÇ °»½Å
+    public void SetBattleInfo() // ï¿½ï¿½ï¿½Í°ï¿½ ï¿½×¾ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
     {
         monsterNum.text = $"{PlayManager.MonsterNum} / {totalMonsterNum}";
 
-        // ÀüÅõ ³¡
+        // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½
         if (PlayManager.MonsterNum == totalMonsterNum)
         {
             PlayManager.FinishBattle(curRoom);
@@ -23,7 +23,7 @@ public class HuntingUI : MonoBehaviour
         }
     }
 
-    public void SetBattleInfo(Room _room) // ¹æ¿¡ Ã³À½ ÀÔÀåÇßÀ» ¶§ÀÇ °»½Å
+    public void SetBattleInfo(Room _room) // ï¿½æ¿¡ Ã³ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
     {
         curRoom = _room;
         this.gameObject.SetActive(true);
@@ -32,7 +32,7 @@ public class HuntingUI : MonoBehaviour
 
     private void OnEnable()
     {
-        totalMonsterNum = PlayManager.TotalMonsterCount;
-        // totalMonsterNum = 2;
+        // totalMonsterNum = PlayManager.TotalMonsterCount;
+        totalMonsterNum = 1;
     }
 }

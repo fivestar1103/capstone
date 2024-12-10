@@ -8,9 +8,13 @@ public class BattleTriggerScript : MonoBehaviour
     private BattleRoomSpawner battleRoomSpawner;
     private Room curRoom;
 
-    private void OnTriggerEnter(Collider _other)
+    private void OnTriggerExit(Collider _other)
     {
-        if(_other.CompareTag(ValueDefinition.PLAYER_TAG) && !curRoom.IsBattleStarted)
+        // Debug.Log(RoomManager.Instance.CurrentCellType);
+        
+        if (_other.CompareTag(ValueDefinition.PLAYER_TAG) &&
+            !curRoom.IsBattleStarted &&
+            RoomManager.Instance.CurrentCellType == CellType.Room)
         {
             PlayManager.MonsterNum = 0;
             battleRoomSpawner.ActivateBattleObject(curRoom);
@@ -24,10 +28,10 @@ public class BattleTriggerScript : MonoBehaviour
         curRoom = _room;
     }
 
-
-
     public void StartBattle()
     {
+        RoomManager.Instance.CloseAllDoors();
+        
         curRoom.IsBattleStarted = true;
         PlayManager.ShowBattleUI();
         PlayManager.SetBattleInfo(curRoom);

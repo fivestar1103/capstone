@@ -654,7 +654,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 553f17e053a2a7543adbc6f4a9b1410f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tileMap: {fileID: 2118198852}
   buttonPrefab: {fileID: 3911434873140864070, guid: 5c1a280115c121a49a1aa96ddde08a17, type: 3}
   prefabList:
   - {fileID: 9080256883377652600, guid: 2bcabef7b20174a40affdf375b01f86d, type: 3}
@@ -673,6 +672,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6aaa634e49d1d44f981eaeddef38b610, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Doors: []
 --- !u!1 &705507993
 GameObject:
   m_ObjectHideFlags: 0
@@ -2502,7 +2502,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1681218640425170630, guid: 286ac1954b1454e468b6392747fcfc1d, type: 3}
       propertyPath: attack
-      value: 10
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 1681218640425170630, guid: 286ac1954b1454e468b6392747fcfc1d, type: 3}
       propertyPath: curSpeed

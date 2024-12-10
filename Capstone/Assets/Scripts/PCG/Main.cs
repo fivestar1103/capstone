@@ -178,7 +178,7 @@ public class Main : MonoBehaviour
         }
 
         PlayManager.PlayerSpawn();
-        RoomManager.Instance.CurrentCellType = CellType.Room;
+        RoomManager.Instance.SetCurrentCellType(CellType.Room);
         RoomManager.Instance.LogAdjacencyList();
         RoomManager.Instance.InitializeRoomParents();
         
@@ -198,12 +198,19 @@ public class Main : MonoBehaviour
             
             if (room.Type == RoomType.Puzzle)
             {
+                // do not spawn maze puzzles for rooms with only one door
+                if (RoomManager.Instance.AdjacencyList[room.RoomNumber].Count == 1)
+                {
+                    battleRoomSpawner.SpawnBattleRoom(room);
+                    continue;
+                }
+                
                 mazeManager.SpawnMaze(room);
                 // Debug.Log("skipping puzzle room");
             }
             else
             {
-                // battleRoomSpawner.SpawnBattleRoom(room);
+                battleRoomSpawner.SpawnBattleRoom(room);
                 // Debug.Log("skipping battle room");
             }
         }

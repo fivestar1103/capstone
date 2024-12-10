@@ -93,10 +93,14 @@ public class MapDisplayer
                 if (corridorCellObject)
                 {
                     room.AddCellObject(corridorCell, corridorCellObject);
+                    
                     var floorGameObject = corridorCellObject.transform.Find("Floor").gameObject;
                     var floorButton = floorGameObject.GetComponent<FloorButton>();
+                    
                     floorButton.CellType = CellType.Room;
                     floorButton.RoomNumber = room.RoomNumber;
+                    
+                    RoomManager.Instance.Doors.Add(floorButton);
                 }
                 
                 corridorCellObject.transform.SetParent(roomParent.transform);
