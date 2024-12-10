@@ -13,6 +13,7 @@ public class Main : MonoBehaviour
     [Tooltip("Click to generate minimum spanning tree")] public bool vertexByVertex;
     
     public GameObject cellsParent;
+    public GameObject corridorsParent;
     public GameObject groundPrototypePrefab;
     public GameObject midpointPrototypePrefab;
     public GameObject roomInfoPanelParent;
@@ -172,10 +173,7 @@ public class Main : MonoBehaviour
     {
         MazeManager mazeManager = new MazeManager();
         foreach (var room in RoomsWithWalls)
-        {
-            if (room.RoomNumber == 0)
-                continue;
-            
+        { 
             room.Type = Random.Range(0, 2) == 0 ? RoomType.Battle : RoomType.Puzzle;
             // room.Type = RoomType.Battle;
 
@@ -183,15 +181,18 @@ public class Main : MonoBehaviour
             room.CalculateRelativeCoordinates();
             room.LogRoomInfo();
 
+            if (room.RoomNumber == 0)
+                continue;
+            
             if (room.Type == RoomType.Puzzle)
             {
-                // mazeManager.SpawnMaze(room);
-                Debug.Log("skipping puzzle room");
+                mazeManager.SpawnMaze(room);
+                // Debug.Log("skipping puzzle room");
             }
             else
             {
-                battleRoomSpawner.SpawnBattleRoom(room);
-                // Debug.Log("skipping battle room");
+                // battleRoomSpawner.SpawnBattleRoom(room);
+                Debug.Log("skipping battle room");
             }
         }
         
@@ -246,6 +247,7 @@ public class Main : MonoBehaviour
         mapDisplayer = new MapDisplayer(mapGenerator.Width,
             mapGenerator.Height,
             cellsParent,
+            corridorsParent,
             groundPrototypePrefab,
             midpointPrototypePrefab,
             roomInfoPanelParent,

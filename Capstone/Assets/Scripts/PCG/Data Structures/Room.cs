@@ -26,7 +26,6 @@ public class Room
     public Dictionary<RoomCell, GameObject> RoomCellObjectsDictionary { get; set; }
     public Dictionary<Cell, GameObject> WallCellObjectsDictionary { get; set; }
     public Dictionary<Cell, GameObject> CorridorCellObjectsDictionary { get; set; }
-
    
     public List<GameObject> MonsterSpawners;
     public bool IsBattleStarted;

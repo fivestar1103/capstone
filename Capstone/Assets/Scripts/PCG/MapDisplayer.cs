@@ -16,6 +16,7 @@ public class MapDisplayer
     public int Width { get; private set; }
     public int Height { get; private set; }
     public GameObject CellsParent { get; private set; }
+    public GameObject CorridorsParent { get; private set; }
     public GameObject GroundPrototypePrefab { get; private set; }
     public GameObject MidPointPrototypePrefab { get; private set; }
     public GameObject RoomInfoPanelParent { get; private set; }
@@ -27,6 +28,7 @@ public class MapDisplayer
     public MapDisplayer(int width,
         int height,
         GameObject cellsParent,
+        GameObject corridorsParent,
         GameObject groundPrototypePrefab,
         GameObject midPointPrototypePrefab,
         GameObject roomInfoPanelParent,
@@ -38,6 +40,7 @@ public class MapDisplayer
         Width = width;
         Height = height;
         CellsParent = cellsParent;
+        CorridorsParent = corridorsParent;
         GroundPrototypePrefab = groundPrototypePrefab;
         MidPointPrototypePrefab = midPointPrototypePrefab;
         RoomInfoPanelParent = roomInfoPanelParent;
@@ -49,11 +52,17 @@ public class MapDisplayer
 
     public void AddRoomCellObject(Room room)
     {
+        // create a parent object for each room under CellsParent
+        var roomParent = new GameObject($"Room {room.RoomNumber}");
+        roomParent.transform.SetParent(CellsParent.transform);
+        
         foreach (var roomCell in room.RoomCells)
         {
             var roomCellObject = CellsParent.transform.Find($"Room ({roomCell.X}, {roomCell.Y})").gameObject;
             if (roomCellObject)
                 room.AddCellObject(roomCell, roomCellObject);
+            
+            roomCellObject.transform.SetParent(roomParent.transform);
         }
         
         foreach (var wallCell in room.WallCells)
@@ -61,15 +70,19 @@ public class MapDisplayer
             var wallCellObject = CellsParent.transform.Find($"Wall ({wallCell.X}, {wallCell.Y})").gameObject;
             if (wallCellObject)
                 room.AddCellObject(wallCell, wallCellObject);
+            
+            wallCellObject.transform.SetParent(roomParent.transform);
         }
         
         foreach (var corridorCell in room.CorridorCells)
         {
             try
             {
-                var corridorCellObject = CellsParent.transform.Find($"Corridor ({corridorCell.X}, {corridorCell.Y})").gameObject;
+                var corridorCellObject = CorridorsParent.transform.Find($"Corridor ({corridorCell.X}, {corridorCell.Y})").gameObject;
                 if (corridorCellObject)
                     room.AddCellObject(corridorCell, corridorCellObject);
+                
+                corridorCellObject.transform.SetParent(roomParent.transform);
             }
             catch (Exception e)
             {
@@ -84,7 +97,8 @@ public class MapDisplayer
             GameObject.Destroy(child.gameObject);
         
         foreach (Transform child in CellsParent.transform)
-            GameObject.Destroy(child.gameObject);
+            if (child.name != "Corridors")
+                GameObject.Destroy(child.gameObject);
     }
     
     public void LogRoomInfo(List<Room> rooms)
@@ -155,7 +169,7 @@ public class MapDisplayer
             
             case CellType.Corridor:
             {
-                cellObject = Object.Instantiate(CorridorPrototypePrefab, CellsParent.transform);
+                cellObject = Object.Instantiate(CorridorPrototypePrefab, CorridorsParent.transform);
                 DeleteUnnecessaryWalls(cellObject, map, cell.X, cell.Y);
                 cellObject.name = $"Corridor ({cell.X}, {cell.Y})";
                 break;
