@@ -166,6 +166,14 @@ public class Main : MonoBehaviour
         RoomsWithWalls = roomsWithWalls;
         mapDisplayer.DisplayCorridors(map);
 
+        RoomManager.Instance.AdjacencyList = minimumSpanningTree.GenerateAdjacencyList(minimumSpanningTreeEdges,
+            delaunayTriangulation.MidPoints);
+        RoomManager.Instance.LogAdjacencyList();
+        
+        PlayManager.PlayerSpawn();
+        RoomManager.Instance.CurrentCellType = CellType.Room;
+        RoomManager.Instance.CurrentRoomNumber = 0;
+        
         SpawnRooms();
     }
     
@@ -195,8 +203,6 @@ public class Main : MonoBehaviour
                 // Debug.Log("skipping battle room");
             }
         }
-        
-        PlayManager.PlayerSpawn();
     }
 
     private void InstantlyGenerateMap()

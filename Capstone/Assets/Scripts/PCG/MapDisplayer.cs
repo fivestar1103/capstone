@@ -79,7 +79,6 @@ public class MapDisplayer
             try
             {
                 var corridorCellObject = CorridorsParent.transform.Find($"Corridor ({corridorCell.X}, {corridorCell.Y})").gameObject;
-                Debug.Log($"Corridor ({corridorCell.X}, {corridorCell.Y}): {corridorCellObject}");
                 if (corridorCellObject)
                 {
                     room.AddCellObject(corridorCell, corridorCellObject);
