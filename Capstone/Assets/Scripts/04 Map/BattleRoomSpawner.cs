@@ -85,7 +85,7 @@ public class BattleRoomSpawner : MonoBehaviour
 
         foreach (var position in randomPositions)
         {
-            GameObject spawner = Instantiate(spawnPoint.gameObject, position, Quaternion.identity);
+            GameObject spawner = Instantiate(spawnPoint.gameObject, position, Quaternion.identity, roomObject.transform);
             spawner.transform.SetParent(roomObject.transform);
             spawner.SetActive(false);
             room.MonsterSpawners.Add(spawner);

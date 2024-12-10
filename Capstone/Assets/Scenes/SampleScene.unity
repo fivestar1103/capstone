@@ -4989,7 +4989,7 @@ Transform:
   m_GameObject: {fileID: 963194225}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.2360001, z: 0}
+  m_LocalPosition: {x: 0, y: 1, z: 2.51}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -6071,6 +6071,10 @@ PrefabInstance:
     - target: {fileID: 6368869818584420165, guid: 286ac1954b1454e468b6392747fcfc1d, type: 3}
       propertyPath: m_Name
       value: TempPlayer
+      objectReference: {fileID: 0}
+    - target: {fileID: 6368869818584420165, guid: 286ac1954b1454e468b6392747fcfc1d, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6530868779885223877, guid: 286ac1954b1454e468b6392747fcfc1d, type: 3}
       propertyPath: m_ActionEvents.Array.size
@@ -7533,6 +7537,79 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 15f72e959a97ebc48b51db3ce402e63a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1001 &1517989755
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 2803892530769213777, guid: b24a22bcaeab35247842c0ab6ff9001e, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8417139451256010650, guid: b24a22bcaeab35247842c0ab6ff9001e, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8417139451256010650, guid: b24a22bcaeab35247842c0ab6ff9001e, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8417139451256010650, guid: b24a22bcaeab35247842c0ab6ff9001e, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 2.51
+      objectReference: {fileID: 0}
+    - target: {fileID: 8417139451256010650, guid: b24a22bcaeab35247842c0ab6ff9001e, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8417139451256010650, guid: b24a22bcaeab35247842c0ab6ff9001e, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8417139451256010650, guid: b24a22bcaeab35247842c0ab6ff9001e, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8417139451256010650, guid: b24a22bcaeab35247842c0ab6ff9001e, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8417139451256010650, guid: b24a22bcaeab35247842c0ab6ff9001e, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8417139451256010650, guid: b24a22bcaeab35247842c0ab6ff9001e, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8417139451256010650, guid: b24a22bcaeab35247842c0ab6ff9001e, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9188608849454181664, guid: b24a22bcaeab35247842c0ab6ff9001e, type: 3}
+      propertyPath: m_Name
+      value: KnightCharacter
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 5877690540018579214, guid: b24a22bcaeab35247842c0ab6ff9001e, type: 3}
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: b24a22bcaeab35247842c0ab6ff9001e, type: 3}
+--- !u!114 &1517989756 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4039770064642723353, guid: b24a22bcaeab35247842c0ab6ff9001e, type: 3}
+  m_PrefabInstance: {fileID: 1517989755}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 63a288d4bc21ff646a4e2659f5881177, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1556337239
 GameObject:
   m_ObjectHideFlags: 0
@@ -7638,8 +7715,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ed2782deb8d3cad4f85e9715222fcb6b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  huntingUI: {fileID: 1301843066}
+  timerUI: {fileID: 1095030143}
   DieFrame: {fileID: 1613884833}
-  Player: {fileID: 1298071670}
+  Player: {fileID: 1517989756}
 --- !u!1 &1588335540
 GameObject:
   m_ObjectHideFlags: 0
@@ -10343,3 +10422,4 @@ SceneRoots:
   - {fileID: 836992269}
   - {fileID: 1301188041}
   - {fileID: 2069737126}
+  - {fileID: 1517989755}
