@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class InteractiveButton : PuzzleTrigger, IInteractable
+public class InteractiveButton : MonoBehaviour, IInteractable
 {
     [SerializeField] private DoorScript Door;
     public InteractScript InteractManager { get; private set;  }
@@ -20,7 +20,7 @@ public class InteractiveButton : PuzzleTrigger, IInteractable
     public void StartInteract()             // 상호작용 시작
     {
         Debug.Log(this.name + " 상호작용 시작");
-        Door.AddTriggerObject(this);
+        // Door.AddTriggerObject(this);
     }
 
     public void StopInteract()               // 상호작용 중단

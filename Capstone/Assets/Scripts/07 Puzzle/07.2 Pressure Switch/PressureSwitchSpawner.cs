@@ -5,65 +5,50 @@ using UnityEngine;
 
 public class PressureSwitchSpawner : MonoBehaviour
 {
-    [SerializeField] private GameObject pressureSwitch;
+    [SerializeField] private List<GameObject> pressureSwitchObjects;
 
-    private OrderDoor orderDoor;
-
-    private List<PuzzleTrigger> pressureSwitches;
-    private int switchNumbers;              // switchNumbers is square number.
-    private int switchNumberWidth;          // switchNumberWidth is sqrt(switchNumbers)
-
-    private void Awake()
-    {
-        orderDoor = new OrderDoor();
-        pressureSwitches = new List<PuzzleTrigger>();
-
-        PressurePuzzleManager.ASpawnSwitches += SpawnSwitches;
-
-        // switch numbers
-        // switchNumbers = orderDoor.needTriggerNumbers;
-        switchNumbers = 9;
-        switchNumberWidth = (int)(Mathf.Sqrt(switchNumbers));
-    }
+    private List<PressureSwitch> pressureSwitches;
 
     // instantiate switches at right position
     // and add switches in list with randomly fixed order
-    private void SpawnSwitches(Room room, GameObject puzzleObject)
+    public void SpawnSwitches(Room room, List<(int x, int y)> entrances, GameObject parentPuzzle, int switchNumbers, List<Vector3> selectedPoints, OrderDoorScript orderDoorScript)
     {
-        (int x, int y) spawnPoint = (room.CenterCell.X - switchNumberWidth / 2, room.CenterCell.Y - switchNumberWidth / 2);
+        pressureSwitches = new List<PressureSwitch>();
+
         GameObject switchPrefab = null;
         int[] randomArray = new int[switchNumbers];
         GenerateRandomArray(randomArray);
 
-        Debug.Log($"puzzle spawn point : {spawnPoint}");
-
-        for (int y = 0; y < switchNumberWidth; y++)
+        for (int i = 0; i < switchNumbers; i++)
         {
-            for (int x = 0; x < switchNumberWidth; x++)
-            {
-                var switchPoint = (x: spawnPoint.x + x, y: spawnPoint.y + y);
-                Debug.Log($"puzzle switch point : {switchPoint}");
+            switchPrefab = Instantiate(pressureSwitchObjects[i], parentPuzzle.transform);
+            Debug.Log($"index, selectedPoints counts : {i}, {selectedPoints.Count}");
+            switchPrefab.transform.localPosition = selectedPoints[i];
+            switchPrefab.GetComponentInChildren<PressureSwitch>().orderDoorScript = orderDoorScript;
+            switchPrefab.GetComponentInChildren<PressureSwitch>().switchNumber = i + 1;
 
-                switchPrefab = Instantiate(pressureSwitch, puzzleObject.transform);
-                switchPrefab.transform.localPosition = new Vector3(switchPoint.x * 4, 0, -switchPoint.y * 4);
-
-                Debug.Log($"puzzle switch prefab : {switchPrefab}");
-                // room.RoomCellObjectsDictionary[roomCell] = switchPrefab;
-
-                AddSwitches(switchPrefab, randomArray[x + y * switchNumberWidth]);
-            }
+            AddSwitches(switchPrefab);
         }
     }
 
-    private void AddSwitches(GameObject switchObject, int switchNumber)
+    // for DoorScript
+    private void AddSwitches(GameObject switchObject)
     {
         PressureSwitch pressureSwitch = switchObject.GetComponentInChildren<PressureSwitch>();
-        // pressureSwitch.Door = 
-        pressureSwitch.switchNum = switchNumber;
-        pressureSwitch.cellPosition = switchObject.transform.localPosition;
-
         pressureSwitches.Add(pressureSwitch);
     }
+
+    // OrderDoor에 맞는 함수
+    //private void AddSwitches(GameObject switchObject, int switchNumber)
+    //{
+    //    PressureSwitch pressureSwitch = switchObject.GetComponentInChildren<PressureSwitch>();
+    //    Debug.Log($"pressure switch object : {pressureSwitch}");
+    //    // pressureSwitch.Door = 
+    //    pressureSwitch.switchNum = switchNumber;
+    //    pressureSwitch.cellPosition = switchObject.transform.localPosition;
+
+    //    pressureSwitches.Add(pressureSwitch);
+    //}
 
     private void GenerateRandomArray(int[] array)
     {
