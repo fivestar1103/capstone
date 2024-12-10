@@ -4,8 +4,6 @@ using UnityEngine;
 
 public partial class PlayerAttack
 {
-    [SerializeField]
-    protected Material[] emotionMaterials;
     public Material emotionColor;
 
     public bool IsDrained { get; private set; }
@@ -16,25 +14,25 @@ public partial class PlayerAttack
         switch (_emotion)
         {
             case EEmotion.EHappy:
-                emotionColor = emotionMaterials[(int)EEmotion.EHappy];
+                emotionColor = PlayManager.EmotionMaterials[(int)EEmotion.EHappy];
                 break;
             case EEmotion.EAngry:
-                emotionColor = emotionMaterials[(int)EEmotion.EAngry];
+                emotionColor = PlayManager.EmotionMaterials[(int)EEmotion.EAngry];
                 break;
             case EEmotion.ENeutral:
-                emotionColor = emotionMaterials[(int)EEmotion.ENeutral];
+                emotionColor = PlayManager.EmotionMaterials[(int)EEmotion.ENeutral];
                 break;
             case EEmotion.EDisgust:
-                emotionColor = emotionMaterials[(int)EEmotion.EDisgust];
+                emotionColor = PlayManager.EmotionMaterials[(int)EEmotion.EDisgust];
                 break;
             case EEmotion.EFear:
-                emotionColor = emotionMaterials[(int)EEmotion.EFear];
+                emotionColor = PlayManager.EmotionMaterials[(int)EEmotion.EFear];
                 break;
             case EEmotion.ESad:
-                emotionColor = emotionMaterials[(int)EEmotion.ESad];
+                emotionColor = PlayManager.EmotionMaterials[(int)EEmotion.ESad];
                 break;
             case EEmotion.ESurprise:
-                emotionColor = emotionMaterials[(int)EEmotion.ESurprise];
+                emotionColor = PlayManager.EmotionMaterials[(int)EEmotion.ESurprise];
                 break;
             default: 
                 return;

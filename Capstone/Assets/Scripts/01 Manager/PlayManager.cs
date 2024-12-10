@@ -45,6 +45,7 @@ public class PlayManager : MonoBehaviour
     public static void PlayerHit(float _hp) { Player.GetHit(_hp); }                                                                         // 플레이어 피격
     public static void StopPlayerInteract() { Player.StopInteract(); }                                                                      // 상호작용 종료
     public static void StopPlayerInteract(InteractScript _interact) { Player.StopInteract(_interact); }
+    public static void SetEmotionColor(EEmotion _emotion) { Player.SetEmotionColor(_emotion); }
     public static void SetEmotionColor(Material _mat) { Player.SetEmotionColor(_mat); }
 
     // 전투 관련
@@ -81,6 +82,11 @@ public class PlayManager : MonoBehaviour
     public static BattleRoomSpawner BattleRoomSpawner { get { return Inst.battleRoomSpawner; } }
     public static int MonsterSpawnerCount { get { return BattleRoomSpawner.MonsterSpawnCount; } set { BattleRoomSpawner.MonsterSpawnCount = value; } }
     public static int TotalMonsterCount { get { return MonsterSpawnerCount * 3; } }
+
+    // 감정 
+    [SerializeField]
+    private Material[] emotionMaterials;
+    public static Material[] EmotionMaterials { get { return EmotionMaterials; } }
 
     public static void FinishBattle(Room _room)
     {

@@ -5,6 +5,7 @@ public class WhisperPresenter : MonoBehaviour
     [SerializeField] private WhisperModel whisperModel; // Reference to WhisperModel component
     private string[] spells = new string[] { ValueDefinition.SPELL1, ValueDefinition.SPELL2, ValueDefinition.SPELL3 };
     private float accuracy;
+    private EEmotion emotionIndex;
 
     private void OnValidate()
     {
@@ -43,9 +44,9 @@ public class WhisperPresenter : MonoBehaviour
             if (accuracy > 0.7f)
             {
                 spellInput = correctSpell;
-                var emotionIndex = (EEmotion)whisperModel.predictedIndex;
+                // var emotionIndex = (EEmotion)whisperModel.predictedIndex;
                 var emotionString = whisperModel.emotions[(int)emotionIndex];
-                
+
                 PlayManager.PrepareSkill(spellInput, emotionIndex);
                 Debug.Log($"Skill: {spellInput}, Emotion: {emotionString}");
                 break;
@@ -58,6 +59,9 @@ public class WhisperPresenter : MonoBehaviour
     {
         var result = await whisperModel.StopRecording(); // Stop recording and start transcription
         Debug.Log($"{result}"); // Output the result
+
+        emotionIndex = (EEmotion)whisperModel.predictedIndex;
+        PlayManager.SetEmotionColor(emotionIndex);
         CheckSpell(result);
     }
 }

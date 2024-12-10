@@ -30,6 +30,14 @@ public partial class PlayerController : ObjectScript
     public bool InteractTrigger { get { return PlayerInput.Interact.triggered; } }              // 상호작용
     public bool SupportUITrigger { get { return PlayerInput.SupportUI.triggered; } }            // AI 대화창
 
+    public void SetEmotionColor(EEmotion _emotion)
+    {
+        foreach (var part in playerParts)
+        {
+            part.material = PlayManager.EmotionMaterials[(int)_emotion];
+        }
+    }
+
     public void SetEmotionColor(Material _mat)
     {
         foreach(var part in playerParts)
