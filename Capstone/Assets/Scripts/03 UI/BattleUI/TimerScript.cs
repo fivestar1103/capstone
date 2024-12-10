@@ -21,15 +21,12 @@ public class TimerScript : MonoBehaviour
         if (isTimerRunning)
         {
             currentTime -= Time.deltaTime;
-            if(currentTime > 0)
+            if (currentTime > 0 && CheckCurRoomBattleStatus(curRoom))
             {
-                if(CheckCurRoomBattleStatus(curRoom))
-                {
-                    currentTime = 0;
-                    isTimerRunning = false;
-                    this.gameObject.SetActive(false);
-                }
-
+                currentTime = 0;
+                isTimerRunning = false;
+                this.gameObject.SetActive(false);
+                return;
             }
             if (currentTime <= 0)
             {
@@ -50,6 +47,7 @@ public class TimerScript : MonoBehaviour
     {
         curRoom = _room;
         this.gameObject.SetActive(true);
+        timerText = GetComponentInChildren<TextMeshProUGUI>();
 
         timerDuration = Random.Range(90, 121);  // 1분 30초부터 2분까지 랜덤
 
@@ -64,7 +62,7 @@ public class TimerScript : MonoBehaviour
         {
             int minutes = Mathf.FloorToInt(currentTime / 60);
             int seconds = Mathf.FloorToInt(currentTime % 60);
-            timerText.text = $"{minutes:00}: {seconds:00}"; // 분:초 형식으로 표시
+            timerText.text = $"남은 시간  {minutes:00}: {seconds:00}"; // 분:초 형식으로 표시
         }
     }
 
@@ -73,7 +71,7 @@ public class TimerScript : MonoBehaviour
     private void OnTimerEnd()
     {
         // 몬스터가 모두 퇴치되지 않은 채로 시간이 지나면 플레이어 사망
-        if(!curRoom.IsBattleFinished)
+        if (!curRoom.IsBattleFinished)
             StartCoroutine(PlayerExplosion());
     }
 
