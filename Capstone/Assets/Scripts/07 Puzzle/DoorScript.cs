@@ -1,37 +1,48 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DoorScript : MonoBehaviour
+public class DoorScript
 {
-    [SerializeField] private GameObject[] doorObjects;
-    [SerializeField] private int needTriggerNumbers;
-    private List<PuzzleTrigger> puzzleTriggers = new();
+    private List<PressureSwitch> pressureSwitches;
+    public List<GameObject> doorObjects;
+    private int needTriggerNumbers { get; }
 
-    public void AddTriggerObject(PuzzleTrigger triggerObject)
+    public DoorScript(int triggerNumbers)
     {
-        if (!puzzleTriggers.Contains(triggerObject))
-        {
-            puzzleTriggers.Add(triggerObject);
+        pressureSwitches = new List<PressureSwitch>();
+        doorObjects = new List<GameObject>();
+        needTriggerNumbers = triggerNumbers;
+    }
 
-            if (puzzleTriggers.Count == needTriggerNumbers)
-                OpenDoor();
+    public void AddDoorObject(GameObject doorObject)
+    {
+        if (!doorObjects.Contains(doorObject))
+            doorObjects.Add(doorObject);
+    }
+
+    public void AddTriggerObject(PressureSwitch triggerObject)
+    {
+        if (!pressureSwitches.Contains(triggerObject))
+        {
+            pressureSwitches.Add(triggerObject);
+
+            if (pressureSwitches.Count == needTriggerNumbers)
+                OpenDoors();
         }
     }
 
-    public void RemoveTriggerObject(PuzzleTrigger triggerObject)
+    public void RemoveTriggerObject(PressureSwitch triggerObject)
     {
-        if (puzzleTriggers.Contains(triggerObject))
+        if (pressureSwitches.Contains(triggerObject))
         {
-            puzzleTriggers.Remove(triggerObject);
+            pressureSwitches.Remove(triggerObject);
         }
     }
 
-    private void OpenDoor()
+    private void OpenDoors()
     {
         Debug.Log("문이 열림");
-
-        foreach (var doorObject in doorObjects)
-            doorObject.SetActive(false);
     }
 }

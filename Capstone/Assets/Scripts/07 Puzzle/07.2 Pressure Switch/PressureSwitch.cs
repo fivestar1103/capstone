@@ -2,16 +2,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PressureSwitch : PuzzleTrigger
+public class PressureSwitch : MonoBehaviour
 {
-    public OrderDoor Door;
-    public int switchNumber { get { return base.switchNum; } }
-    
+    public OrderDoorScript orderDoorScript;
+    public int switchNumber { get; set; }
+
     private void OnCollisionEnter(Collision collision)
     {
         Debug.Log(collision.gameObject.name);
         Debug.Log("นโดย ม฿!");
-        Door.AddTriggerObject(this);
+        orderDoorScript.AddTriggerObject(this);
     }
 
     //private void OnCollisionExit(Collision collision)

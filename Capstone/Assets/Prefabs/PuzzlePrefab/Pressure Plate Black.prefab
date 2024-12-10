@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 1042132105998857401}
   - component: {fileID: 4545447266470491186}
   m_Layer: 0
-  m_Name: Pressure Plate
+  m_Name: Pressure Plate Black
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -148,7 +148,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: e89579486df3de84085548df4e3cf206, type: 2}
+  - {fileID: 2100000, guid: 8dff3b17f24d9b34d8fc509f0d968cd4, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -209,8 +209,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe7989646d3c44746b5c09951bfeead7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cellPosition: {x: 0, y: 0, z: 0}
-  Door: {fileID: 3037400912917844862, guid: ff73ab80dfb8dc44cbc532ba2b15ef57, type: 3}
+  orderDoorScript: {fileID: 0}
 --- !u!65 &2442944199022444686
 BoxCollider:
   m_ObjectHideFlags: 0

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class MazeTileMapGenerate : MonoBehaviour
 {
-    [SerializeField] private GameObject tileMap;
+    [SerializeField] private GameObject parentMap;
     [SerializeField] private GameObject buttonPrefab;
     [SerializeField] private List<GameObject> prefabList;
 
@@ -36,10 +36,11 @@ public class MazeTileMapGenerate : MonoBehaviour
                 continue;
 
             nowCell = maze[nowPos.y][nowPos.x];
-            roomObject = GameObject.Instantiate(prefabList[prefabIndex], tileMap.transform);
+            roomObject = GameObject.Instantiate(prefabList[prefabIndex], parentMap.transform);
             roomObject.transform.rotation = prefabQuaternion;
             roomObject.transform.localPosition = new Vector3(roomCell.X * 4, 0, -roomCell.Y * 4);
 
+            // 버튼 배치 못 함
             //for (int i = 0; i < buttons.Length; i++)
             //{
             //    if (buttons[i].x == nowPos.x && buttons[i].y == nowPos.y)
@@ -53,6 +54,7 @@ public class MazeTileMapGenerate : MonoBehaviour
             // Debug.Log($"name, rotation : {roomObject.name}, {roomObject.transform.eulerAngles}");
         }
 
+        // corridor 부분 해결 못 함
         //foreach (var roomCell in room.CorridorCells)
         //{
         //    var nowPos = (x: roomCell.X - room.X, y: roomCell.Y - room.Y);
@@ -65,7 +67,6 @@ public class MazeTileMapGenerate : MonoBehaviour
         //    roomObject = GameObject.Instantiate(prefabList[prefabIndex], tileMap.transform);
         //    roomObject.transform.rotation = prefabQuaternion;
         //    roomObject.transform.localPosition = new Vector3(roomCell.X * 4, 0, -roomCell.Y * 4);
-
         //}
     }
 

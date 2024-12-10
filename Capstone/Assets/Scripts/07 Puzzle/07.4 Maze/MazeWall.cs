@@ -11,8 +11,8 @@ public class MazeWall : MonoBehaviour
 
     private void DestroyOverlapMaze()
     {
-        Vector3 halfExtents = this.GetComponent<BoxCollider>().size;
-        Collider[] colliders = Physics.OverlapBox(this.gameObject.transform.position, halfExtents);
+        Vector3 boxSize = this.GetComponent<BoxCollider>().size;
+        Collider[] colliders = Physics.OverlapBox(this.gameObject.transform.position, boxSize);
 
         foreach (Collider collider in colliders)
         {

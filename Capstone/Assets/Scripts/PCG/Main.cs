@@ -165,10 +165,10 @@ public class Main : MonoBehaviour
             room.LogRoomInfo();
 
             // spawn maze
-            mazeManager.SpawnMaze(room);
+            // mazeManager.SpawnMaze(room);
 
             // spawn pressure switch puzzle
-            // pressurePuzzleManager.SpawnPuzzle(room);
+            pressurePuzzleManager.SpawnPressureButtonPuzzle(room);
         }
         
 
