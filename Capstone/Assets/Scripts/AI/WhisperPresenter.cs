@@ -61,6 +61,7 @@ public class WhisperPresenter : MonoBehaviour
         Debug.Log($"{result}"); // Output the result
 
         emotionIndex = (EEmotion)whisperModel.predictedIndex;
+        Debug.Log(whisperModel.emotions[(int)emotionIndex]);
         PlayManager.SetEmotionColor(emotionIndex);
         CheckSpell(result);
     }

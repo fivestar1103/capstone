@@ -575,14 +575,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b5c289684ebbace489a3bd9e61b27738, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  emotionMaterials:
-  - {fileID: 2100000, guid: b88d6eebf8e05d448a4846a65ad6366d, type: 2}
-  - {fileID: 2100000, guid: fb626177eeba29f43b0dc388f2af75f1, type: 2}
-  - {fileID: 2100000, guid: d6484de39c6313f47bd88816628ec77d, type: 2}
-  - {fileID: 2100000, guid: 671f4414a27fb3e4799e33082d1d73bb, type: 2}
-  - {fileID: 2100000, guid: 5eeffa999428fde488d9e9d43a872cd1, type: 2}
-  - {fileID: 2100000, guid: c3de149159bc19d4f90219d709c24552, type: 2}
-  - {fileID: 2100000, guid: a413cd8908673174c87ae77bea6862fb, type: 2}
 --- !u!114 &701910202
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1908,7 +1900,7 @@ MonoBehaviour:
   - neutral
   - sadness
   - surprise
-  speakerLanguage: 50264
+  speakerLanguage: 50259
 --- !u!82 &963194232
 AudioSource:
   m_ObjectHideFlags: 0
@@ -2549,6 +2541,38 @@ PrefabInstance:
       propertyPath: skills.Array.data[2]
       value: 
       objectReference: {fileID: 6605719743788314364, guid: 610a52eda0d37c14da3269727fd79519, type: 3}
+    - target: {fileID: 1681218640425170630, guid: 286ac1954b1454e468b6392747fcfc1d, type: 3}
+      propertyPath: emotionMaterials.Array.size
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 1681218640425170630, guid: 286ac1954b1454e468b6392747fcfc1d, type: 3}
+      propertyPath: emotionMaterials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: b88d6eebf8e05d448a4846a65ad6366d, type: 2}
+    - target: {fileID: 1681218640425170630, guid: 286ac1954b1454e468b6392747fcfc1d, type: 3}
+      propertyPath: emotionMaterials.Array.data[1]
+      value: 
+      objectReference: {fileID: 2100000, guid: fb626177eeba29f43b0dc388f2af75f1, type: 2}
+    - target: {fileID: 1681218640425170630, guid: 286ac1954b1454e468b6392747fcfc1d, type: 3}
+      propertyPath: emotionMaterials.Array.data[2]
+      value: 
+      objectReference: {fileID: 2100000, guid: d6484de39c6313f47bd88816628ec77d, type: 2}
+    - target: {fileID: 1681218640425170630, guid: 286ac1954b1454e468b6392747fcfc1d, type: 3}
+      propertyPath: emotionMaterials.Array.data[3]
+      value: 
+      objectReference: {fileID: 2100000, guid: 671f4414a27fb3e4799e33082d1d73bb, type: 2}
+    - target: {fileID: 1681218640425170630, guid: 286ac1954b1454e468b6392747fcfc1d, type: 3}
+      propertyPath: emotionMaterials.Array.data[4]
+      value: 
+      objectReference: {fileID: 2100000, guid: 5eeffa999428fde488d9e9d43a872cd1, type: 2}
+    - target: {fileID: 1681218640425170630, guid: 286ac1954b1454e468b6392747fcfc1d, type: 3}
+      propertyPath: emotionMaterials.Array.data[5]
+      value: 
+      objectReference: {fileID: 2100000, guid: c3de149159bc19d4f90219d709c24552, type: 2}
+    - target: {fileID: 1681218640425170630, guid: 286ac1954b1454e468b6392747fcfc1d, type: 3}
+      propertyPath: emotionMaterials.Array.data[6]
+      value: 
+      objectReference: {fileID: 2100000, guid: a413cd8908673174c87ae77bea6862fb, type: 2}
     - target: {fileID: 6368869818584420165, guid: 286ac1954b1454e468b6392747fcfc1d, type: 3}
       propertyPath: m_Name
       value: TempPlayer
