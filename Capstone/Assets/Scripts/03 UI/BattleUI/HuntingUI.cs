@@ -32,7 +32,7 @@ public class HuntingUI : MonoBehaviour
 
     private void OnEnable()
     {
-        // totalMonsterNum = PlayManager.TotalMonsterCount;
-        totalMonsterNum = 1;
+        totalMonsterNum = PlayManager.TotalMonsterCount;
+        // totalMonsterNum = 1;
     }
 }

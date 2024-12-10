@@ -42,7 +42,7 @@ public class RoomManager: MonoBehaviour
         if (CurrentRoomNumber == nextRoomNumber)
             return;
 
-        Debug.Log($"Room number: {CurrentRoomNumber} -> {nextRoomNumber}");
+        // Debug.Log($"Room number: {CurrentRoomNumber} -> {nextRoomNumber}");
         
         var roomsToDisable = new List<int>();
         foreach (var roomNumber in AdjacencyList[CurrentRoomNumber])
@@ -68,7 +68,7 @@ public class RoomManager: MonoBehaviour
         if (CurrentCellType == cellType)
             return;
         
-        Debug.Log($"Cell type: {CurrentCellType} -> {cellType}");
+        // Debug.Log($"Cell type: {CurrentCellType} -> {cellType}");
         CurrentCellType = cellType;
     }
     
