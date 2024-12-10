@@ -4,7 +4,7 @@ using UnityEngine;
 
 public partial class PlayerAttack
 {
-    public Material emotionColor;
+    public int emotionNum;
 
     public bool IsDrained { get; private set; }
 
@@ -14,31 +14,31 @@ public partial class PlayerAttack
         switch (_emotion)
         {
             case EEmotion.EHappy:
-                emotionColor = PlayManager.EmotionMaterials[(int)EEmotion.EHappy];
+                
                 break;
             case EEmotion.EAngry:
-                emotionColor = PlayManager.EmotionMaterials[(int)EEmotion.EAngry];
+                
                 break;
             case EEmotion.ENeutral:
-                emotionColor = PlayManager.EmotionMaterials[(int)EEmotion.ENeutral];
+                
                 break;
             case EEmotion.EDisgust:
-                emotionColor = PlayManager.EmotionMaterials[(int)EEmotion.EDisgust];
+                
                 break;
             case EEmotion.EFear:
-                emotionColor = PlayManager.EmotionMaterials[(int)EEmotion.EFear];
+                
                 break;
             case EEmotion.ESad:
-                emotionColor = PlayManager.EmotionMaterials[(int)EEmotion.ESad];
+                
                 break;
             case EEmotion.ESurprise:
-                emotionColor = PlayManager.EmotionMaterials[(int)EEmotion.ESurprise];
+                
                 break;
             default: 
                 return;
         }
         StatusEffect = (EStatusEffect)_emotion;
-        PlayManager.SetEmotionColor(emotionColor);
+        PlayManager.SetEmotionColor(_emotion);
     }
 
     public void SetSkillType(ESkill _skill)

@@ -20,6 +20,9 @@ public partial class PlayerController : ObjectScript
 
     private bool isDead;
 
+    [SerializeField]
+    private Material[] emotionMaterials;
+
     // 입력 관련
     private PlayerInput.PlayerActions PlayerInput { get { return GameManager.PlayerInputs; } }  // Input System Player 입력
     public Vector3 MoveInput { get { return PlayerInput.Movement.ReadValue<Vector2>(); } }      // wasd 입력
@@ -34,15 +37,7 @@ public partial class PlayerController : ObjectScript
     {
         foreach (var part in playerParts)
         {
-            part.material = PlayManager.EmotionMaterials[(int)_emotion];
-        }
-    }
-
-    public void SetEmotionColor(Material _mat)
-    {
-        foreach(var part in playerParts)
-        {
-            part.material = _mat;
+            part.material = emotionMaterials[(int)_emotion];
         }
     }
 

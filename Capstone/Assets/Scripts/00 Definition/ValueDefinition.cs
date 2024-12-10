@@ -23,7 +23,7 @@ public static class ValueDefinition
     public readonly static Vector3 NULL_VECTOR = Vector3.up * 100;      // 아무것도 아닌 벡터
 
     // 주문
-    public const string SPELL1 = "fireball";
+    public const string SPELL1 = "fire";
     public const string SPELL2 = "frostbite"; 
     public const string SPELL3 = "flash";
 
