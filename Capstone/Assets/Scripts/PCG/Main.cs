@@ -133,6 +133,8 @@ public class Main : MonoBehaviour
 
     private IEnumerator InstantlyGenerateMapCoroutine()
     {
+        PlayManager.FreezePlayer();
+        
         isMinimumSpanningTreeDone = false;
         (mapGenerator, map) = InitiateMap();
         currentGeneration = generations;
@@ -177,6 +179,7 @@ public class Main : MonoBehaviour
 
         PlayManager.PlayerSpawn();
         RoomManager.Instance.CurrentCellType = CellType.Room;
+        RoomManager.Instance.LogAdjacencyList();
         RoomManager.Instance.InitializeRoomParents();
         
         SpawnRooms();

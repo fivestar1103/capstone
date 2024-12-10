@@ -14,12 +14,18 @@ public class PlayManager : MonoBehaviour
         GameManager.SetControlMode(EControlMode.FIRST_PERSON);
     }
 
+    public static void FreezePlayer()
+    {
+        Player.GetComponent<Rigidbody>().useGravity = false;
+    }
+    
     public static void PlayerSpawn()
     {
         foreach(var room in RoomWithWalls)
             if (room.RoomNumber == 0) // 0번 방이 스폰 방
             {
                 Player.transform.position = new Vector3((room.CenterCell.X * 4 + 3), 1f, (room.CenterCell.Y * -4 + 3));
+                Player.GetComponent<Rigidbody>().useGravity = true;
                 break;
             }
     }

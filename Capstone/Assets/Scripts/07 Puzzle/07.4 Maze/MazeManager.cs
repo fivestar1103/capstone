@@ -61,7 +61,7 @@ public class MazeManager
 
         FindDoors();
 
-        Debug.Log("Generate Maze!");
+        // Debug.Log("Generate Maze!");
         
         // (int, int)[] buttons = new (int, int)[4] { (0, 0), (0, 0), (0, 0), (0, 0) };
         maze = mazeGenerate.GenerateMaze(maze, mazeArray, entrances, room);
@@ -71,7 +71,7 @@ public class MazeManager
         // buttons = ((int, int)[])mazeGenerate.SelectInteractiveButtons(maze, mazeArray).Clone();
         AGenerateMaze(room, maze); //, buttons);
 
-        Debug.Log("Maze Generation Complete!");
+        // Debug.Log("Maze Generation Complete!");
     }
 
     private void FindDoors()

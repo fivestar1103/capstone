@@ -22,7 +22,7 @@ public class MazeGenerate
 
         // 미로 생성 시작점
         (int x, int y) startPos = entrances[0];
-        Debug.Log($"start : {startPos}");
+        // Debug.Log($"start : {startPos}");
 
         // 좌표 임시 저장할 변수
         var nowPos = (x: 0, y: 0);

@@ -14,15 +14,16 @@ public class FloorButton : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             RoomManager.Instance.CurrentCellType = CellType;
-            var str = $"Current Cell Type: {RoomManager.Instance.CurrentCellType}";
+            var string1 = $"Current Cell Type: {RoomManager.Instance.CurrentCellType}";
             
             if (CellType == CellType.Room)
             {
                 RoomManager.Instance.SetCurrentRoomNumber(RoomNumber);
-                str += $"\nCurrent Room Number: {RoomManager.Instance.CurrentRoomNumber}\");"; 
+                string string2 = $"Current Room Number: {RoomManager.Instance.CurrentRoomNumber}";
+                Debug.Log(string2);
             }
 
-            Debug.Log(str);
+            // Debug.Log(string1 + "\n" + string2);
         }
     }
 }

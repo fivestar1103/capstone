@@ -9,7 +9,7 @@ public class ConvertToMap
 {
     public void ChoiceMazeRoom()
     {
-        // RoomÀÇ ¸®½ºÆ® ÀüÃ¼¸¦ ¹Þ¾Æ¼­ ¹Ì·Î°¡ µÉ ¸¸ÇÑ roomÀ» °ñ¶ó¾ß ÇÏ³ª?
+        // Roomï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½Ã¼ï¿½ï¿½ ï¿½Þ¾Æ¼ï¿½ ï¿½Ì·Î°ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ roomï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ï³ï¿½?
     }
 
     public void ConvertRoomDataStructure(Room inRoom, ref int[,] roomArray)
@@ -41,6 +41,6 @@ public class ConvertToMap
             }
             output += "\n";
         }
-        Debug.Log(output);
+        // Debug.Log(output);
     }
 }

@@ -71,15 +71,14 @@ public class RoomManager: MonoBehaviour
     // log the adjacency list
     public void LogAdjacencyList()
     {
+        var str = "";
         foreach (var key in AdjacencyList.Keys)
         {
-            var str = $"Room {key}: ";
+            str += $"Room {key}: ";
             foreach (var value in AdjacencyList[key])
-            {
                 str += $"{value}, ";
-            }
-            Debug.Log(str);
+            str += "\n";
         }
+        Debug.Log(str);
     }
-    
 }
